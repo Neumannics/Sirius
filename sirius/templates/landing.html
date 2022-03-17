@@ -1,4 +1,4 @@
-{% extends 'html.html' %}
+{% extends 'base.html' %}
 
 {% load static %}
 
@@ -7,43 +7,43 @@
 {% endblock %}
 
 {% block body %}
-	<div>
-		<header>
-			<nav>
-				<h5>Sirius</h5>
-				<ul>
-					<li>Login</li>
-				</ul>
-			</nav>
-		</header>
-		<main>
-			<div>
-				<h1>
-					Team management. Done right.
-				</h1>
-				<button>Let's go</button>
-			</div>
-			<img src="{% static 'images/monitor.svg' %}">
+<body class="bg-[#ff9100] bg-opacity-40 ">
+	<header class="h-[20vh] px-[8%]">
+		<nav class="flex justify-between h-full items-end pb-12">
+			<h5><a href="">Sirius</a></h5>
 			<ul>
-				<li>
-					<div>
+				<li class="btn-s text-[24px]"><a href="">Login</a></li>
+			</ul>
+		</nav>
+	</header>
+	<div class="bg-primary ms:h-[80vh] px-[8%] flex items-center">
+		<main class="flex-col flex ms:flex-row ms:flex w-full justify-center ms:justify-between items-center space-y-[96px] py-12 ms:py-0">
+			<div>
+				<div class="w-[340px] md:w-[480px]">
+					<h1>
+						Team management. Done right.
+					</h1>
+				</div>
+				<button class="btn-s text-[32px] mt-[10px]">Let's go</button>
+			</div>
+			<img src="{% static 'images/monitor.svg' %}" class="mf:w-1/3 block w-[320px] ms:hidden mf:block">
+			<div>
+				<ul class="feature-list">
+					<li>
 						<i class="fa-solid fa-rocket"></i>
 						<span>Fast</span>
-					</div>
-				</li>
-				<li>
-					<div>
+					</li>
+					<li>
 						<i class="fa-solid fa-wind"></i>
 						<span>Easy</span>
-					</div>
-				</li>
-				<li>
-					<div>
-						<i class="fa-solid fa-shield-check"></i>
+					</li>
+					<li>
+						<i class="fa-solid fa-shield"></i>
 						<span>Secure</span>
-					</div>
-				</li>
-			</ul>
+					</li>
+				</ul>
+			</div>
 		</main>
 	</div>
+</body>
 {% endblock %}
