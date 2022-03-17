@@ -1,0 +1,49 @@
+{% extends 'html.html' %}
+
+{% load static %}
+
+{% block title %}
+	Welcome
+{% endblock %}
+
+{% block body %}
+	<div>
+		<header>
+			<nav>
+				<h5>Sirius</h5>
+				<ul>
+					<li>Login</li>
+				</ul>
+			</nav>
+		</header>
+		<main>
+			<div>
+				<h1>
+					Team management. Done right.
+				</h1>
+				<button>Let's go</button>
+			</div>
+			<img src="{% static 'images/monitor.svg' %}">
+			<ul>
+				<li>
+					<div>
+						<i class="fa-solid fa-rocket"></i>
+						<span>Fast</span>
+					</div>
+				</li>
+				<li>
+					<div>
+						<i class="fa-solid fa-wind"></i>
+						<span>Easy</span>
+					</div>
+				</li>
+				<li>
+					<div>
+						<i class="fa-solid fa-shield-check"></i>
+						<span>Secure</span>
+					</div>
+				</li>
+			</ul>
+		</main>
+	</div>
+{% endblock %}
