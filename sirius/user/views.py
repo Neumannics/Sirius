@@ -24,7 +24,7 @@ def signup(request):
             return render(request, 'signup.html', {'form': form})
     else:
         form = AccountSignupForm()
-        return render(request, 'register.html', {'form': form})
+        return render(request, 'signup.html', {'form': form})
 
 
 def signin(request):
@@ -44,7 +44,7 @@ def signin(request):
                 return redirect('/')
     else:
         form = AccountAuthenticationForm()
-    return render(request, 'login.html', { 'form': form })
+    return render(request, 'signin.html', { 'form': form })
 
 def signout(request):
     logout(request)
