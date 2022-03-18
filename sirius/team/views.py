@@ -35,7 +35,7 @@ def team_info(request, pk):
     team = Team.objects.get(pk=pk)
     temp = team.parent_id
     while temp != None:
-        parents.append(Team.objects.get(pk=temp).values('name', 'pk'))
+        parents.append(Team.objects.values('name', 'pk').get(pk=temp))
         temp = temp.parent_id
     members = Membership.objects.filter(team_id=pk).values('created_at', 'alumni', 'user_id__pk', 'user_id__first_name', 'user_id__last_name', 'user_id__email', 'role_id__pk', 'role_id__name')
     children = Team.objects.filter(parent_id=pk).values('name', 'pk')
