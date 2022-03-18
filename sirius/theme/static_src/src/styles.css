@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+        @apply
+        text-[48px] 
+        leading-[56px]
+        md:text-[64px]
+        font-poppins 
+        font-bold;
+    }
+    h5 {
+        @apply
+        text-[48px]
+        font-semibold;
+    }
+}
+
+@layer components {
+    .btn-s {
+        @apply 
+        px-[56px] 
+        py-[10px] 
+        flex
+        bg-orange 
+        font-poppins 
+        text-white
+        rounded-[50px];
+    }
+
+    .feature-list i {
+        @apply
+        text-white
+        text-[40px]
+        flex
+        bg-yellow
+        h-[72px]
+        w-[72px]
+        rounded-[32px]
+        justify-center
+        items-center;
+    }
+    .feature-list span {
+        @apply
+        font-poppins
+        text-[32px]
+        font-medium;
+    }
+    .feature-list li {
+        @apply
+        flex
+        space-x-[40px];
+    }
+    .feature-list {
+        @apply
+        flex-col
+        space-y-[28px];
+    }
+}
