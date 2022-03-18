@@ -83,6 +83,9 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sirius.wsgi.application'
 
 
+AUTH_USER_MODEL = 'user.CustomUser'
+
+
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 

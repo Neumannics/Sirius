@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from .forms import RoleCreationForm
 from django.contrib.auth.decorators import login_required
 from .models import Role
-from team.models import Membership
+from authorization.models import Membership
 
 @login_required(login_url='user:sign_in')
 def create_role(request):
@@ -25,6 +25,10 @@ def show_roles(request, pk):
 def update_role(request, pk):
     if request.method == 'POST':
         role = Role.objects.get(pk=pk)
+        form = RoleCreationForm(request.POST, instance=role)
+        if form.is_valid():
+            form.save()
+            return redirect('authorization:show_roles', pk=pk)
         
 
 

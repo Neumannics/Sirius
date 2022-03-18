@@ -41,7 +41,7 @@ class CustomUser(AbstractUser):
     gender = models.CharField(_('gender'),max_length=2, choices=GENDER_CHOICES)
     email = models.EmailField(_('email address'), unique=True)
     is_superuser = models.BooleanField(_('superuser status'),default=False)
-    USERNAME_FIELD = 'first_name'
+    USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
     objects = CustomUserManager()
 

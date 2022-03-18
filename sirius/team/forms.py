@@ -1,5 +1,6 @@
 from django import forms
-from .models import Team, Membership
+from .models import Team
+from authorization.models import Membership
 
 class TeamCreationForm(forms.ModelForm):
     class Meta:

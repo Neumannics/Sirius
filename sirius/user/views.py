@@ -3,7 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .forms import AccountAuthenticationForm, AccountSignupForm
 from django.contrib.auth import get_user_model
-from team.models import Team, Membership
+from team.models import Team
+from authorization.models import Membership
 from django.contrib.auth.decorators import login_required
 
 

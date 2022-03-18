@@ -1,5 +1,6 @@
 from django.db import models
 from team.models import Team
+from django.contrib.auth import get_user_model
 
 class Role(models.Model):
     role_name = models.CharField(max_length=100)
@@ -9,6 +10,17 @@ class Role(models.Model):
 
     def __str__(self):
         return self.role_name
+
+class Membership(models.Model):
+    team_id = models.ForeignKey(Team, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    alumni = models.BooleanField(default=False)
+    role_id = models.ForeignKey(Role, on_delete=models.CASCADE, default=1)
+
+    def __str__(self):
+        return self.user.username
         
 class Permission(models.Model):
     ACTION_CHOICES = (

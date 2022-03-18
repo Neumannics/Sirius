@@ -1,13 +1,13 @@
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
-from .models import Account
+from django.contrib.auth import get_user_model
 from django import forms
 
 class AccountSignupForm(UserCreationForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
     class Meta:
-        model = Account
+        model = get_user_model()
         fields = [
             'email',
             'first_name',
@@ -20,7 +20,7 @@ class AccountSignupForm(UserCreationForm):
 class AccountAuthenticationForm(forms.ModelForm):
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
     class Meta:
-        model = Account
+        model = get_user_model()
         fields = [
             'email',
             'password',

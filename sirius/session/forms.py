@@ -3,7 +3,7 @@ from .models import Class, Notice, Event
 
 
 
-class ClassCreationForm(forms.Modelfrom):
+class ClassCreationForm(forms.ModelForm):
     class Meta:
         model = Class
         fields = ('start_time', 'end_time', 'day', 'title')
@@ -20,7 +20,7 @@ class ClassCreationForm(forms.Modelfrom):
             raise forms.ValidationError('Some fields are missing')
 
 
-class CalendarCreationForm(forms.Modelfrom):
+class CalendarCreationForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ('start', 'end', 'title', 'description')
@@ -36,7 +36,7 @@ class CalendarCreationForm(forms.Modelfrom):
         else:
             raise forms.ValidationError('Some fields are missing')
 
-class NoticeCreationForm(forms.Modelfrom):
+class NoticeCreationForm(forms.ModelForm):
     class Meta:
         model = Notice
         fields = ('title', 'description')

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import TeamCreationForm
 from django.contrib.auth.decorators import login_required
-from team.models import Team, Membership, JoinRequest, Invite
+from team.models import Team, JoinRequest, Invite
+from authorization.models import Membership
 from django.contrib.auth import get_user_model
 
 @login_required(login_url='user:sign_in')
