@@ -36,6 +36,7 @@ class CalendarCreationForm(forms.ModelForm):
         else:
             raise forms.ValidationError('Some fields are missing')
 
+
 class NoticeCreationForm(forms.ModelForm):
     class Meta:
         model = Notice
