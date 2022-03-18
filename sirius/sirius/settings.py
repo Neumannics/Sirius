@@ -83,6 +83,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'sirius.wsgi.application'
 
 
+# Auth
+
 AUTH_USER_MODEL = 'user.CustomUser'
 
 
