@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
     
-{% load static %}
-    
 {% block title %}
     Signup
 {% endblock %}
@@ -15,9 +13,7 @@
     </header>
     <form method="POST" action="{% url 'user:signup' %}">
         {% csrf_token %}
-        <table>
-            {% include 'form.html' with form=form %}
-        </table>
+        {% include 'form.html' with form=form %}
         <input type="submit" value="Signup">
     </form>
     <blockquote>
