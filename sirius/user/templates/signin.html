@@ -1,7 +1,5 @@
 {% extends 'base.html' %}
 
-{% loadmacros 'macros.html' %}
-    
 {% block title %}
     Login
 {% endblock %}
@@ -10,19 +8,24 @@
 <body>
     <header>
         <h5>Sirius</h5>
-        <h6>New to Sirius? <a href="{% url 'user:signup' %}">Signup</a></h6>
+        <h6>New to Sirius? <a href="{% url 'user:signup' %}"><span>Signup</span></a></h6>
         <h2>Login</h2>
     </header>
     <form method="POST" action="{% url 'user:signin' %}">
         {% csrf_token %}
         <table>
-
+            {% include 'form.html' with form=form %}
         </table>
         <input type="submit" value="Login">
         {% if request.GET.next %}
             <input type="hidden" name="text" value="{{ request.GET.next }}">
         {% endif %}
     </form>
+    <blockquote>
+        <i class="fa-solid fa-quote-left"></i>
+        <cite>Oscar Wilde</cite>
+        <p>Be yourself; everyone else is already taken.</p>
+    </blockquote>
 </body>
 {% endblock %}
     

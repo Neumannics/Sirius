@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'django_browser_reload',
     # 3rd party
     'tailwind',
-    'macros'
 ]
 
 MIDDLEWARE = [
@@ -83,6 +82,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sirius.wsgi.application'
 
+
+# Auth
 
 AUTH_USER_MODEL = 'user.CustomUser'
 
