@@ -21,3 +21,34 @@ class Membership(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class JoinRequest(models.Model):
+    STATUS_CHOICES = (
+        ('P', 'Pending'),
+        ('A', 'Accepted'),
+        ('R', 'Rejected'),
+    )
+    team_id = models.ForeignKey(Team, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+
+    def __str__(self):
+        return self.user.username
+
+class Invite(models.Model):
+    STATUS_CHOICES = (
+        ('P', 'Pending'),
+        ('A', 'Accepted'),
+        ('R', 'Rejected'),
+    )
+    team_id = models.ForeignKey(Team, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='invite_created_by')
+    invited = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='invite_invited')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
+
+    def __str__(self):
+        return self.user.username

@@ -1,11 +1,9 @@
 from django.shortcuts import render,redirect
-from .forms import RoleCreationForm, PermissionCreationForm
+from .forms import RoleCreationForm
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+from .models import Role
+from team.models import Membership
 
-
-
-# Create your views here.
 @login_required(login_url='user:sign_in')
 def create_role(request):
     if request.method == 'POST':
@@ -17,14 +15,16 @@ def create_role(request):
         form = RoleCreationForm()
     return render(request, 'create_role.html', {'form': form})
 
-@login_required(login_url='user:signin')
-def create_permission(request):
+@login_required(login_url='user:sign_in')
+def show_roles(request, pk):
+    members = Membership.objects.filter(team_id=pk).values('user_id__pk', 'user_id__first_name', 'user_id__last_name', 'user_id__email', 'role_id__role_name', 'role_id__role_description', 'role_id__pk')
+    roles = Role.objects.filter(team_id=pk).values('pk', 'role_name', 'role_description')
+    return render(request, 'show_roles.html', {'members': members, 'roles': roles})
+
+@login_required(login_url='user:sign_in')
+def update_role(request, pk):
     if request.method == 'POST':
-        form = PermissionCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')
-    else:
-        form = PermissionCreationForm()
-    return render(request, 'create_permission.html', {'form': form})
+        role = Role.objects.get(pk=pk)
+        
+
 

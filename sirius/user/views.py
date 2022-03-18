@@ -3,6 +3,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .forms import AccountAuthenticationForm, AccountSignupForm
 from django.contrib.auth import get_user_model
+from team.models import Team, Membership
+from django.contrib.auth.decorators import login_required
 
 
 def sign_up(request):
@@ -47,7 +49,9 @@ def sign_out(request):
     logout(request)
     return redirect('landing_path')
 
+@login_required(login_url='user:sign_in')
 def dashboard(request, pk):
-    user = get_user_model().objects.get(pk=pk)
-    return render(request, 'dashboard.html', {'user': user})
+    user = get_user_model().objects.get(pk=pk).values('email', 'first_name', 'last_name')
+    teams = Membership.objects.filter(user_id=pk).values('created_at', 'alumni', 'team_id__pk', 'team_id__name', 'role_id__pk', 'role_id__name')
+    return render(request, 'dashboard.html', {'user': user, 'teams': teams})
             
