@@ -13,7 +13,6 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Users must have an email address')
         if not password:
             raise ValueError('Users must have an password address')
-
         email = self.normalize_email(email)
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
@@ -38,7 +37,7 @@ class CustomUser(AbstractUser):
         ('F', 'Female'),
         ('NB','Non-Binary')
     )
-    gender = models.CharField(_('gender'),max_length=2, choices=GENDER_CHOICES)
+    gender = models.CharField(_('gender'), max_length=2, choices=GENDER_CHOICES)
     email = models.EmailField(_('email address'), unique=True)
     is_superuser = models.BooleanField(_('superuser status'),default=False)
     USERNAME_FIELD = 'email'
