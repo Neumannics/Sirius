@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from .forms import TeamCreationForm
 from django.contrib.auth.decorators import login_required
 from team.models import Team, JoinRequest, Invite
-from authorization.models import Membership, Permission
+from authorization.models import Membership, Permission, Role
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseForbidden
+from sirius.utils.perm import hasPerm
 
 @login_required(login_url='user:sign_in')
 def create_team(request):
@@ -12,11 +13,19 @@ def create_team(request):
         form = TeamCreationForm(request.POST)
         if form.is_valid():
             if form.cleaned_data.get('parent_id'):
-                create_permission = Permission.objects.get(action='C', relation='T').pk
-                if Membership.objects.get(user_id=request.user, team_id=form.cleaned_data.get('parent_id')).role_id.permissions.find(create_permission) == -1:
-                      return HttpResponseForbidden() 
+                if not hasPerm('C', 'T', request.user, form.cleaned_data.get('parent_id')):
+                    return HttpResponseForbidden()
             form.save()
-            return redirect('/')
+            admin_role = Role.objects.create(role_name='Admin', team_id=form.instance, role_description='Admin of the team')
+            admin_permission = Permission.objects.all().values('pk')
+            permission_string = ""
+            for permission in admin_permission:
+                permission_string += str(permission['pk']) + ","
+            admin_role.permissions = permission_string
+            admin_role.save()
+            Role.objects.create(role_name='Member', team_id=form.instance, role_description='Member of the team')
+            Membership.objects.create(user_id=request.user, team_id=form.instance, role_id=admin_role)
+            return redirect('team:team_info', pk=form.instance.pk)
     else:
         return render(request, 'create_team.html')
 
