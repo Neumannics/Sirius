@@ -7,12 +7,12 @@
 {% endblock %}
 
 {% block body %}
-<body class="bg-[#ff9100] bg-opacity-40 ">
+<body class="bg-[#ff9100] bg-opacity-40">
 	<header class="h-[20vh] px-[8%]">
 		<nav class="flex justify-between h-full items-end pb-12">
 			<h5><a href="">Sirius</a></h5>
 			<ul>
-				<li class="btn-s text-[24px]"><a href="">Login</a></li>
+				<li class="btn-s text-[24px]"><a href="{% url 'user:signin' %}">Login</a></li>
 			</ul>
 		</nav>
 	</header>

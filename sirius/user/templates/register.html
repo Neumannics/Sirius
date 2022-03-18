@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+    
+    {% load static %}
+    
+    {% block title %}
+        Register
+    {% endblock %}
+    
+    {% block body %}
+    
+        <body>
+            <h2>Sirius</h2>
+            <h3>Already have an account? <a href="{% url 'user:signin' %}">Login</a></h3>
+            <h1>Signup</h1>
+            <form method="POST" action="{% url 'user:signup' %}">
+                {% csrf_token %}
+                <table>
+                    {% if form.errors %}
+                        <tr>
+                            {{ form.non_field_errors }}
+                        </tr>
+                    {% endif %}
+                </table>
+            </form>
+        </body>
+    {% endblock %}
+    

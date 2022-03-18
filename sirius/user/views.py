@@ -8,7 +8,7 @@ from authorization.models import Membership
 from django.contrib.auth.decorators import login_required
 
 
-def sign_up(request):
+def signup(request):
     if request.user.is_authenticated:
         return redirect('/')
     if request.method == 'POST':
@@ -24,10 +24,10 @@ def sign_up(request):
             return render(request, 'signup.html', {'form': form})
     else:
         form = AccountSignupForm()
-        return render(request, 'signup.html', {'form': form})
+        return render(request, 'register.html', {'form': form})
 
 
-def sign_in(request):
+def signin(request):
     user = request.user
     if user.is_authenticated:
         return redirect('/')
@@ -44,15 +44,15 @@ def sign_in(request):
                 return redirect('/')
     else:
         form = AccountAuthenticationForm()
-    return render(request, 'signin.html', { 'form': form })
+    return render(request, 'login.html', { 'form': form })
 
-def sign_out(request):
+def signout(request):
     logout(request)
     return redirect('landing_path')
 
-@login_required(login_url='user:sign_in')
-def dashboard(request, pk):
-    user = get_user_model().objects.get(pk=pk).values('email', 'first_name', 'last_name')
-    teams = Membership.objects.filter(user_id=pk).values('created_at', 'alumni', 'team_id__pk', 'team_id__name', 'role_id__pk', 'role_id__name')
+@login_required(login_url='user:signin')
+def dashboard(request, u_pk):
+    user = get_user_model().objects.get(pk=u_pk).values('email', 'first_name', 'last_name')
+    teams = Membership.objects.filter(user_id=u_pk).values('created_at', 'alumni', 'team_id__pk', 'team_id__name', 'role_id__pk', 'role_id__name')
     return render(request, 'dashboard.html', {'user': user, 'teams': teams})
             

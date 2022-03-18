@@ -2,14 +2,19 @@ from django.shortcuts import render, redirect
 from .forms import TeamCreationForm
 from django.contrib.auth.decorators import login_required
 from team.models import Team, JoinRequest, Invite
-from authorization.models import Membership
+from authorization.models import Membership, Permission
 from django.contrib.auth import get_user_model
+from django.http import HttpResponseForbidden
 
 @login_required(login_url='user:sign_in')
 def create_team(request):
     if request.method == 'POST':
         form = TeamCreationForm(request.POST)
         if form.is_valid():
+            if form.cleaned_data.get('parent_id'):
+                create_permission = Permission.objects.get(action='C', relation='T').pk
+                if Membership.objects.get(user_id=request.user, team_id=form.cleaned_data.get('parent_id')).role_id.permissions.find(create_permission) == -1:
+                      return HttpResponseForbidden() 
             form.save()
             return redirect('/')
     else:
