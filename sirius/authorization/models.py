@@ -32,12 +32,16 @@ class Permission(models.Model):
     RELATION_CHOICES = (
         ('T', 'Team'),
         ('R', 'Role'),
-        ('P', 'Permission'),
-        ('S', 'Session'),
+        ('C', 'Class'),
+        ('N', 'Notice'),
+        ('E', 'Event'),
+        ('P', 'Project'),
         ('M', 'Membership'),
+        ('JR', 'JoinRequest'),
+        ('I', 'Invite'),
     )
     action = models.CharField(max_length=1, choices= ACTION_CHOICES)
-    relation = models.CharField(max_length=1, choices= RELATION_CHOICES)
+    relation = models.CharField(max_length=2, choices= RELATION_CHOICES)
 
     def __str__(self):
         return self.action + " " + self.relation

@@ -35,7 +35,7 @@ def team_info(request, pk):
     team = Team.objects.get(pk=pk)
     temp = team.parent_id
     while temp != None:
-        parents.append(Team.objects.get(pk=temp).values('name', 'pk'))
+        parents.append(Team.objects.values('name', 'pk').get(pk=temp))
         temp = temp.parent_id
     members = Membership.objects.filter(team_id=pk).values('created_at', 'alumni', 'user_id__pk', 'user_id__first_name', 'user_id__last_name', 'user_id__email', 'role_id__pk', 'role_id__name')
     children = Team.objects.filter(parent_id=pk).values('name', 'pk')
@@ -44,6 +44,8 @@ def team_info(request, pk):
 @login_required(login_url='user:sign_in')
 def send_invite(request, pk, user):
     if request.method == 'POST':
+        if not hasPerm('C', 'I', request.user, pk):
+            return HttpResponseForbidden()
         if Invite.objects.filter(status = 'P', team_id=pk, invited=user).exists():
             return redirect('team:team_info', pk=pk)
         invite = Invite(team_id=Team.objects.get(pk=pk), created_by=request.user, invited=get_user_model().objects.get(pk=user))
@@ -54,6 +56,8 @@ def send_invite(request, pk, user):
 @login_required(login_url='user:sign_in')
 def send_join_request(request, pk):
     if request.method == 'POST':
+        if not hasPerm('C', 'JR', request.user, pk):
+            return HttpResponseForbidden()
         if JoinRequest.objects.filter(status='P', team_id=pk, user_id=request.user).exists():
             return redirect('team:team_info', pk=pk)
         request = JoinRequest(team_id=Team.objects.get(pk=pk), user_id=request.user)
@@ -63,11 +67,15 @@ def send_join_request(request, pk):
 
 @login_required(login_url='user:sign_in')
 def invites(request, pk):
+    if not hasPerm('R', 'I', request.user, pk):
+        return HttpResponseForbidden()
     invites = Invite.objects.filter(team_id=pk, status='P').values('invited__first_name', 'invited__last_name', 'invited__email', 'invited__pk', 'created_at', 'status', 'pk', 'created_by__first_name', 'created_by__last_name', 'created_by__email', 'created_by__pk')
     return render(request, 'invites.html', {'invites': invites})
 
 @login_required(login_url='user:sign_in')
 def join_requests(request, pk):
+    if not hasPerm('R', 'JR', request.user, pk):
+        return HttpResponseForbidden()
     requests = JoinRequest.objects.filter(team_id=pk, status='P').values('user_id__first_name', 'user_id__last_name', 'user_id__email', 'user_id__pk', 'created_at', 'status', 'pk')
     return render(request, 'join_requests.html', {'requests': requests})
 

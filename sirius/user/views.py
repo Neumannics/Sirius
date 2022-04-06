@@ -16,11 +16,13 @@ def signup(request):
         form = AccountSignupForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('user:dashboard', u_pk=request.user.pk)
+            print(email, password)
+            user = authenticate(email=email, password=password)
+            if user:
+                login(request, user)
+                return redirect('user:dashboard', u_pk=request.user.pk)
         else:
             return render(request, 'signup.html', {'form': form})
     else:
@@ -34,14 +36,16 @@ def signin(request):
     if request.method == 'POST':
         form = AccountAuthenticationForm(request.POST)
         if form.is_valid():
-            email = request.POST['email']
-            password = request.POST['password']
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
                 if 'next' in request.POST:
                     return redirect(request.POST.get('next'))
                 return redirect('user:dashboard', u_pk=request.user.pk)
+        else:
+            return render(request, 'signin.html', {'form': form})
     else:
         form = AccountAuthenticationForm()
     return render(request, 'signin.html', {'form': form})

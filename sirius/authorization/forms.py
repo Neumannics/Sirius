@@ -4,10 +4,9 @@ from .models import Role
 class RoleCreationForm(forms.ModelForm):
     class Meta:
         model = Role
-        fields = ('role_name', 'team_id', 'role_description', 'permissions')
+        fields = ('role_name', 'role_description', 'permissions')
     def clean(self):
         role_name = self.cleaned_data.get('role_name')
-        team_id = self.cleaned_data.get('team_id')
         role_description = self.cleaned_data.get('role_description')
         permissions = self.cleaned_data.get('permissions')
 
