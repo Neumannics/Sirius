@@ -13,14 +13,22 @@
     </header>
     <form method="POST" action="{% url 'user:signin' %}">
         {% csrf_token %}
-        <table>
-            {% include 'form.html' with form=form %}
-        </table>
+        {% include 'form.html' with form=form %}
         <input type="submit" value="Login">
         {% if request.GET.next %}
             <input type="hidden" name="text" value="{{ request.GET.next }}">
         {% endif %}
     </form>
+    <section>
+        <div>
+            <p>Or signup with</p>
+        </div>
+        <ul>
+            <li><i class="fa-brands fa-google"></i></li>
+            <li><i class="fa-brands fa-facebook-f"></i></li>
+            <li><i class="fa-brands fa-github"></i></li>
+        </ul>
+    </section>
     <blockquote>
         <i class="fa-solid fa-quote-left"></i>
         <cite>Oscar Wilde</cite>
