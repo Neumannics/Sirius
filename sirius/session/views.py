@@ -7,7 +7,7 @@ from django.http import HttpResponseForbidden
 from sirius.utils.perm import hasPerm
 
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def create_timetable(request):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
@@ -21,7 +21,7 @@ def create_timetable(request):
         form = ClassCreationForm()
     return render(request, 'session/create-timetable.html', {'form': form})
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def create_calendar(request):
     if request.method == 'POST':
         form = CalendarCreationForm(request.POST)
@@ -35,7 +35,7 @@ def create_calendar(request):
         form = CalendarCreationForm()
     return render(request, 'session/create-calendar.html', {'form': form})
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def create_notice(request):
     if request.method == 'POST':
         form = NoticeCreationForm(request.POST)
@@ -49,21 +49,21 @@ def create_notice(request):
         form = NoticeCreationForm()
     return render(request, 'session/create-notice.html', {'form': form})
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def timetable(request, pk):
     if not hasPerm('R', 'S', request.user, pk):
         return HttpResponseForbidden()
     classes = Class.objects.filter(team_id=pk).values('start_time', 'end_time', 'day', 'title')
     return render(request, 'session/timetable.html', {'classes': classes})
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def calendar(request, pk):
     if not hasPerm('R', 'S', request.user, pk):
         return HttpResponseForbidden()
     events = Event.objects.filter(team_id=pk).values('start', 'end', 'title', 'description')
     return render(request, 'session/calendar.html', {'events': events})
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def notice_board(request, pk):
     if not hasPerm('R', 'S', request.user, pk):
         return HttpResponseForbidden()

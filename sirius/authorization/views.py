@@ -6,7 +6,7 @@ from authorization.models import Membership
 from sirius.utils.perm import hasPerm
 from django.http import HttpResponseForbidden
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def create_role(request, team):
     if request.method == 'POST':
         if not hasPerm('C', 'R', request.user, team):
@@ -20,7 +20,7 @@ def create_role(request, team):
         form = RoleCreationForm()
     return render(request, 'create_role.html', {'form': form})
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def show_roles(request, pk):
     if not hasPerm('R', 'R', request.user, pk):
         return HttpResponseForbidden()
@@ -28,7 +28,7 @@ def show_roles(request, pk):
     roles = Role.objects.filter(team_id=pk).values('pk', 'role_name', 'role_description')
     return render(request, 'show_roles.html', {'members': members, 'roles': roles})
 
-@login_required(login_url='user:sign_in')
+@login_required(login_url='user:signin')
 def update_role(request, pk):
     if request.method == 'POST':
         if not hasPerm('U', 'R', request.user, pk):

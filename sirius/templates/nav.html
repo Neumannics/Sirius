@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<body>
+	<header>
+		<nav>
+            <ul>
+                <a href="{% url 'user:dashboard' u_pk=request.user.pk %}"><li>Sirius</li></a>
+                <li>About us</li>
+                <a href="{% url 'team:create_team' %}"><li>Start a Team</li></a>
+                <li><i class="fa-solid fa-bell"></i></li>
+                <li>
+                    <img src="temp" />
+                    <a href="{% url 'user:signout' %}">Logout</a>
+                </li>
+            </ul>
+		</nav>
+	</header>
+    <main>
+        {% block main %}
+        {% endblock %}
+    </main>
+</body>
+{% endblock %}

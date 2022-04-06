@@ -7,7 +7,8 @@ from django.contrib.auth.decorators import login_required
 from .forms import AccountAuthenticationForm, AccountSignupForm
 from team.models import Team
 from authorization.models import Membership
-
+from team.models import JoinRequest
+from team.forms import JoinRequestForm
 
 def signup(request):
     if request.user.is_authenticated:
@@ -58,4 +59,11 @@ def signout(request):
 def dashboard(request, u_pk):
     user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=u_pk)
     teams = Membership.objects.filter(user_id=u_pk).values('created_at', 'alumni', 'team_id__pk', 'team_id__name', 'role_id__pk', 'role_id__role_name')
-    return render(request, 'dashboard.html', {'user': user, 'teams': teams})
+    join_requests = JoinRequest.objects.filter(user_id=u_pk)
+    join_form = JoinRequestForm()
+    return render(request, 'dashboard.html', {
+        'user': user, 
+        'teams': teams,
+        'join_requests': join_requests,
+        'join_form': join_form
+    })

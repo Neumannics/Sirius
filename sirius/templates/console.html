@@ -1,0 +1,23 @@
+{% extends 'nav.html' %}
+
+{% block main %}
+<aside>
+    <nav>
+        <ul>
+            <a href="{% url 'session:timetable' pk=team.pk %}"><li>Timetable</li></a>
+            <a href="{% url 'session:calendar' pk=team.pk %}"><li>Calendar</li></a>
+            <a href="{% url 'session:notice_board' pk=team.pk %}"><li>Notice Board</li></a>
+            <a href=""><li>Leave</li></a>
+            <li>Admin</li>
+            <a href=""><li>Create a Team</li></a>
+            <a href=""><li>Permissions</li></a>
+            <a href=""><li>Roles</li></a>
+            <a href=""><li>Settings</li></a>
+            <a href=""><li>Join requests</li></a>
+            <a href=""><li>Delete Team</li></a>
+        </ul>
+    </nav>
+    {% block workspace %}
+    {% endblock %}
+</div>
+{% endblock %}

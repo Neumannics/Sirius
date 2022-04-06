@@ -1,0 +1,13 @@
+{% extends 'nav.html' %}
+    
+{% block title %}
+    Create a Team
+{% endblock %}
+    
+{% block main %}
+<form method="POST" action="{% url 'team:create_team' %}">
+    {% csrf_token %}
+    {% include 'form.html' with form=form %}
+    <input type="submit" value="Create">
+</form>
+{% endblock %}
