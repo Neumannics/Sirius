@@ -2,7 +2,6 @@ from django import forms
 from .models import Class, Notice, Event
 
 
-
 class ClassCreationForm(forms.ModelForm):
     class Meta:
         model = Class
@@ -20,6 +19,10 @@ class ClassCreationForm(forms.ModelForm):
             raise forms.ValidationError('Some fields are missing')
 
 
+
+    
+
+
 class CalendarCreationForm(forms.ModelForm):
     class Meta:
         model = Event
@@ -35,6 +38,8 @@ class CalendarCreationForm(forms.ModelForm):
                 raise forms.ValidationError('Event already exists')
         else:
             raise forms.ValidationError('Some fields are missing')
+        
+
 
 
 class NoticeCreationForm(forms.ModelForm):

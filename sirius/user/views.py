@@ -9,6 +9,7 @@ from team.models import Team
 from authorization.models import Membership
 from team.models import JoinRequest
 from team.forms import JoinRequestForm
+from django.forms.utils import ErrorList
 
 def signup(request):
     if request.user.is_authenticated:
@@ -55,15 +56,51 @@ def signout(request):
     logout(request)
     return redirect('landing')
 
+# def dashboard_view(request, user_id, join_form=None):
+#     user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=user_id)
+#     teams = Membership.objects.filter(user_id=user_id).values('created_at', 'alumni', 'team_id__pk', 'team_id__name', 'role_id__pk', 'role_id__role_name')
+#     join_requests = JoinRequest.objects.filter(user_id=user_id)
+#     if not join_form:
+#         join_form = JoinRequestForm()
+#     return render(request, 'dashboard.html', {
+#         'user': user, 
+#         'teams': teams,
+#         'join_requests': join_requests,
+#         'join_form': join_form
+#     })
+
 @login_required(login_url='user:signin')
 def dashboard(request, u_pk):
     user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=u_pk)
     teams = Membership.objects.filter(user_id=u_pk).values('created_at', 'alumni', 'team_id__pk', 'team_id__name', 'role_id__pk', 'role_id__role_name')
     join_requests = JoinRequest.objects.filter(user_id=u_pk)
     join_form = JoinRequestForm()
+    join_form_errors = request.session.get('join_form_errors')
+    print(join_form_errors)
+    if join_form_errors:
+        for field, err in join_form_errors.items():
+            join_form.errors[field] = err
+        del request.session['join_form_errors']
     return render(request, 'dashboard.html', {
         'user': user, 
         'teams': teams,
         'join_requests': join_requests,
         'join_form': join_form
     })
+
+@login_required(login_url='user:signin')
+def accountsettings(request, pk):
+    user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=pk)
+    return render(request, 'settings.html', {'user': user})
+
+@login_required(login_url='user:signin')
+def accountchange(request):
+    user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=request.user.pk)
+    if user.check_password(request.POST['password']):
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.set_password(request.POST['new_password'])
+        user.save()
+        return redirect('user:dashboard', u_pk=request.user.pk)
+    else:
+        return render(request, 'settings.html', {'user': user, 'error': 'Incorrect password'})

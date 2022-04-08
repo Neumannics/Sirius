@@ -11,6 +11,8 @@
                 <li><i class="fa-solid fa-bell"></i></li>
                 <li>
                     <img src="temp" />
+                    {{ request.user.first_name }} {{ request.user.last_name }}
+                    <i class="fa-solid fa-gear"></i>
                     <a href="{% url 'user:signout' %}">Logout</a>
                 </li>
             </ul>

@@ -5,67 +5,73 @@ from .models import Class, Notice, Event
 from authorization.models import Membership, Permission, Role
 from django.http import HttpResponseForbidden
 from sirius.utils.perm import hasPerm
+from sirius.utils.console_context import get_console_data
+from team.models import Team
 
 
 @login_required(login_url='user:signin')
-def create_timetable(request):
+def create_class(request, pk):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
-        if form.is_valid():
-            if form.cleaned_data.get('parent_id'):
-                if not hasPerm('C', 'S', request.user, form.cleaned_data.get('parent_id')):
-                    return HttpResponseForbidden()
-            form.save()
-            return redirect('session:timetable', pk=form.instance.pk)
+        if form.is_valid() and pk:
+            if not hasPerm('C', 'C', request.user, pk):
+                return HttpResponseForbidden()
+            new_class = form.save(commit=False)
+            new_class.team_id = pk
+            new_class.save()
+            return redirect('session:timetable', pk=pk)
     else:
         form = ClassCreationForm()
-    return render(request, 'session/create-timetable.html', {'form': form})
+    return render(request, 'create_class.html', {'form': form, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
-def create_calendar(request):
+def create_event(request, pk):
     if request.method == 'POST':
         form = CalendarCreationForm(request.POST)
-        if form.is_valid():
-            if form.cleaned_data.get('parent_id'):
-                if not hasPerm('C', 'S', request.user, form.cleaned_data.get('parent_id')):
-                    return HttpResponseForbidden()
-            form.save()
-            return redirect('session:calendar', pk=form.instance.pk)
+        if form.is_valid() and pk:
+            if not hasPerm('C', 'E', request.user, pk):
+                return HttpResponseForbidden()
+            new_event = form.save(commit=False)
+            new_event.team_id = pk
+            new_event.save()
+            return redirect('session:calendar', pk=pk)
     else:
         form = CalendarCreationForm()
-    return render(request, 'session/create-calendar.html', {'form': form})
+    return render(request, 'create_event.html', {'form': form, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
-def create_notice(request):
+def create_notice(request, pk):
     if request.method == 'POST':
         form = NoticeCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            if form.cleaned_data.get('parent_id'):
-                if not hasPerm('C', 'S', request.user, form.cleaned_data.get('parent_id')):
-                    return HttpResponseForbidden()
-            return redirect('session:notice', pk=form.instance.pk)
+        if form.is_valid() and pk:
+            if not hasPerm('C', 'N', request.user, pk):
+                return HttpResponseForbidden()
+            new_notice = form.save(commit=False)
+            new_notice.team_id = pk
+            new_notice.save()
+            return redirect('session:notice', pk=pk)
     else:
         form = NoticeCreationForm()
-    return render(request, 'session/create-notice.html', {'form': form})
+    return render(request, 'create_notice.html', {'form': form, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
 def timetable(request, pk):
-    if not hasPerm('R', 'S', request.user, pk):
+    if not hasPerm('R', 'C', request.user, pk):
         return HttpResponseForbidden()
     classes = Class.objects.filter(team_id=pk).values('start_time', 'end_time', 'day', 'title')
-    return render(request, 'session/timetable.html', {'classes': classes})
+    # team = Team.objects.get(pk=pk)
+    return render(request, 'timetable.html', {'classes': classes, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
 def calendar(request, pk):
-    if not hasPerm('R', 'S', request.user, pk):
+    if not hasPerm('R', 'E', request.user, pk):
         return HttpResponseForbidden()
     events = Event.objects.filter(team_id=pk).values('start', 'end', 'title', 'description')
-    return render(request, 'session/calendar.html', {'events': events})
+    return render(request, 'calendar.html', {'events': events, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
 def notice_board(request, pk):
-    if not hasPerm('R', 'S', request.user, pk):
+    if not hasPerm('R', 'N', request.user, pk):
         return HttpResponseForbidden()
     notices = Notice.objects.filter(team_id=pk).values('title', 'description', 'created_at')
-    return render(request, 'session/notice_board.html', {'notices': notices})
+    return render(request, 'notice_board.html', {'notices': notices, 'console': get_console_data(pk, request.user)})

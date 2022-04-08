@@ -4,17 +4,29 @@
 <aside>
     <nav>
         <ul>
-            <a href="{% url 'session:timetable' pk=team.pk %}"><li>Timetable</li></a>
-            <a href="{% url 'session:calendar' pk=team.pk %}"><li>Calendar</li></a>
-            <a href="{% url 'session:notice_board' pk=team.pk %}"><li>Notice Board</li></a>
+            <a href="{% url 'team:session:timetable' pk=console.team.pk %}"><li>Timetable</li></a>
+            <a href="{% url 'team:session:calendar' pk=console.team.pk %}"><li>Calendar</li></a>
+            <a href="{% url 'team:session:notice_board' pk=console.team.pk %}"><li>Notice Board</li></a>
             <a href=""><li>Leave</li></a>
             <li>Admin</li>
-            <a href=""><li>Create a Team</li></a>
-            <a href=""><li>Permissions</li></a>
-            <a href=""><li>Roles</li></a>
-            <a href=""><li>Settings</li></a>
-            <a href=""><li>Join requests</li></a>
-            <a href=""><li>Delete Team</li></a>
+            <!-- {% if "C-T" in perms %} -->
+                <a href="{% url 'team:create_sub_team' pk=console.team.pk %}"><li>Create a Team</li></a>
+            <!-- {% endif %} -->
+            <!-- {% if "D-R" in perms or "U-R" in perms or "C-R" in perms or "R-R" in perms %} -->
+                <a href=""><li>Permissions</li></a>
+            <!-- {% endif %} -->
+            <!-- {% if "D-R" in perms or "U-R" in perms or "C-R" in perms or "R-R" in perms %} -->
+                <a href="{% url 'authorization:show_roles' pk=console.team.pk %}"><li>Roles</li></a>
+            <!-- {% endif %} -->
+            <!-- {% if "U-T" in perms %} -->
+                <a href=""><li>Settings</li></a>
+            <!-- {% endif %} -->
+            <!-- {% if "D-JR" in perms or "U-JR" in perms or "R-JR" in perms %} -->
+                <a href="{% url 'team:join_requests' pk=console.team.pk %}"><li>Join requests</li></a>
+            <!-- {% endif %} -->
+            <!-- {% if "D-T" in perms %} -->
+                <a href=""><li>Delete Team</li></a>
+            <!-- {% endif %} -->
         </ul>
     </nav>
     {% block workspace %}

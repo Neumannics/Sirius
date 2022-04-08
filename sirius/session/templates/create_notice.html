@@ -1,0 +1,13 @@
+{% extends 'console.html' %}
+    
+{% block title %}
+    Create a Notice
+{% endblock %}
+    
+{% block workspace %}
+<form method="POST" action="{% url 'session:create_notice' %}">
+    {% csrf_token %}
+    {% include 'form.html' with form=form %}
+    <input type="submit" value="Create">
+</form>
+{% endblock %}

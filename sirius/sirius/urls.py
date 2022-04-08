@@ -10,6 +10,6 @@ urlpatterns = [
     path("__reload__/", include("django_browser_reload.urls")),
     path('user/', include('user.urls')),
     path('team/', include('team.urls')),
-    path('session/', include('session.urls')),
+    # path('session/', include('session.urls')),
     path('authorization/', include('authorization.urls'))
 ]

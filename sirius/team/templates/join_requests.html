@@ -1,0 +1,35 @@
+{% extends 'console.html' %}
+
+{% block title %}
+    {{ team.name }}
+{% endblock %}
+
+{% block workspace %}
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>{{ team.name }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Join Requests</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+                    {% for request in requests %}
+                            <p>{{ request.user_id__first_name }}</p>
+                            <p>{{ request.user_id__last_name }}</p>
+                                <form action="{% url 'team:accept_join_request' pk=request.id %}" method="POST">
+                                    <button type="submit" class="btn btn-success">Accept</button>
+                                </form>
+                                <form action="{% url 'team:decline_join_request' pk=request.id %}" method="POST">
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                </form>
+                            
+                {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

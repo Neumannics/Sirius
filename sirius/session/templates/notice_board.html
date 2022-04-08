@@ -1,0 +1,17 @@
+{% extends 'console.html' %}
+
+{% block title %}
+    Notice Board
+{% endblock %}
+
+{% block workspace %}
+<div>
+   {% for notice in notices %}
+        <div class="notice">
+            <h3>{{ notice.title }}</h3>
+            <p>{{ notice.description }}</p>
+            <p>{{ notice.created_at }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

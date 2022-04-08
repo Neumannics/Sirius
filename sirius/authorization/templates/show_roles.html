@@ -1,0 +1,25 @@
+{% extends 'console.html' %}
+
+{% block title %}
+    Calendar
+{% endblock %}
+
+{% block workspace %}
+<div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Roles</h1>
+
+            {% for role in roles%}
+            <p> {{ role.role_name }} </p>
+            {% endfor %}
+
+            {% for member in members %}
+            <p> {{ member.user_id__first_name }} </p>
+            {% endfor %}
+        
+        </div>
+    </div>
+    
+</div>
+{% endblock %}

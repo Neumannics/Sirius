@@ -1,0 +1,18 @@
+{% extends 'console.html' %}
+
+{% block title %}
+    Calendar
+{% endblock %}
+
+{% block workspace %}
+<div>
+   {% for event in events %}
+        <div class="event">
+            <h3>{{ notice.title }}</h3>
+            <p>{{ notice.description }}</p>
+            <p>{{ notice.start }}</p>
+            <p>{{ notice.end }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

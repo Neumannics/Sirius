@@ -1,0 +1,13 @@
+{% extends 'console.html' %}
+    
+{% block title %}
+    Create a Event
+{% endblock %}
+    
+{% block workspace %}
+<form method="POST" action="{% url 'session:create_event' %}">
+    {% csrf_token %}
+    {% include 'form.html' with form=form %}
+    <input type="submit" value="Create">
+</form>
+{% endblock %}

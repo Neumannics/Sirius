@@ -1,0 +1,28 @@
+{% extends 'nav.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+    
+{% block body %}
+<div>
+    <h2> Account </h2>
+    <form action="{{ url_for('accountchange') }}" method="post">
+        <div>
+            <label for="firstname">First Name: </label>
+            <input type="text" name="firstname" placeholder="{{ user.first_name }}" required>
+        
+        </div>
+        <div>
+            <label for="lastname">Last Name: </label>
+            <input type="text" name="lastname" placeholder="{{ user.last_name }}" required>
+        </div>
+        <div>
+            <label for="email">Email: </label>
+            <input type="email" name="email" placeholder="{{ user.email }}" disabled>
+        </div>
+        <div>
+            <button type="submit">Save</button>
+        </div>
+</div> 
+{% endblock %}

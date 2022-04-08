@@ -1,0 +1,18 @@
+{% extends 'console.html' %}
+
+{% block title %}
+    Timetable
+{% endblock %}
+
+{% block workspace %}
+<section>
+    {% for class in classes %}
+        <figure>
+            <p>{{ class.title }}</p>
+            <p>{{ class.day }}</p>
+            <p>{{ class.start_time }}</p>
+            <p>{{ class.end_time }}</p>
+        </figure>
+    {% endfor %}
+</section>
+{% endblock %}

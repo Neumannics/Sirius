@@ -1,7 +1,9 @@
 {% if form.non_field_errors %}
-<p>
-    {{ form.non_field_errors }}
-</p>
+    <ul>
+        {% for err in form.non_field_errors %}
+            <li>{{ err }}</li>
+        {% endfor %}
+    </ul>
 {% endif %}
 <ul>
 {% for field in form.visible_fields %}

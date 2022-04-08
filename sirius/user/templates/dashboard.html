@@ -1,28 +1,35 @@
 {% extends 'nav.html' %}
 
+{% load static %}
+
 {% block title %}
     Dashboard
 {% endblock %}
 
+{% block links %}
+    <script src="{% static 'js/send_join_request.js' %}"></script>
+{% endblock %}
+
 {% block main %}
     <section>
-        <h2>Yours Teams</h2>
+        <h3>Yours Teams</h3>
         <ul>
             {% for team in teams %}
-                <li>{{ team.team_id__name }}</li>
+                <li><a href="{% url 'team:team_info' pk=team.team_id__pk %}">{{ team.team_id__name }}</a></li>
             {% endfor %}
         </ul>
     </section>
     <section>
-        <h3>Join Requests</h3>
+        <h4>Join Requests</h4>
         <ul>
             {% for req in join_requests %}
                 <li>{{ req.team_id }} | {{ req.get_status_display }}</li>
             {% endfor %}
         </ul>
-        <form method="POST" action="">
+        <form method="POST" action="{% url 'team:send_join_request' %}">
             {% csrf_token %}
             {% include 'form.html' with form=join_form %}
+            <input type="hidden" name="user_id" value="{{ request.user.pk }}">
             <input type="submit" value="Join">
         </form>
     </section>

@@ -26,17 +26,26 @@ class MembershipCreationForm(forms.ModelForm):
 class JoinRequestForm(forms.ModelForm):
     team_id = forms.IntegerField()
     class Meta:
+        widgets = {
+            'user_id': forms.HiddenInput(),
+        }
         model = JoinRequest
-        fields = ('team_id',)
+        fields = ('team_id','user_id')
+
+    def clean_team_id(self):
+        team_id = self.cleaned_data.get('team_id')
+        if not Team.objects.filter(pk=team_id).exists():
+            raise forms.ValidationError('Invalid id')
+        team = Team.objects.get(pk=team_id)
+        return team
     
     def clean(self):
         team_id = self.cleaned_data.get('team_id')
         user_id = self.cleaned_data.get('user_id')
         if Membership.objects.filter(team_id=team_id, user_id=user_id).count():
             raise forms.ValidationError('You are already a member of this team')
-        if not Team.objects.filter(pk=team_id).exists():
-            raise forms.ValidationError('Invalid id')
-
+        if JoinRequest.objects.filter(status='P', team_id=team_id, user_id=user_id).exists():
+            raise forms.ValidationError('A request is already pending')
         
 
         

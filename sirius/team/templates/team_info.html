@@ -1,28 +1,32 @@
 {% extends 'console.html' %}
 
 {% block title %}
-    {{ team.name }}
+    {{ console.team.name }}
 {% endblock %}
 
 {% block workspace %}
-<div>
-    <div class="name">
-        {% for parent in parents %}
-            <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }}</a>
-        {% endfor %}
-        <h2>{{ team.name }}</h2>
-    </div>
-    <div class="members">
-        {% for member in members %}
+<img src="temp" \>
+<p>
+    {% for parent in console.parents %}
+        <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }}/</a>
+    {% endfor %}
+    <span>{{ console.team.name }}</span>
+</p>
+<section>
+    <ul>
+    {% for member in members %}
+        <li>
             <p>{{ member.user_id__first_name }} {{ member.user_id__last_name }}</p>
             <p>@{{ member.user_id__username }}</p>
             <p>{{ member.role_id__role_name }}</p>
-        {% endfor %}
-    </div>
-    <div class="children">
-        {% for child in children %}
-            <a href="{% url 'team:team_info' pk=child.pk %}">{{ child.name }}</a>
-        {% endfor %}
-    </div>
-</div>
+    {% endfor %}
+    </ul>
+</section>
+<section>
+    <ul>
+    {% for child in children %}
+        <li><a href="{% url 'team:team_info' pk=child.pk %}">{{ child.name }}</a></li>
+    {% endfor %}
+    </ul>
+</section>
 {% endblock %}
