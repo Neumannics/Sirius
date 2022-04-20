@@ -11,7 +11,9 @@
         <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }}/</a>
     {% endfor %}
     <span>{{ console.team.name }}</span>
+    <span>#{{ console.team.pk }}</span>
 </p>
+<p>Since {{ console.team.created_at|date:"d/m/Y" }}</p>
 <section>
     <ul>
     {% for member in members %}

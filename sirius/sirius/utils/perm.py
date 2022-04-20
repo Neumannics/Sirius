@@ -26,3 +26,11 @@ def getPerms(user, team):
                 perm = Permission.objects.get(pk=permission)
                 perms.append(perm.action + '-' + perm.relation)
     return perms
+
+def permList(perms):
+    perms = []
+    for permission in perms:
+        if permission:
+            perm = Permission.objects.get(pk=permission)
+            perms.append(perm.action + '-' + perm.relation)
+    return perms

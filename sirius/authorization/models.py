@@ -20,7 +20,7 @@ class Membership(models.Model):
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
-        return self.user.username
+        return self.user_id.username
         
 class Permission(models.Model):
     ACTION_CHOICES = (

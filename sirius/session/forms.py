@@ -6,6 +6,11 @@ class ClassCreationForm(forms.ModelForm):
     class Meta:
         model = Class
         fields = ('start_time', 'end_time', 'day', 'title')
+        widgets = {
+            'start_time': forms.TimeInput(attrs={'type': 'time'}),
+            'end_time': forms.TimeInput(attrs={'type': 'time'}),
+        }
+
     def clean(self):
         start_time = self.cleaned_data.get('start_time')
         end_time = self.cleaned_data.get('end_time')
@@ -13,7 +18,7 @@ class ClassCreationForm(forms.ModelForm):
         title = self.cleaned_data.get('title')
 
         if start_time is not None and end_time is not None and day is not None and title is not None:
-            if Class.objects.filter(start_time__gte=start_time, end_time__lte=end_time).count() != 0:
+            if Class.objects.filter(start_time__gte=start_time, start_time__lte=end_time).count() != 0 or Class.objects.filter(end_time__gte=start_time, end_time__lte=end_time).count() != 0:
                 raise forms.ValidationError('Some classes overlap')
         else:
             raise forms.ValidationError('Some fields are missing')
@@ -27,6 +32,11 @@ class CalendarCreationForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ('start', 'end', 'title', 'description')
+        widgets = {
+            'start': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'end': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        }
+
     def clean(self):
         start = self.cleaned_data.get('start')
         end = self.cleaned_data.get('end')
@@ -46,6 +56,7 @@ class NoticeCreationForm(forms.ModelForm):
     class Meta:
         model = Notice
         fields = ('title', 'description')
+        
     def clean(self):
         title = self.cleaned_data.get('title')
         description = self.cleaned_data.get('description')
