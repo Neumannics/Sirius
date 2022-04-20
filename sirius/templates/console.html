@@ -1,8 +1,18 @@
 {% extends 'nav.html' %}
 
+{% block title %}
+    {{ console.team.name }}
+{% endblock %}
+
 {% block main %}
 <aside>
     <nav>
+        <p>
+            {% for parent in console.parents %}
+                <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }} / </a>
+            {% endfor %}
+            <span>{{ console.team.name }}</span>
+        </p>
         <ul>
             <a href="{% url 'team:session:timetable' pk=console.team.pk %}"><li>Timetable</li></a>
             <a href="{% url 'team:session:calendar' pk=console.team.pk %}"><li>Calendar</li></a>

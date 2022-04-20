@@ -2,7 +2,7 @@ from signal import raise_signal
 from authorization.models import Permission, Membership
 from django.http import HttpResponseForbidden
 
-def hasPerm(action, relation, user, team):
+def has_perm(action, relation, user, team):
     if user.is_superuser:
         return True
     permission = Permission.objects.get(action=action, relation=relation)
@@ -17,7 +17,7 @@ def hasPerm(action, relation, user, team):
         return True
     return False
 
-def getPerms(user, team):
+def get_perms(user, team):
     perms = []
     if team:
         user_permissions = Membership.objects.get(user_id=user, team_id=team).role_id.permissions.strip(',').split(',')

@@ -8,11 +8,12 @@
 <img src="temp" \>
 <p>
     {% for parent in console.parents %}
-        <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }}/</a>
+        <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }} //</a>
     {% endfor %}
     <span>{{ console.team.name }}</span>
 </p>
 <section>
+    <h2>Members</h2>
     <ul>
     {% for member in members %}
         <li>
@@ -23,6 +24,7 @@
     </ul>
 </section>
 <section>
+    <h2>Teams</h2>
     <ul>
     {% for child in children %}
         <li><a href="{% url 'team:team_info' pk=child.pk %}">{{ child.name }}</a></li>
