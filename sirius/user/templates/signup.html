@@ -6,21 +6,28 @@
     
 {% block body %}
 <body>
+    <div>
     <header>
         <h5>Sirius</h5>
         <h6>Have an account? <a href="{% url 'user:signin' %}"><span>Login</span></a></h6>
         <h2>Signup</h2>
     </header>
+
     <form method="POST" action="{% url 'user:signup' %}">
         {% csrf_token %}
         {% include 'form.html' with form=form %}
-        <input type="submit" value="Signup">
+        <input type="submit" value="Submit">
     </form>
+    </div>
+
+    <div>
     <blockquote>
         <i class="fa-solid fa-quote-left"></i>
         <cite>13 Hours</cite>
         <p>All the gods, all the heavens, all the hells are within you.</p>
     </blockquote>
+    </div>
+
 </body>
 {% endblock %}
     

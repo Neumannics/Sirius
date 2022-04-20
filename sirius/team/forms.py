@@ -5,7 +5,7 @@ from authorization.models import Membership
 class TeamCreationForm(forms.ModelForm):
     class Meta:
         model = Team
-        fields = ('name', 'description',)
+        fields = ('name',)
     # def clean(self):
     #     name = self.cleaned_data.get('name')
         # parent_id = self.cleaned_data.get('parent_id')

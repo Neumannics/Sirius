@@ -5,7 +5,7 @@
 {% endblock %}
     
 {% block workspace %}
-<form method="POST" action="{% url 'session:create_class' %}">
+<form method="POST" action="{% url 'team:session:create_class' pk=console.team.pk %}">
     {% csrf_token %}
     {% include 'form.html' with form=form %}
     <input type="submit" value="Create">

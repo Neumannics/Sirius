@@ -17,9 +17,9 @@ def create_class(request, pk):
             if not has_perm('C', 'C', request.user, pk):
                 return HttpResponseForbidden()
             new_class = form.save(commit=False)
-            new_class.team_id = pk
+            new_class.team_id = Team.objects.get(pk=pk)
             new_class.save()
-            return redirect('session:timetable', pk=pk)
+            return redirect('team:session:timetable', pk=pk)
     else:
         form = ClassCreationForm()
     return render(request, 'create_class.html', {'form': form, 'console': get_console_data(pk, request.user)})
@@ -32,9 +32,9 @@ def create_event(request, pk):
             if not has_perm('C', 'E', request.user, pk):
                 return HttpResponseForbidden()
             new_event = form.save(commit=False)
-            new_event.team_id = pk
+            new_event.team_id = Team.objects.get(pk=pk)
             new_event.save()
-            return redirect('session:calendar', pk=pk)
+            return redirect('team:session:calendar', pk=pk)
     else:
         form = CalendarCreationForm()
     return render(request, 'create_event.html', {'form': form, 'console': get_console_data(pk, request.user)})
@@ -47,9 +47,10 @@ def create_notice(request, pk):
             if not has_perm('C', 'N', request.user, pk):
                 return HttpResponseForbidden()
             new_notice = form.save(commit=False)
-            new_notice.team_id = pk
+            new_notice.team_id = Team.objects.get(pk=pk)
+            new_notice.user_id = request.user
             new_notice.save()
-            return redirect('session:notice', pk=pk)
+            return redirect('team:session:notice_board', pk=pk)
     else:
         form = NoticeCreationForm()
     return render(request, 'create_notice.html', {'form': form, 'console': get_console_data(pk, request.user)})
@@ -58,7 +59,7 @@ def create_notice(request, pk):
 def timetable(request, pk):
     if not has_perm('R', 'C', request.user, pk):
         return HttpResponseForbidden()
-    classes = Class.objects.filter(team_id=pk).values('start_time', 'end_time', 'day', 'title')
+    classes = Class.objects.filter(team_id=pk)
     # team = Team.objects.get(pk=pk)
     return render(request, 'timetable.html', {'classes': classes, 'console': get_console_data(pk, request.user)})
 

@@ -6,34 +6,45 @@
     
 {% block body %}
 <body>
+
+    <div>
     <header>
         <h5>Sirius</h5>
         <h6>New to Sirius? <a href="{% url 'user:signup' %}"><span>Signup</span></a></h6>
         <h2>Login</h2>
     </header>
+
     <form method="POST" action="{% url 'user:signin' %}">
         {% csrf_token %}
         {% include 'form.html' with form=form %}
         <input type="submit" value="Login">
         {% if request.GET.next %}
-            <input type="hidden" name="text" value="{{ request.GET.next }}">
+        <input type="hidden" name="text" value="{{ request.GET.next }}">
         {% endif %}
     </form>
-    <section>
-        <div>
+
+    <div>
+        <section>
             <p>Or signup with</p>
-        </div>
+        </section>
         <ul>
             <li><i class="fa-brands fa-google"></i></li>
             <li><i class="fa-brands fa-facebook-f"></i></li>
             <li><i class="fa-brands fa-github"></i></li>
         </ul>
-    </section>
+    </div>
+    </div>
+
+    <div>
+
     <blockquote>
         <i class="fa-solid fa-quote-left"></i>
         <cite>Oscar Wilde</cite>
         <p>Be yourself; everyone else is already taken.</p>
     </blockquote>
+
+    </div>
+
 </body>
 {% endblock %}
     
