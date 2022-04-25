@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Class, Notice, Event
 from authorization.models import Membership, Permission, Role
 from django.http import HttpResponseForbidden
-from sirius.utils.perm import hasPerm
+from sirius.utils.perm import has_perm
 from sirius.utils.console_context import get_console_data
 from team.models import Team
 
@@ -14,7 +14,7 @@ def create_class(request, pk):
     if request.method == 'POST':
         form = ClassCreationForm(request.POST)
         if form.is_valid() and pk:
-            if not hasPerm('C', 'C', request.user, pk):
+            if not has_perm('C', 'C', request.user, pk):
                 return HttpResponseForbidden()
             new_class = form.save(commit=False)
             new_class.team_id = Team.objects.get(pk=pk)
@@ -29,7 +29,7 @@ def create_event(request, pk):
     if request.method == 'POST':
         form = CalendarCreationForm(request.POST)
         if form.is_valid() and pk:
-            if not hasPerm('C', 'E', request.user, pk):
+            if not has_perm('C', 'E', request.user, pk):
                 return HttpResponseForbidden()
             new_event = form.save(commit=False)
             new_event.team_id = Team.objects.get(pk=pk)
@@ -44,7 +44,7 @@ def create_notice(request, pk):
     if request.method == 'POST':
         form = NoticeCreationForm(request.POST)
         if form.is_valid() and pk:
-            if not hasPerm('C', 'N', request.user, pk):
+            if not has_perm('C', 'N', request.user, pk):
                 return HttpResponseForbidden()
             new_notice = form.save(commit=False)
             new_notice.team_id = Team.objects.get(pk=pk)
@@ -57,7 +57,7 @@ def create_notice(request, pk):
 
 @login_required(login_url='user:signin')
 def timetable(request, pk):
-    if not hasPerm('R', 'C', request.user, pk):
+    if not has_perm('R', 'C', request.user, pk):
         return HttpResponseForbidden()
     classes = Class.objects.filter(team_id=pk)
     # team = Team.objects.get(pk=pk)
@@ -65,14 +65,14 @@ def timetable(request, pk):
 
 @login_required(login_url='user:signin')
 def calendar(request, pk):
-    if not hasPerm('R', 'E', request.user, pk):
+    if not has_perm('R', 'E', request.user, pk):
         return HttpResponseForbidden()
     events = Event.objects.filter(team_id=pk).values('start', 'end', 'title', 'description')
     return render(request, 'calendar.html', {'events': events, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
 def notice_board(request, pk):
-    if not hasPerm('R', 'N', request.user, pk):
+    if not has_perm('R', 'N', request.user, pk):
         return HttpResponseForbidden()
     notices = Notice.objects.filter(team_id=pk).values('title', 'description', 'created_at')
     return render(request, 'notice_board.html', {'notices': notices, 'console': get_console_data(pk, request.user)})

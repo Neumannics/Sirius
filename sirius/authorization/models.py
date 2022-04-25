@@ -20,7 +20,7 @@ class Membership(models.Model):
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
-        return self.user_id.username
+        return f'{self.user_id.username}-{self.team_id.name}'
         
 class Permission(models.Model):
     ACTION_CHOICES = (
