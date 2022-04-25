@@ -11,5 +11,5 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('team/', include('team.urls')),
     # path('session/', include('session.urls')),
-    path('authorization/', include('authorization.urls'))
+    path('authorization/<team_pk>/', include('authorization.urls'))
 ]

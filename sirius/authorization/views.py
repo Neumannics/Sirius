@@ -22,23 +22,19 @@ def create_role(request, team):
     return render(request, 'create_role.html', {'form': form, 'console': get_console_data(team, request.user)})
 
 @login_required(login_url='user:signin')
-def show_roles(request, pk):
-    if not has_perm('R', 'R', request.user, pk):
-        return HttpResponseForbidden()
-    members = Membership.objects.filter(team_id=pk).values('user_id__pk', 'user_id__first_name', 'user_id__last_name', 'user_id__email', 'role_id__role_name', 'role_id__role_description', 'role_id__pk')
-    roles = Role.objects.filter(team_id=pk).values('pk', 'role_name', 'role_description')
-    return render(request, 'show_roles.html', {'members': members, 'roles': roles, 'console': get_console_data(pk, request.user)})
+def show_roles(request, team_pk):
+    # if not has_perm('R', 'R', request.user, team_pk):
+    #     return HttpResponseForbidden()
+    members = Membership.objects.filter(team_id=team_pk).values('user_id__pk', 'user_id__first_name', 'user_id__last_name', 'user_id__email', 'role_id__role_name', 'role_id__role_description', 'role_id__pk')
+    roles = Role.objects.filter(team_id=team_pk).values('pk', 'role_name', 'role_description')
+    return render(request, 'show_roles.html', {'members': members, 'roles': roles, 'console': get_console_data(team_pk, request.user)})
 
 @login_required(login_url='user:signin')
-def update_role(request, pk):
+def update_membership(request, team_pk, user_pk):
     if request.method == 'POST':
-        if not has_perm('U', 'R', request.user, pk):
+        if not has_perm('U', 'R', request.user, team_pk):
             return HttpResponseForbidden()
-        role = Role.objects.get(pk=pk)
-        form = RoleCreationForm(request.POST, instance=role)
-        if form.is_valid():
-            form.save()
-            return redirect('authorization:show_roles', pk=pk)
-        
-
-
+        membership = Membership.objects.get(user_id=user_pk, team_id=team_pk)
+        membership.role_id = Role.objects.get(pk=request.POST.get('new-role'))
+        membership.save()
+        return redirect('authorization:show_roles', team_pk=team_pk)

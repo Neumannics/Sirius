@@ -9,7 +9,7 @@
     <nav>
         <p>
             {% for parent in console.parents %}
-                <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }} / </a>
+                <a href="{% url 'team:team_info' k=parent.pk %}">{{ parent.name }} / </a>
             {% endfor %}
             <span>{{ console.team.name }}</span>
         </p>
@@ -27,7 +27,7 @@
                 <a href=""><li>Permissions</li></a>
             <!-- {% endif %} -->
             <!-- {% if "D-R" in perms or "U-R" in perms or "C-R" in perms or "R-R" in perms %} -->
-                <a href="{% url 'authorization:show_roles' pk=console.team.pk %}"><li>Roles</li></a>
+                <a href="{% url 'authorization:show_roles' team_pk=console.team.pk %}"><li>Roles</li></a>
             <!-- {% endif %} -->
             <!-- {% if "U-T" in perms %} -->
                 <a href=""><li>Settings</li></a>

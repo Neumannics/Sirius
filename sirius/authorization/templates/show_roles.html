@@ -1,24 +1,37 @@
-{% extends 'console.html' %}
+{% extends 'console.html' %} 
 
-{% block title %}
-    Calendar
+{% block title %} 
+    Calendar 
 {% endblock %}
 
 {% block workspace %}
 <div>
-    <div class="row">
-        <div class="col-md-12">
-            <h1>Roles</h1>
-            <form action="{ url 'authorization:update_role' }">
-                {% for member in members %}
-                <p>{{ member.user_id__first_name }} {{ member.user_id.last_name }}</p>
-                <p>{{ member.user_id__email }}</p>
-                <select name="" id=""></select>
-                <p>{{ member.role_id__role_name }}</p>
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Roles</h1>
+      {% for member in members %}
+        <form method="POST" action="{% url 'authorization:update_membership' team_pk=console.team.pk user_pk=member.user_id__pk %}">
+            {% csrf_token %} 
+            <p>{{ member.user_id__first_name }}</p>
+            <select name="new-role">
+                {% for role in roles %}
+                    {% if role.role_name == member.role_id__role_name %}
+                        <option value="{{ role.pk }}" selected>{{ role.role_name }}</option>
+                    {% else %}
+                        <option value="{{ role.pk }}">{{ role.role_name }}</option>
+                    {% endif %}
                 {% endfor %}
-            </form>
-        </div>
+            </select>
+            <input type="submit" value="Submit" />
+        </form>
+      {% endfor %}
     </div>
-    
+    <h1>Create Role</h1>
+    <form method="POST" action="{% url 'authorization:create_role' team_pk=console.team.pk %}">
+      {% csrf_token %}
+      {% include 'form.html' with form=form %}
+      <input type="submit" value="Create" />
+    </form>
+  </div>
 </div>
 {% endblock %}
