@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
-from .forms import AccountAuthenticationForm, AccountSignupForm
+from .forms import AccountAuthenticationForm, AccountSignupForm, ResetPasswordForm
 from team.models import Team
 from authorization.models import Membership
 from team.models import JoinRequest
@@ -89,9 +89,19 @@ def dashboard(request, u_pk):
     })
 
 @login_required(login_url='user:signin')
-def accountsettings(request, pk):
-    user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=pk)
-    return render(request, 'settings.html', {'user': user})
+def accountsettings(request):
+    if request.method == 'POST':
+        form = ResetPasswordForm(request.POST, instance=request.user)
+        if form.is_valid():
+            user = request.user
+            user.set_password(form.cleaned_data.get('new_password1'))
+            user.save()
+            return redirect('user:dashboard', u_pk=request.user.pk)
+        else:
+            return render(request, 'settings.html', {'form': form})
+    else:
+        form = ResetPasswordForm(instance=request.user)
+        return render(request, 'settings.html', {'form': form})
 
 @login_required(login_url='user:signin')
 def accountchange(request):
