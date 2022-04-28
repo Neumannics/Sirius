@@ -11,10 +11,43 @@
         font-poppins 
         font-bold;
     }
-    h5 {
+    h2 {
         @apply
         text-[48px]
+        text-grey
         font-semibold;
+    }
+    h5 {
+        @apply
+        text-[36px]
+        font-semibold;
+    }
+    h6 {
+        @apply
+        text-[24px];
+    }
+
+    blockquote {
+        @apply
+        text-white
+        font-poppins;
+    }
+    blockquote i {
+        @apply
+        text-[50px]
+        relative
+        right-[10px]
+        block;
+    }
+    blockquote cite {
+        @apply
+        text-[48px]
+        font-bold
+        not-italic;
+    }
+    blockquote p {
+        @apply
+        text-[36px];
     }
 }
 
@@ -57,5 +90,113 @@
         @apply
         flex-col
         space-y-[28px];
+    }
+
+    .console-navs {
+        @apply
+        flex
+        flex-row
+        flex-nowrap
+        w-full
+        pt-2
+        pb-2
+    }
+
+    .console-nav-icon {
+        @apply
+        text-[26px]
+        mr-3
+    }
+
+    .console-nav-link {
+        @apply
+        text-[26px]
+        font-light
+    }
+
+    .form-wrapper {
+        @apply
+        flex
+        flex-col
+        w-full
+        md:w-1/2
+        mt-[10vh]
+        items-center;
+    }
+    .form-wrapper > div {
+        @apply
+        w-[80%]
+        max-w-[320px];
+    }
+    .form-wrapper input,
+    .form-wrapper select {
+        @apply
+        w-full
+        h-[52px]
+        rounded-sm
+        pl-[22px];
+    }
+    .form-wrapper label {
+        @apply
+        text-[18px]
+        text-grey
+        relative
+        left-[12px]
+        top-[12px]
+        inline-block
+        bg-white
+        px-[10px];
+    }
+    .form-wrapper input[type="submit"] {
+        @apply
+        text-white
+        text-[32px]
+        w-full
+        bg-primary
+        rounded-[8px]
+        my-[32px]
+        block
+        h-[64px]
+        cursor-pointer;
+    }
+
+    .form-errors,
+    .field-errors {
+        @apply
+        text-red;
+    }
+
+    .field-help {
+        @apply
+        text-yellow;
+    }
+
+    .current-tab {
+        @apply
+        w-[22px]
+        bg-primary
+        mr-3
+        invisible;
+    }
+
+    #user-avatar {
+        @apply
+        w-[60px]
+        h-[60px]
+        rounded-[30px];
+    }
+
+    #user-console {
+        @apply
+        text-grey;
+    }
+    #user-console ul {
+        @apply
+        bg-white
+        right-[10%]
+        rounded-md
+        px-[20px]
+        py-[20px]
+        drop-shadow-xl;
     }
 }

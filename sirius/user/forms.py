@@ -6,6 +6,10 @@ from django.contrib.auth import get_user_model
 from django import forms
 
 class AccountSignupForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        kwargs["label_suffix"] = ""
+        super().__init__(*args, **kwargs)
+
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
     password2 = forms.CharField(label="Password confirmation", widget=forms.PasswordInput)
     class Meta:
@@ -21,6 +25,10 @@ class AccountSignupForm(UserCreationForm):
         ]
 
 class AccountAuthenticationForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        kwargs["label_suffix"] = ""
+        super().__init__(*args, **kwargs)
+
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
     class Meta:
         model = get_user_model()
