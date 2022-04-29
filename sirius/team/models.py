@@ -23,7 +23,7 @@ class JoinRequest(models.Model):
     status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='P')
 
     def __str__(self):
-        return self.user_id.username
+        return self.user_id.email
 
 class Invite(models.Model):
     STATUS_CHOICES = (

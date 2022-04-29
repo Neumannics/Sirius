@@ -17,6 +17,24 @@
         text-grey
         font-semibold;
     }
+    h3 {
+        @apply
+        font-poppins
+        text-[36px]
+        uppercase
+        tracking-[0.06rem]
+        font-[700]
+        text-grey;
+    }
+    h4 {
+        @apply
+        font-poppins
+        font-[700]
+        text-[28px]
+        tracking-[0.06rem]
+        text-grey
+        underline; 
+    }
     h5 {
         @apply
         text-[36px]
@@ -25,6 +43,12 @@
     h6 {
         @apply
         text-[24px];
+    }
+
+    button,
+    input[type="submit"] {
+        @apply
+        hover:scale-[1.05]
     }
 
     blockquote {
@@ -68,7 +92,7 @@
         text-white
         text-[40px]
         flex
-        bg-yellow
+        bg-dark-yellow
         h-[72px]
         w-[72px]
         rounded-[32px]
@@ -97,21 +121,18 @@
         flex
         flex-row
         flex-nowrap
-        w-full
+        w-[280px]
         pt-2
         pb-2
+        text-[26px]
+        font-light
+        hover:bg-grey/10
+        hover:scale-[1.05];
     }
 
     .console-nav-icon {
         @apply
-        text-[26px]
         mr-3
-    }
-
-    .console-nav-link {
-        @apply
-        text-[26px]
-        font-light
     }
 
     .form-wrapper {
@@ -121,7 +142,8 @@
         w-full
         md:w-1/2
         mt-[10vh]
-        items-center;
+        items-center
+        grow;
     }
     .form-wrapper > div {
         @apply
@@ -157,7 +179,8 @@
         my-[32px]
         block
         h-[64px]
-        cursor-pointer;
+        cursor-pointer
+        pl-0;
     }
 
     .form-errors,
@@ -168,15 +191,24 @@
 
     .field-help {
         @apply
-        text-yellow;
+        text-dark-yellow;
     }
 
-    .current-tab {
+    .active-indicator {
         @apply
         w-[22px]
         bg-primary
         mr-3
         invisible;
+    }
+
+    .active-tab {
+        @apply
+        font-semibold;
+    }
+    .active-tab div:first-child {
+        @apply
+        !visible;
     }
 
     #user-avatar {
@@ -198,5 +230,102 @@
         px-[20px]
         py-[20px]
         drop-shadow-xl;
+    }
+
+    .small-console {
+        @apply
+        w-[340px]
+        border-solid
+        border-2
+        py-6
+        rounded-[10px]
+        flex;
+    }
+    .small-console form {
+        @apply
+        w-3/4;
+    }
+    .small-console input {
+        @apply
+        w-full;
+    }
+    .small-console input[type="submit"] {
+        @apply
+        w-[140px]
+        mx-auto
+        h-[54px]
+        mb-0;
+    }
+
+    .session {
+        @apply
+        shadow-lg
+        min-w-[420px]
+        rounded-lg
+        mb-[32px]
+        py-[32px]
+        px-[48px];
+    }
+    .session .session-desc {
+        @apply
+        text-grey/70
+        text-[24px]
+        italic
+        leading-[110%]
+        pt-[10px]
+        text-justify;
+    }
+    
+    .session-time {
+        @apply
+        flex
+        flex-row
+        flex-wrap
+        items-center
+        gap-y-[-24px]
+        space-x-[8px];
+        
+    }
+    .session-time div {
+        @apply
+        flex
+        flex-col
+        space-y-[-8px];
+    }
+    .session-time .start-date {
+        @apply
+        font-poppins
+        font-[500]
+        text-[52px]
+        text-grey;
+    }
+    .session-time .start-month,
+    .session-time .time {
+        @apply
+        font-poppins
+        font-[500]
+        text-[20px]
+        text-grey
+    }
+    .session-time .start-month {
+        @apply
+        uppercase;
+    }
+
+    .session-title {
+        @apply
+        text-[36px]
+        text-grey
+        font-[600]
+        font-poppins
+        my-[12px];
+    }
+
+    .session-head {
+        @apply
+        flex
+        flex-col
+        space-y-[-24px]
+        border-b-2;
     }
 }

@@ -16,11 +16,10 @@
         userConsole.classList.add('hidden');
       }
     });
-
   </script>
   <header>
-    <nav class="bg-primary text-white flex flex-row justify-between items-center px-[5%]">
-      <ul class="px-10 py-4 space-x-10 flex items-center text-[22px]">
+    <nav class="bg-primary text-white flex flex-row justify-between items-center px-[15%]">
+      <ul class="py-4 space-x-10 flex items-center text-[22px]">
         <a href="{% url 'user:dashboard' u_pk=request.user.pk %}">
           <h5 class="cursor-pointer pb-3">Sirius</h5>
         </a>
@@ -29,7 +28,7 @@
           <li class="cursor-pointer">Start a Team</li>
         </a>
       </ul>
-      <ul class="px-10 py-4 space-x-10 flex items-center text-[22px]">
+      <ul class="py-4 space-x-10 flex items-center text-[22px]">
         <li class="cursor-pointer text-[30px]"><i class="fa-solid fa-bell"></i></li>
         <li class="relative">
           <button type="button" id="user-console-toggler"><img
@@ -48,11 +47,9 @@
       </ul>
     </nav>
   </header>
-  <main>
-    <div class="w-4/5 m-auto">
-      {% block main %}
-      {% endblock %}
-    </div>
+  <main class="flex px-[15%] pt-[2%] justify-center mf:justify-start">
+    {% block main %}
+    {% endblock %}
   </main>
 </body>
 {% endblock %}

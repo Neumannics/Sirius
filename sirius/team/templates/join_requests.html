@@ -1,26 +1,37 @@
 {% extends 'console.html' %}
 
-{% block title %}
-{{ team.name }}
-{% endblock %}
+{% load static %}
 
 {% block workspace %}
 <div>
-    <div>
-        <div>
+    <div class="w-full">
+        <div class="w-[100%]" >
             {% for request in requests %}
-            <div>
-                <p>{{ request.user_id__first_name }}</p>
-                <p>{{ request.user_id__last_name }}</p>
-                <form action="{% url 'team:accept_join_request' pk=request.id %}" method="POST">
-                    <button type="submit">Accept</button>
+            <div class="rounded-lg px-[5%] py-[5%] flex w-[100%] flex-row shadow-xl ">
+
+                <img class="my-auto p-[1%] mr-[2%]" src="{% static 'images/avatar.png' %}" id="user-avatar" />
+
+                <h2 class="my-auto text-[36px] font-poppins">{{ request.user_id__first_name }} {{ request.user_id__last_name }}</h2>
+            
+
+                <div class="my-[auto] flex grow justify-end">
+                <form action="{% url 'team:accept_join_request' pk=request.user_id__pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit"><i class="mr-[50px] fas fa-check-circle text-[50px] text-[#83CE00]"></i></button>
                 </form>
-                <form action="{% url 'team:decline_join_request' pk=request.id %}" method="POST">
-                    <button type="submit">Reject</button>
+                <form action="{% url 'team:decline_join_request' pk=request.user_id__pk %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit"><i class="mx-[5px] fa-solid fa-circle-xmark text-[50px] text-[#FF3D00]"></i></button>
                 </form>
+            </div>
             </div>
 
             {% endfor %}
+            {% if not requests %}
+            <div class="rounded-lg px-[5%] py-[5%] flex w-[100%] flex-row shadow-xl ">
+                <h2 class="my-auto text-[36px] font-poppins">No requests</h2>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

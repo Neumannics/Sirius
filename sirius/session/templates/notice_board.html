@@ -5,13 +5,37 @@
 {% endblock %}
 
 {% block workspace %}
-<div>
-   {% for notice in notices %}
-        <div class="notice">
-            <h3>{{ notice.title }}</h3>
-            <p>{{ notice.description }}</p>
-            <p>{{ notice.created_at }}</p>
-        </div>
-    {% endfor %}
+<div class="flex mt-[8vh]">
+    <ul>
+        {% for notice in notices %}
+            <li>
+                <article class="session">
+                    <div class="session-head">
+                        <div class="session-time">
+                            <p class="start-date">
+                                {{ notice.created_at|date:'d' }}
+                            </p>
+                            <div>
+                                <p class="start-month">
+                                    {{ notice.created_at|date:'b' }}
+                                </p>
+                                <p class="time">
+                                    {{ notice.created_at|date:'H:m' }}
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="session-title">
+                                {{ notice.title }}
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="session-desc">{{ notice.description }}</p>
+                    </div>
+                </article>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

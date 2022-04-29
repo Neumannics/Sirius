@@ -9,7 +9,7 @@
 {% for field in form.visible_fields %}
 <li>
     <p>
-        {{ field.label_tag }}
+        {{ field.label_tag|cut:':' }}
     </p>
     {{ field }}
     {% if field.help_text %}

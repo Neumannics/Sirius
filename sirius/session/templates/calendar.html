@@ -1,18 +1,37 @@
 {% extends 'console.html' %}
 
-{% block title %}
-    Calendar
-{% endblock %}
-
 {% block workspace %}
-<div>
-   {% for event in events %}
-        <div class="event">
-            <h3>{{ event.title }}</h3>
-            <p>{{ event.description }}</p>
-            <p>{{ event.start }}</p>
-            <p>{{ event.end }}</p>
-        </div>
-    {% endfor %}
+<div class="flex mt-[8vh]">
+    <ul>
+        {% for event in events %}
+            <li>
+                <article class="session">
+                    <div class="session-head">
+                        <div class="session-time">
+                            <p class="start-date">
+                                {{ event.start|date:'d' }}
+                            </p>
+                            <div>
+                                <p class="start-month">
+                                    {{ event.start|date:'b' }}
+                                </p>
+                                <p class="time">
+                                    {{ event.start|date:'dS' }} - {{ event.end|date:'dS' }} | {{ event.start|date:'H:m' }} - {{ event.end|date:'H:m' }}
+                                </p>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="session-title">
+                                {{ event.title }}
+                            </p>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="session-desc">{{ event.description }}</p>
+                    </div>
+                </article>
+            </li>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}

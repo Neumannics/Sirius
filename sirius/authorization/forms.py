@@ -16,6 +16,7 @@ class RoleCreationForm(forms.ModelForm):
                 raise forms.ValidationError('Role already exists')
         else:
             raise forms.ValidationError('Some fields are missing')
+
 class MembershipUpdationForm(forms.ModelForm):
     class Meta:
         model = Membership
