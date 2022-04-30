@@ -1,8 +1,5 @@
-from urllib.request import urlopen
-
 from team.models import Team
 from .perm import get_perms
-
 
 
 def get_console_data(team_id, user):

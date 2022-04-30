@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import get_user_model
-from django.http import HttpResponseForbidden
+from django.http import Http404, HttpResponseForbidden
 
 from team.models import Team, JoinRequest, Invite
 from .forms import TeamCreationForm, JoinRequestForm
@@ -51,8 +51,8 @@ def team_info(request, pk):
     members = Membership.objects.filter(team_id=pk).values('created_at', 'alumni', 'user_id__pk', 'user_id__first_name', 'user_id__last_name', 'user_id__username', 'role_id__pk', 'role_id__role_name')
     children = Team.objects.filter(parent_id=pk).values('name', 'pk')
     return render(request, 'team_info.html', {
-        'members': members, 
-        'children': children, 
+        'members': members,
+        'children': children,
         'console': get_console_data(pk, request.user)
     })
 
@@ -76,7 +76,6 @@ def send_join_request(request):
             form.save()
         else:
             request.session['join_form_errors'] = form.errors
-            return redirect('user:dashboard', u_pk=request.user.pk)
     return redirect('user:dashboard', u_pk=request.user.pk)
 
 @login_required(login_url='user:signin')
@@ -113,9 +112,12 @@ def accept_join_request(request, pk):
             return HttpResponseForbidden()
         join_request.status = 'A'
         join_request.save()
+        print(join_request.user_id, join_request.team_id)
+        membership = Membership.objects.filter(team_id=join_request.team_id, user_id=join_request.user_id).first()
+        print(membership)
         membership = Membership(team_id=join_request.team_id, user_id=join_request.user_id)
         membership.save()
-        return redirect('team:team_info', pk=request.team_id.pk)
+        return redirect('team:team_info', pk=join_request.team_id.pk)
 
 @login_required(login_url='user:signin')
 def decline_invite(request, pk):
@@ -125,7 +127,7 @@ def decline_invite(request, pk):
             return HttpResponseForbidden()
         invite.status = 'R'
         invite.save()
-        return redirect('user:dashboard', pk=invite.team_id.pk)
+        return redirect('user:dashboard', u_pk=invite.team_id.pk)
 
 @login_required(login_url='user:signin')
 def decline_join_request(request, pk):
@@ -135,14 +137,14 @@ def decline_join_request(request, pk):
             return HttpResponseForbidden()
         join_request.status = 'R'
         join_request.save()
-        return redirect('user:dashboard', pk=join_request.team_id.pk)
+        return redirect('user:dashboard', u_pk=join_request.team_id.pk)
 
 @login_required(login_url='user:signin')
 def leave_team(request, pk):
     if request.method == 'POST':
         membership = Membership.objects.get(user_id=request.user.pk, team_id=pk)
         membership.delete()
-        return redirect('user:dashboard', pk=pk)
+        return redirect('user:dashboard', u_pk=pk)
 
 @login_required(login_url='user:signin')
 def permissions(request, pk):
@@ -150,3 +152,11 @@ def permissions(request, pk):
         return HttpResponseForbidden()
     perms = Permission.objects.filter(team_id=pk).values('user_id__first_name', 'user_id__last_name', 'user_id__pk', 'team_id__name', 'team_id__pk', 'permission_name', 'pk')
     return render(request, 'permissions.html', {'perms': perms, 'console': get_console_data(pk, request.user)})
+
+@login_required(login_url='user:signin')
+def delete_team(request, pk):
+    team = Team.objects.get(pk=pk)
+    if not has_perm('D', 'T', request.user, pk):
+        return HttpResponseForbidden()
+    team.delete()
+    return redirect('user:dashboard', u_pk=pk)

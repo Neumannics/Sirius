@@ -1,36 +1,41 @@
 {% extends 'console.html' %}
 
-{% block title %}
-    {{ console.team.name }}
-{% endblock %}
+{% load static %}
 
 {% block workspace %}
-<img src="temp" \>
-<p>
-    {% for parent in console.parents %}
-        <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name }} //</a>
-    {% endfor %}
-    <span>{{ console.team.name }}</span>
-    <span>#{{ console.team.pk }}</span>
-</p>
-<p>Since {{ console.team.created_at|date:"d/m/Y" }}</p>
-<section>
-    <h2>Members</h2>
-    <ul>
-    {% for member in members %}
-        <li>
-            <p>{{ member.user_id__first_name }} {{ member.user_id__last_name }}</p>
-            <p>@{{ member.user_id__username }}</p>
-            <p>{{ member.role_id__role_name }}</p>
-    {% endfor %}
-    </ul>
-</section>
-<section>
-    <h2>Teams</h2>
-    <ul>
-    {% for child in children %}
-        <li><a href="{% url 'team:team_info' pk=child.pk %}">{{ child.name }}</a></li>
-    {% endfor %}
-    </ul>
-</section>
+<div class="flex flex-col justify-start pl-[10%] w-full mt-[10vh]">
+    <div class="w-[200px] h-[200px] rounded-full overflow-clip">
+        <img src="{% static 'images/avatar.png' %}" />
+    </div>
+    <div class="font-poppins font-[300] tracking-[0.06rem] text-grey w-[400px]">
+        <p class="text-[18px]">
+            {% for parent in console.parents %}<a href="{% url 'team:team_info' pk=parent.pk %}"><span class="hover:underline">{{parent.name}}</span> / </a>{% endfor %}<span class="font-[600] text-[40px]">{{console.team.name}}</span><span class="font-medium">#{{console.team.pk}}</span>
+        </p>
+        <p>Since {{ console.team.created_at|date:"d/m/Y" }}</p>
+    </div>
+    <div class="flex flex-col mf:flex-row gap-x-[128px] gap-y-[32px]">
+        <section>
+            <h2 class="my-[16px]">Members</h2>
+            <ul>
+                {% for member in members %}
+                    <li class="member-card">
+                        <div>
+                            <p class="member-name">{{ member.user_id__first_name }} {{ member.user_id__last_name }}</p>
+                            <p class="member-username">@{{ member.user_id__username }}</p>
+                        </div>
+                        <p class="member-role">{{ member.role_id__role_name|upper }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+        <section>
+            <h2 class="my-[16px]">Teams</h2>
+            <ul class="ml-[40px]">
+                {% for child in children %}
+                    <li class="text-poppins text-[24px] font-[500] my-[16px] hover:scale-[1.02]"><a href="{% url 'team:team_info' pk=child.pk %}">{{ child.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+</div>
 {% endblock %}

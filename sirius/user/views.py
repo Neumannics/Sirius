@@ -76,7 +76,6 @@ def dashboard(request, u_pk):
     join_requests = JoinRequest.objects.filter(user_id=u_pk)
     join_form = JoinRequestForm()
     join_form_errors = request.session.get('join_form_errors')
-    print(join_form_errors)
     if join_form_errors:
         for field, err in join_form_errors.items():
             join_form.errors[field] = err

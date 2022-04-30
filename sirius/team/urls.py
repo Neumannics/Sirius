@@ -18,5 +18,6 @@ urlpatterns = [
     path('decline-invite/<pk>/', decline_invite, name='decline_invite'),
     path('leave-team/<pk>/', leave_team, name='leave_team'),
     path('decline-join-request/<pk>/', decline_join_request, name='decline_join_request'),
+    path('<pk>/delete', delete_team, name='delete_team'),
     path('<pk>/', include('session.urls', namespace="session"))
 ]

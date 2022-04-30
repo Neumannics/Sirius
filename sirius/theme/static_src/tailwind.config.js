@@ -54,11 +54,13 @@ module.exports = {
                 'yellow': '#fdcd30',
                 'blue': '#2f88ff',
                 'red': '#FF3D00',
-                'green': '#83ce00'
+                'green': '#83ce00',
+                'light-blue': '#f4f8f9'
             },
             screens: {
                 ms: '900px',
                 mf: '1300px',
+                lf: '1700px'
             }
         },
     },

@@ -8,6 +8,14 @@ class Role(models.Model):
     role_description = models.CharField(max_length=100)
     permissions = models.TextField(default="1,")
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['role_name', 'team_id'], 
+                name='unique_role_name_team_id'
+            )
+        ]
+
     def __str__(self):
         return self.role_name
 
@@ -18,6 +26,14 @@ class Membership(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     alumni = models.BooleanField(default=False)
     role_id = models.ForeignKey(Role, on_delete=models.CASCADE, default=1)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user_id', 'team_id'], 
+                name='unique_user_id_team_id'
+            )
+        ]
 
     def __str__(self):
         return f'{self.user_id.username}-{self.team_id.name}'

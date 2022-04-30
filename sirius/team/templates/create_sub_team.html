@@ -1,7 +1,7 @@
 {% extends 'console.html' %}
 
 {% block workspace %}
-<div class="form-wrapper">
+<div class="form-wrapper flex mt-[10vh] items-center w-full">
     <div>
         <h2>Sub Team</h2>
         <form method="POST" action="{% url 'team:create_sub_team' pk=console.team.pk %}">

@@ -1,17 +1,23 @@
 {% extends 'nav.html' %}
 
 {% block title %}
-    {{ console.team.name }}
+{{ console.team.name }}
 {% endblock %}
 
 {% block main %}
 <div class="flex flex-row w-full">
+    <script>
+        function showDeletePopup() {
+            var popup = document.getElementById("delete-popup");
+            popup.classList.toggle("hidden");
+        }
+    </script>
     <div class="flex flex-col mr-8">
         <aside>
             <nav class="text-grey">
                 <p class="mb-8 text-[24px]">
                     {% for parent in console.parents %}
-                        <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name|upper }} / </a>
+                    <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name|upper }} / </a>
                     {% endfor %}
                     <span class="text-[36px] font-bold">{{ console.team.name|upper }}</span><span>#{{ console.team.pk }}</span>
                 </p>
@@ -78,94 +84,103 @@
                     </a>
                     <li class="text-[24px] pb-2 pt-4 ml-8">ADMIN</li>
                     <!-- {% if "C-T" in perms %} -->
-                        <a href="{% url 'team:create_sub_team' pk=console.team.pk %}">
-                            <li class="console-navs {% if '/create/' in request.path %}active-tab{% endif %}">
-                                <div class="active-indicator">
-                                </div>
-                                <div class="console-nav-icon">
-                                    <i class="fa-solid fa-circle-plus"></i>
-                                </div>
-                                <div class="console-nav-link">
-                                    <p>Create a Team</p>
-                                </div>
-                            </li>
-                        </a>
+                    <a href="{% url 'team:create_sub_team' pk=console.team.pk %}">
+                        <li class="console-navs {% if '/create/' in request.path %}active-tab{% endif %}">
+                            <div class="active-indicator">
+                            </div>
+                            <div class="console-nav-icon">
+                                <i class="fa-solid fa-circle-plus"></i>
+                            </div>
+                            <div class="console-nav-link">
+                                <p>Create a Team</p>
+                            </div>
+                        </li>
+                    </a>
                     <!-- {% endif %} -->
                     <!-- {% if "D-R" in perms or "U-R" in perms or "C-R" in perms or "R-R" in perms %} -->
-                        <a href="{% url 'team:create_sub_team' pk=console.team.pk %}">
-                            <li class="console-navs {% if '/permissions/' in request.path %}active-tab{% endif %}">
-                                <div class="active-indicator">
-                                </div>
-                                <div class="console-nav-icon">
-                                    <i class="fa-solid fa-key"></i>
-                                </div>
-                                <div class="console-nav-link">
-                                    <p>Permissions</p>
-                                </div>
-                            </li>
-                        </a>
+                    <a href="{% url 'authorization:show_permissions' team_pk=console.team.pk %}">
+                        <li class="console-navs {% if '/permissions/' in request.path %}active-tab{% endif %}">
+                            <div class="active-indicator">
+                            </div>
+                            <div class="console-nav-icon">
+                                <i class="fa-solid fa-key"></i>
+                            </div>
+                            <div class="console-nav-link">
+                                <p>Permissions</p>
+                            </div>
+                        </li>
+                    </a>
                     <!-- {% endif %} -->
                     <!-- {% if "D-R" in perms or "U-R" in perms or "C-R" in perms or "R-R" in perms %} -->
-                        <a href="{% url 'authorization:show_roles' team_pk=console.team.pk %}">
-                            <li class="console-navs {% if '/memberships/' in request.path %}active-tab{% endif %}">
-                                <div class="active-indicator">
-                                </div>
-                                <div class="console-nav-icon">
-                                    <i class="fa-solid fa-layer-group"></i>
-                                </div>
-                                <div class="console-nav-link">
-                                    <p>Roles</p>
-                                </div>
-                            </li>
-                        </a>
+                    <a href="{% url 'authorization:show_roles' team_pk=console.team.pk %}">
+                        <li class="console-navs {% if '/roles/' in request.path %}active-tab{% endif %}">
+                            <div class="active-indicator">
+                            </div>
+                            <div class="console-nav-icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                            </div>
+                            <div class="console-nav-link">
+                                <p>Roles</p>
+                            </div>
+                        </li>
+                    </a>
                     <!-- {% endif %} -->
                     <!-- {% if "U-T" in perms %} -->
-                        <a href="">
-                            <li class="console-navs {% if '/settings/' in request.path %}active-tab{% endif %}">
-                                <div class="active-indicator">
-                                </div>
-                                <div class="console-nav-icon">
-                                    <i class="fa-solid fa-gear"></i>
-                                </div>
-                                <div class="console-nav-link">
-                                    <p>Settings</p>
-                                </div>
-                            </li>
-                        </a>
+                    <a href="">
+                        <li class="console-navs {% if '/settings/' in request.path %}active-tab{% endif %}">
+                            <div class="active-indicator">
+                            </div>
+                            <div class="console-nav-icon">
+                                <i class="fa-solid fa-gear"></i>
+                            </div>
+                            <div class="console-nav-link">
+                                <p>Settings</p>
+                            </div>
+                        </li>
+                    </a>
                     <!-- {% endif %} -->
                     <!-- {% if "D-JR" in perms or "U-JR" in perms or "R-JR" in perms %} -->
-                        <a href="{% url 'team:join_requests' pk=console.team.pk %}">
-                            <li class="console-navs {% if '/join-requests/' in request.path %}active-tab{% endif %}">
-                                <div class="active-indicator">
-                                </div>
-                                <div class="console-nav-icon">
-                                    <i class="fa-solid fa-code-merge"></i>
-                                </div>
-                                <div class="console-nav-link">
-                                    <p>Join requests</p>
-                                </div>
-                            </li>
-                        </a>
+                    <a href="{% url 'team:join_requests' pk=console.team.pk %}">
+                        <li class="console-navs {% if '/join-requests/' in request.path %}active-tab{% endif %}">
+                            <div class="active-indicator">
+                            </div>
+                            <div class="console-nav-icon">
+                                <i class="fa-solid fa-code-merge"></i>
+                            </div>
+                            <div class="console-nav-link">
+                                <p>Join requests</p>
+                            </div>
+                        </li>
+                    </a>
                     <!-- {% endif %} -->
                     <!-- {% if "D-T" in perms %} -->
-                        <a href="">
-                            <li class="console-navs {% if '/delete/' in request.path %}active-tab{% endif %}">
-                                <div class="active-indicator">
-                                </div>
-                                <div class="console-nav-icon">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </div>
-                                <div class="console-nav-link text-red">
-                                    <p>Delete Team</p>
-                                </div>
-                            </li>
-                        </a>
+                    <a href="#" onclick="showDeletePopup()">
+                        <li class="console-navs {% if '/delete/' in request.path %}active-tab{% endif %}">
+                            <div class="active-indicator">
+                            </div>
+                            <div class="console-nav-icon">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
+                            <div class="console-nav-link text-red">
+                                <p>Delete Team</p>
+                            </div>
+                        </li>
+                    </a>
                     <!-- {% endif %} -->
                 </ul>
             </nav>
-        <aside>
+        </aside>
     </div>
-    <main class="flex grow justify-center">
+    <div id="delete-popup" class="hidden">
+        <div class="absolute flex flex-col justify-center items-center">
+            <p class="text-[24px] font-semibold">Do you wish to leave the team?</p>
+            <div class="mt-[10px] flex flex-row w-full space-x-5">
+                <a href="{% url 'team:delete_team' pk=console.team.pk %}"> YES </a>
+                <button onclick="showDeletePopup()">NO </button>
+            </div>
+        </div>
+    </div>
+    <main class="flex grow">
         {% block workspace %}
         {% endblock %}
     </main>

@@ -27,10 +27,21 @@ def get_perms(user, team):
                 perms.append(perm.action + '-' + perm.relation)
     return perms
 
-def permList(perms):
-    perms = []
-    for permission in perms:
-        if permission:
-            perm = Permission.objects.get(pk=permission)
-            perms.append(perm.action + '-' + perm.relation)
-    return perms
+def display_perms(roles):
+    perms_dict = {}
+    for role in roles:
+        perms_list = []
+        perms = role['permissions'].strip(',').split(',')
+        for permission in perms:
+            if permission.isnumeric():
+                perms_list.append(int(permission))
+        perms_dict[int(role['pk'])] = perms_list
+    return perms_dict
+
+# def permList(perms):
+#     perms = []
+#     for permission in perms:
+#         if permission:
+#             perm = Permission.objects.get(pk=permission)
+#             perms.append(perm.action + '-' + perm.relation)
+#     return perms

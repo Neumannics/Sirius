@@ -141,9 +141,7 @@
         flex-col
         w-full
         md:w-1/2
-        mt-[10vh]
-        items-center
-        grow;
+        items-center;
     }
     .form-wrapper > div {
         @apply
@@ -169,7 +167,8 @@
         bg-white
         px-[10px];
     }
-    .form-wrapper input[type="submit"] {
+    .form-wrapper input[type="submit"],
+    .save-btn {
         @apply
         text-white
         text-[32px]
@@ -181,6 +180,17 @@
         h-[64px]
         cursor-pointer
         pl-0;
+    }
+
+    .save-btn {
+        @apply
+        bg-green
+        w-fit
+        px-[32px]
+        text-[24px]
+        h-fit
+        py-[8px]
+        mx-auto;
     }
 
     .form-errors,
@@ -239,7 +249,10 @@
         border-2
         py-6
         rounded-[10px]
-        flex;
+        flex
+        flex-col
+        items-center
+        justify-center;
     }
     .small-console form {
         @apply
@@ -327,5 +340,59 @@
         flex-col
         space-y-[-24px]
         border-b-2;
+    }
+
+    .member-card {
+        @apply
+        text-grey
+        border-b-2
+        flex
+        flex-row
+        items-center
+        justify-between
+        px-[10%]
+        pb-[4%]
+        hover:scale-[1.05]
+        w-[400px];
+    }
+    .member-card .member-name {
+        @apply
+        font-[500]
+        text-[24px];
+    }
+    .member-card .member-role {
+        @apply
+        font-[500]
+        uppercase;
+    }
+    .member-username {
+        @apply
+        font-poppins
+        text-[18px]
+        font-[500]
+        text-grey/50;
+    }
+
+    .perm-list {
+        @apply
+        flex
+        flex-row
+        flex-wrap
+        grow
+        gap-x-[12px]
+        gap-y-[12px]
+        text-grey
+        mb-[16px];
+    }
+    .perm-list .perm-tile {
+        @apply
+        flex
+        py-[12px]
+        px-[16px]
+        items-center
+        rounded-md
+        space-x-[8px]
+        hover:scale-[1.05]
+        cursor-pointer;
     }
 }

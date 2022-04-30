@@ -3,36 +3,30 @@
 {% load static %}
 
 {% block workspace %}
-<div>
-    <div class="w-full">
-        <div class="w-[100%]" >
-            {% for request in requests %}
-            <div class="rounded-lg px-[5%] py-[5%] flex w-[100%] flex-row shadow-xl ">
-
-                <img class="my-auto p-[1%] mr-[2%]" src="{% static 'images/avatar.png' %}" id="user-avatar" />
-
-                <h2 class="my-auto text-[36px] font-poppins">{{ request.user_id__first_name }} {{ request.user_id__last_name }}</h2>
-            
-
-                <div class="my-[auto] flex grow justify-end">
-                <form action="{% url 'team:accept_join_request' pk=request.user_id__pk %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit"><i class="mr-[50px] fas fa-check-circle text-[50px] text-[#83CE00]"></i></button>
-                </form>
-                <form action="{% url 'team:decline_join_request' pk=request.user_id__pk %}" method="POST">
-                    {% csrf_token %}
-                    <button type="submit"><i class="mx-[5px] fa-solid fa-circle-xmark text-[50px] text-[#FF3D00]"></i></button>
-                </form>
-            </div>
-            </div>
-
+    <div class="flex w-full justify-center grow mt-[10vh]">
+        <div class="flex w-full flex-col items-center">
+            {% for jr in requests %}
+                <div class="rounded-lg flex min-w-[500px] w-[64%] flex-row shadow-xl items-center px-[40px] py-[20px]">
+                    <div class="w-[100px] h-[100px] rounded-full overflow-clip mr-[18px]">
+                        <img src="{% static 'images/avatar.png' %}" />
+                    </div>
+                    <div class="flex flex-col text-[36px] font-poppins text-grey space-y-[-12px]">
+                        <p class="my-auto ">{{ jr.user_id__first_name }}</p>
+                        <p class="text-grey/50 text-[18px]">@{{ jr.user_id__username }}</p>
+                    </div>
+                    <div class="my-[auto] flex grow justify-end">
+                        <form action="{% url 'team:accept_join_request' pk=jr.pk%}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit"><i class="mr-[50px] fas fa-check-circle text-[50px] text-[#83CE00]"></i></button>
+                        </form>
+                        <form action="{% url 'team:decline_join_request' pk=jr.pk %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit"><i
+                                    class="mx-[5px] fa-solid fa-circle-xmark text-[50px] text-[#FF3D00]"></i></button>
+                        </form>
+                    </div>
+                </div>
             {% endfor %}
-            {% if not requests %}
-            <div class="rounded-lg px-[5%] py-[5%] flex w-[100%] flex-row shadow-xl ">
-                <h2 class="my-auto text-[36px] font-poppins">No requests</h2>
-            </div>
-            {% endif %}
         </div>
     </div>
-</div>
 {% endblock %}

@@ -1,37 +1,40 @@
 {% extends 'console.html' %} 
 
-{% block title %} 
-    Calendar 
-{% endblock %}
-
 {% block workspace %}
-<div>
-  <div class="row">
-    <div class="col-md-12">
-      <h1>Roles</h1>
-      {% for member in members %}
-        <form method="POST" action="{% url 'authorization:update_membership' team_pk=console.team.pk user_pk=member.user_id__pk %}">
-            {% csrf_token %} 
-            <p>{{ member.user_id__first_name }}</p>
-            <select name="new-role">
-                {% for role in roles %}
-                    {% if role.role_name == member.role_id__role_name %}
-                        <option value="{{ role.pk }}" selected>{{ role.role_name }}</option>
-                    {% else %}
-                        <option value="{{ role.pk }}">{{ role.role_name }}</option>
-                    {% endif %}
-                {% endfor %}
+<div class="flex mt-[10vh] lf:flex-row flex-col w-full items-center lf:justify-between lf:items-start lf:pl-[10%] gap-y-[10vh]">
+  <section>
+    <ul>
+      <form method="POST" action="{% url 'authorization:update_roles' team_pk=console.team.pk %}">
+        {% csrf_token %}
+        {% for member in members %}
+          <li class="member-card">
+            <div>
+                <p class="member-name">{{ member.user_id__first_name }} {{ member.user_id__last_name }}</p>
+                <p class="member-username">@{{ member.user_id__username }}</p>
+            </div>
+            <select name="role-{{ member.pk }}" class="rounded-md member-role">
+              {% for role in roles %}
+                  {% if role.role_name == member.role_id__role_name %}
+                      <option value="{{ role.pk }}" selected>{{ role.role_name }}</option>
+                  {% else %}
+                      <option value="{{ role.pk }}">{{ role.role_name }}</option>
+                  {% endif %}
+              {% endfor %}
             </select>
-            <input type="submit" value="Submit" />
-        </form>
-      {% endfor %}
-    </div>
-    <h1>Create Role</h1>
+          </li>
+        {% endfor %}
+        <input type="submit" value="Save" class="save-btn" />
+      </form>
+    </ul>
+  </section>
+  <section class="form-wrapper small-console mt-0 h-fit">
+    <h4>Create a Role</h4>
     <form method="POST" action="{% url 'authorization:create_role' team_pk=console.team.pk %}">
-      {% csrf_token %}
-      {% include 'form.html' with form=form %}
-      <input type="submit" value="Create" />
+        {% csrf_token %}
+        {% include 'form.html' with form=role_form %}
+        <input type="hidden" name="team_id" value="{{ console.team.pk }}">
+        <input type="submit" value="Create">
     </form>
-  </div>
+  </section>
 </div>
 {% endblock %}

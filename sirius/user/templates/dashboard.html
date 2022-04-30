@@ -46,7 +46,7 @@
             </ul>
         </section>
         <div class="mb-[10vh] flex flex-col items-center pt-[75px]">
-            <section class="form-wrapper small-console mt-0">
+            <section class="form-wrapper small-console mt-0 h-fit">
                 <h4>Send a Request</h4>
                 <form method="POST" action="{% url 'team:send_join_request' %}">
                     {% csrf_token %}
@@ -55,7 +55,7 @@
                     <input type="submit" value="Join" class="mb-0">
                 </form>
             </section>
-            <section class="small-console flex-col items-center mt-[35px]">
+            <section class="small-console mt-[35px]">
                 <h4>Join Requests</h4>
                 <ul class="w-full pl-[16px] max-h-[240px] overflow-y-scroll mt-[16px] flex flex-col space-y-[10px]">
                     {% for req in join_requests %}
