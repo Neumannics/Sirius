@@ -114,9 +114,11 @@ def accept_join_request(request, pk):
         join_request.save()
         print(join_request.user_id, join_request.team_id)
         membership = Membership.objects.filter(team_id=join_request.team_id, user_id=join_request.user_id).first()
-        print(membership)
-        membership = Membership(team_id=join_request.team_id, user_id=join_request.user_id)
-        membership.save()
+        if not membership:
+            membership = Membership(team_id=join_request.team_id, user_id=join_request.user_id, )
+            role = Role.objects.filter(team_id=join_request.team_id, role_name='Member').first()
+            membership.role_id = role
+            membership.save()
         return redirect('team:team_info', pk=join_request.team_id.pk)
 
 @login_required(login_url='user:signin')
@@ -141,10 +143,9 @@ def decline_join_request(request, pk):
 
 @login_required(login_url='user:signin')
 def leave_team(request, pk):
-    if request.method == 'POST':
-        membership = Membership.objects.get(user_id=request.user.pk, team_id=pk)
-        membership.delete()
-        return redirect('user:dashboard', u_pk=pk)
+    membership = Membership.objects.get(user_id=request.user.pk, team_id=pk)
+    membership.delete()
+    return redirect('user:dashboard', u_pk=request.user.pk)
 
 @login_required(login_url='user:signin')
 def permissions(request, pk):

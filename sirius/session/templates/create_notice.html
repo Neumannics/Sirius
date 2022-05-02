@@ -1,13 +1,14 @@
 {% extends 'console.html' %}
     
-{% block title %}
-    Create a Notice
-{% endblock %}
-    
 {% block workspace %}
-<form method="POST" action="{% url 'team:session:create_notice' pk=console.team.pk %}">
-    {% csrf_token %}
-    {% include 'form.html' with form=form %}
-    <input type="submit" value="Create">
-</form>
+<div class="form-wrapper flex mt-[10vh] items-center w-full">
+    <div>
+        <h2>Notice</h2>
+        <form method="POST" action="{% url 'team:session:create_notice' pk=console.team.pk %}">
+            {% csrf_token %}
+            {% include 'form.html' with form=form %}
+            <input type="submit" value="Create" class="!w-[180px] mx-auto">
+        </form>
+    </div>
+</div>
 {% endblock %}

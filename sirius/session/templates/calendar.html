@@ -1,29 +1,38 @@
 {% extends 'console.html' %}
 
 {% block workspace %}
-<div class="flex mt-[8vh]">
+<div class="flex mt-[10vh] flex-col w-full">
+    <div class="flex justify-start">
+        {% if 'C-E' in console.perms %}
+            <a href="{% url 'team:session:create_event' pk=console.team.pk %}"><button class="save-btn">Create</button></a>
+        {% endif %}
+    </div>
     <ul>
         {% for event in events %}
             <li>
-                <article class="session">
+                <article class="session w-full">
                     <div class="session-head">
-                        <div class="session-time">
-                            <p class="start-date">
-                                {{ event.start|date:'d' }}
-                            </p>
-                            <div>
-                                <p class="start-month">
-                                    {{ event.start|date:'b' }}
-                                </p>
-                                <p class="time">
-                                    {{ event.start|date:'dS' }} - {{ event.end|date:'dS' }} | {{ event.start|date:'H:m' }} - {{ event.end|date:'H:m' }}
-                                </p>
-                            </div>
-                        </div>
                         <div>
-                            <p class="session-title">
-                                {{ event.title }}
-                            </p>
+                            <div class="session-time">
+                                <p class="start-date">
+                                    {{ event.start|date:'d' }}
+                                </p>
+                                <div>
+                                    <p class="start-month">
+                                        {{ event.start|date:'b' }}
+                                    </p>
+                                    <p class="time">
+                                        {{ event.start|date:'dS' }} - {{ event.end|date:'dS' }} | {{ event.start|date:'H:m' }} - {{ event.end|date:'H:m' }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="session-control">
+                                <p class="session-title">
+                                    {{ event.title }}
+                                </p>
+                                <i class="fa-solid fa-pen-clip"></i>
+                                <i class="fa-solid fa-trash-can"></i>
+                            </div>
                         </div>
                     </div>
                     <div>

@@ -149,12 +149,17 @@
         max-w-[320px];
     }
     .form-wrapper input,
-    .form-wrapper select {
+    .form-wrapper select,
+    .form-wrapper textarea {
         @apply
         w-full
         h-[52px]
         rounded-sm
         pl-[22px];
+    }
+    .form-wrapper textarea {
+        @apply
+        !h-[240px];
     }
     .form-wrapper label {
         @apply
@@ -279,6 +284,13 @@
         py-[32px]
         px-[48px];
     }
+    .session .session-control {
+        @apply
+        flex
+        flex-row
+        items-center
+        ;
+    }
     .session .session-desc {
         @apply
         text-grey/70
@@ -288,7 +300,6 @@
         pt-[10px]
         text-justify;
     }
-    
     .session-time {
         @apply
         flex
@@ -324,7 +335,6 @@
         @apply
         uppercase;
     }
-
     .session-title {
         @apply
         text-[36px]
@@ -333,7 +343,6 @@
         font-poppins
         my-[12px];
     }
-
     .session-head {
         @apply
         flex
@@ -394,5 +403,93 @@
         space-x-[8px]
         hover:scale-[1.05]
         cursor-pointer;
+    }
+
+    .class-tile {
+        @apply
+        rounded-[10px]
+        flex
+        flex-col
+        items-center
+        text-white
+        bg-brown
+        tracking-[0.1rem]
+        font-poppins
+        overflow-y-hidden
+        justify-center
+        h-full
+        box-border;
+    }
+    .class-tile .class-title {
+        @apply
+        text-[24px]
+        font-[500];
+    }
+    .class-tile .class-time {
+        @apply
+        text-[16px]
+        font-[400];        
+    }
+
+    .popup-container{
+        @apply
+        w-[100vw]
+        h-[100vh]
+        fixed
+        inset-0
+        bg-gray-500
+        bg-opacity-75
+        transition-opacity
+        flex
+        justify-center
+        pt-[4vh];
+    }
+    .popup {
+        @apply
+        h-fit
+        flex
+        shadow-md
+        w-[460px]
+        py-[36px]
+        items-center
+        flex-col
+        bg-white
+        rounded-lg;
+    }
+    .popup p {
+        @apply
+        italic
+        font-poppins
+        font-[300];
+    }
+    .popup button {
+        @apply
+        border-2
+        w-[140px]
+        flex
+        py-[12px]
+        justify-center
+        rounded-md
+        text-[24px]
+        font-[400]
+        text-grey;
+    }
+    .popup div {
+        @apply
+        flex
+        justify-center
+        gap-x-[16px];
+    }
+    .popup-yes {
+        @apply
+        border-green
+        hover:text-white
+        hover:bg-green;
+    }
+    .popup-no {
+        @apply
+        border-red
+        hover:text-white
+        hover:bg-red;
     }
 }

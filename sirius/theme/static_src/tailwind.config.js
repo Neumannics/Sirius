@@ -55,7 +55,8 @@ module.exports = {
                 'blue': '#2f88ff',
                 'red': '#FF3D00',
                 'green': '#83ce00',
-                'light-blue': '#f4f8f9'
+                'light-blue': '#f4f8f9',
+                'brown': '#4e4545'
             },
             screens: {
                 ms: '900px',

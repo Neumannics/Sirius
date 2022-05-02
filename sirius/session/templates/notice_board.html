@@ -1,11 +1,12 @@
 {% extends 'console.html' %}
 
-{% block title %}
-    Notice Board
-{% endblock %}
-
 {% block workspace %}
-<div class="flex mt-[8vh]">
+<div class="flex mt-[10vh] flex-col w-full">
+    <div class="flex justify-start">
+        {% if 'C-E' in console.perms %}
+            <a href="{% url 'team:session:create_notice' pk=console.team.pk %}"><button class="save-btn">Create</button></a>
+        {% endif %}
+    </div>
     <ul>
         {% for notice in notices %}
             <li>

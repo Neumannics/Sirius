@@ -56,12 +56,61 @@ def create_notice(request, pk):
     return render(request, 'create_notice.html', {'form': form, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
+def update_class(request, pk, c_pk):
+    if request.method == 'POST':
+        form = ClassCreationForm(request.POST, instance=Class.objects.get(pk=c_pk))
+        if form.is_valid() and pk:
+            if not has_perm('U', 'C', request.user, pk):
+                return HttpResponseForbidden()
+            new_class = form.save(commit=False)
+            new_class.team_id = Team.objects.get(pk=pk)
+            new_class.save()
+            return redirect('team:session:timetable', pk=pk)
+    else:
+        form = ClassCreationForm(instance=Class.objects.get(pk=c_pk))
+    return render(request, 'create_class.html', {'form': form, 'console': get_console_data(pk, request.user)})
+
+@login_required(login_url='user:signin')
+def update_event(request, pk, e_pk):
+    if request.method == 'POST':
+        form = CalendarCreationForm(request.POST, instance=Event.objects.get(pk=e_pk))
+        if form.is_valid() and pk:
+            if not has_perm('U', 'E', request.user, pk):
+                return HttpResponseForbidden()
+            new_event = form.save(commit=False)
+            new_event.team_id = Team.objects.get(pk=pk)
+            new_event.save()
+            return redirect('team:session:calendar', pk=pk)
+    else:
+        form = CalendarCreationForm(instance=Event.objects.get(pk=e_pk))
+    return render(request, 'create_event.html', {'form': form, 'console': get_console_data(pk, request.user)})
+
+@login_required(login_url='user:signin')
+def update_notice(request, pk, n_pk):
+    if request.method == 'POST':
+        form = NoticeCreationForm(request.POST, instance=Notice.objects.get(pk=n_pk))
+        if form.is_valid() and pk:
+            if not has_perm('U', 'N', request.user, pk):
+                return HttpResponseForbidden()
+            new_notice = form.save(commit=False)
+            new_notice.team_id = Team.objects.get(pk=pk)
+            new_notice.user_id = request.user
+            new_notice.save()
+            return redirect('team:session:notice_board', pk=pk)
+    else:
+        form = NoticeCreationForm(instance=Notice.objects.get(pk=n_pk))
+    return render(request, 'create_notice.html', {'form': form, 'console': get_console_data(pk, request.user)})
+
+@login_required(login_url='user:signin')
 def timetable(request, pk):
     if not has_perm('R', 'C', request.user, pk):
         return HttpResponseForbidden()
-    classes = Class.objects.filter(team_id=pk)
-    # team = Team.objects.get(pk=pk)
-    return render(request, 'timetable.html', {'classes': classes, 'console': get_console_data(pk, request.user)})
+    classes = Class.objects.filter(team_id=pk).order_by('start_time')
+    return render(request, 'timetable.html', {
+        'classes': classes, 
+        'console': get_console_data(pk, request.user),
+        'days': Class.day.field.choices
+    })
 
 @login_required(login_url='user:signin')
 def calendar(request, pk):

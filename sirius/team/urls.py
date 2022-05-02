@@ -6,7 +6,7 @@ app_name = 'team'
 
 urlpatterns = [
     path('create/', create_team, name='create_team'),
-    path('<pk>/create/', create_sub_team, name='create_sub_team'),
+    path('<pk>/new-team/', create_sub_team, name='create_sub_team'),
     path('<pk>/info/', team_info, name='team_info'),
     path('<pk>/send-invite/<user>/', send_invite, name='send_invite'),
     path('send-join-request/', send_join_request, name='send_join_request'),

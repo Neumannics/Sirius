@@ -42,14 +42,18 @@
             if (rolePerm.includes(perm['pk'])) {
                 removeHint.classList.remove('hidden');
                 li.classList.add('bg-light-blue');
+                {% if "U-R" in console.perms %}
                 li.onclick = () => { toggleDeleteStatus(`perm-${perm['pk']}`); }
+                {% endif %}
                 roleIn.appendChild(li);
 
             }
             else {
                 addHint.classList.remove('hidden');
                 li.classList.add('bg-grey/10');
+                {% if "U-R" in console.perms %}
                 li.onclick = () => { toggleAddStatus(`perm-${perm['pk']}`); }
+                {% endif %}
                 roleOut.appendChild(li);
             }
         });
@@ -102,17 +106,29 @@
             {% endfor %}
         </select>
         <div>
+            {% if "U-R" in console.perms %}
             <p class="italic text-grey my-[8px] hidden" id="remove-hint">Click on tiles to remove privileges</p>
+            {% else %}
+            <p class="italic text-grey my-[8px] hidden" id="remove-hint">Current Permissions</p>
+            {% endif %}
             <ul id="role-in" class="perm-list"></ul>
+            {% if "U-R" in console.perms %}
             <p class="italic text-grey my-[8px] hidden" id="add-hint">Click on tiles to add privileges</p>
+            {% else %}
+            <p class="italic text-grey my-[8px] hidden" id="add-hint">Available Permissions</p>
+            {% endif %}
             <ul id="role-out" class="perm-list"></ul>
+            {% if "U-R" in console.perms %}
             <button class="save-btn" onclick="saveSelection()">Save</button>
+            {% endif %}
         </div>
+        {% if "U-R" in console.perms %}
         <form class="hidden" method="POST" action="{% url 'authorization:update_permissions' team_pk=console.team.pk %}">
             {% csrf_token %}
             <input name="role-pk" id="role-pk-in" />
             <input name="perm-string" id="perm-string-in" />
             <input type="submit" value="Go" id="upt-form-submit" />
         </form>
+        {% endif %}
     </div>
 {% endblock %}

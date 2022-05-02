@@ -1,18 +1,58 @@
 {% extends 'console.html' %}
 
-{% block title %}
-    Timetable
+{% block script %}
+    const scale = 2;
+    document.addEventListener('DOMContentLoaded', function () {
+        let li, div, p1, p2, cont, diff, top_pos;
+        {% for class in classes %}
+            li = document.createElement('li');
+            li.className = "py-[5%] w-full";
+            div = document.createElement('div');
+            p1 = document.createElement('p');
+            p1.className="class-title"
+            p2 = document.createElement('p');
+            p2.className= "class-time"
+            p1.innerHTML = '{{ class.title }}';
+            p2.innerHTML = '{{ class.start_time|time:'G:i' }} - {{ class.end_time|time:'G:i' }}';
+            cont = document.getElementById('day-{{ class.day }}');
+            div.appendChild(p1);
+            div.appendChild(p2);
+            diff = {{ class.get_length }} * scale;
+            top_pos = {{ class.in_minutes }} * scale;
+            div.className = `class-tile`;
+            li.appendChild(div);
+            li.style.position = 'absolute';
+            li.style.top = top_pos + 'px';
+            li.style.height = diff + 'px';
+            if (diff < 120) {
+                li.classList.add('hover:!h-fit');
+            }
+            cont.appendChild(li);
+        {% endfor %}
+    });
 {% endblock %}
 
 {% block workspace %}
-<section>
-    {% for class in classes %}
-        <figure>
-            <p>{{ class.title }}</p>
-            <p>{{ class.get_day_display }}</p>
-            <p>{{ class.start_time }}</p>
-            <p>{{ class.end_time }}</p>
-        </figure>
-    {% endfor %}
-</section>
+<div class="mt-[10vh]"">
+    <div class="flex justify-start">
+        {% if 'C-E' in console.perms %}
+            <a href="{% url 'team:session:create_class' pk=console.team.pk %}"><button class="save-btn">Create</button></a>
+        {% endif %}
+    </div>
+    <ul class="flex flex-row space-x-[20px]">
+        {% for day in days %}
+            <li class="flex flex-col w-[130px]">
+                <div class="my-[10%] border-b-2 border-grey">
+                    <p class="font-poppins font-[400] text-[20px] uppercase tracking-[0.1rem]">{{ day.1 }}</p>
+                </div>
+                <ul id="day-{{ day.0 }}" class="relative">
+                    <!-- <li class="class-tile">
+                        <p class="class-title">CS254</p>
+                        <p class="class-time">11:00 - 12:00</p>
+                    </li> -->
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}

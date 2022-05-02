@@ -12,7 +12,7 @@
                 <p class="member-name">{{ member.user_id__first_name }} {{ member.user_id__last_name }}</p>
                 <p class="member-username">@{{ member.user_id__username }}</p>
             </div>
-            <select name="role-{{ member.pk }}" class="rounded-md member-role">
+            <select name="role-{{ member.pk }}" class="rounded-md member-role" {% if "U-M" not in console.perms %}disabled{% endif %}>
               {% for role in roles %}
                   {% if role.role_name == member.role_id__role_name %}
                       <option value="{{ role.pk }}" selected>{{ role.role_name }}</option>
@@ -23,10 +23,13 @@
             </select>
           </li>
         {% endfor %}
+        {% if "U-M" in console.perms %}
         <input type="submit" value="Save" class="save-btn" />
+        {% endif %}
       </form>
     </ul>
   </section>
+  {% if "C-R" in console.perms %}
   <section class="form-wrapper small-console mt-0 h-fit">
     <h4>Create a Role</h4>
     <form method="POST" action="{% url 'authorization:create_role' team_pk=console.team.pk %}">
@@ -36,5 +39,6 @@
         <input type="submit" value="Create">
     </form>
   </section>
+  {% endif %}
 </div>
 {% endblock %}
