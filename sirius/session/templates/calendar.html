@@ -10,28 +10,36 @@
     <ul>
         {% for event in events %}
             <li>
-                <article class="session w-full">
+                <article class="session">
                     <div class="session-head">
                         <div>
-                            <div class="session-time">
-                                <p class="start-date">
-                                    {{ event.start|date:'d' }}
-                                </p>
-                                <div>
-                                    <p class="start-month">
-                                        {{ event.start|date:'b' }}
+                            <div class="flex justify-between">
+                                <div class="session-time">
+                                    <p class="start-date">
+                                        {{ event.start|date:'d' }}
                                     </p>
-                                    <p class="time">
-                                        {{ event.start|date:'dS' }} - {{ event.end|date:'dS' }} | {{ event.start|date:'H:m' }} - {{ event.end|date:'H:m' }}
-                                    </p>
+                                    <div>
+                                        <p class="start-month">
+                                            {{ event.start|date:'b' }}
+                                        </p>
+                                        <p class="time">
+                                            {{ event.start|date:'dS' }} - {{ event.end|date:'dS' }} | {{ event.start|date:'H:m' }} - {{ event.end|date:'H:m' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="session-control">
+                                    {% if 'U-E' in console.perms %}
+                                        <a href="{% url 'team:session:update_event' e_pk=event.pk pk=console.team.pk %}"><i class="fa-solid fa-pen-clip text-green"></i></a>
+                                    {% endif %}
+                                    {% if 'D-E' in console.perms %}
+                                        <a href="{% url 'team:session:delete_event' e_pk=event.pk pk=console.team.pk %}"><i class="fa-solid fa-trash-can text-red"></i></a>
+                                    {% endif %}
                                 </div>
                             </div>
-                            <div class="session-control">
+                            <div>
                                 <p class="session-title">
                                     {{ event.title }}
                                 </p>
-                                <i class="fa-solid fa-pen-clip"></i>
-                                <i class="fa-solid fa-trash-can"></i>
                             </div>
                         </div>
                     </div>

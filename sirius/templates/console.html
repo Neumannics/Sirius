@@ -20,17 +20,31 @@
     </script>
     <div class="flex flex-col min-w-[320px] mr-8">
         <aside>
-            <nav class="text-grey">
+            <nav class="text-grey w-[280px]">
                 <p class="mb-8 text-[24px]">
                     {% for parent in console.parents %}
-                    <a href="{% url 'team:team_info' pk=parent.pk %}">{{ parent.name|upper }} / </a>
+                        <a href="{% url 'team:team_info' pk=parent.pk %}" class="hover:underline">{{ parent.name|upper }} / </a>
                     {% endfor %}
                     <span class="text-[36px] font-bold">{{ console.team.name|upper }}</span><span>#{{ console.team.pk }}</span>
                 </p>
                 <ul>
+                    {% if "R-T" in console.perms %}
+                    <a href="{% url 'team:team_info' pk=console.team.pk %}">
+                        <li class="console-navs {% if '/info/' in request.path %}active-tab{% endif %}">
+                            <div class="active-indicator">
+                            </div>
+                            <div class="console-nav-icon">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </div>
+                            <div class="console-nav-link">
+                                <p>Info</p>
+                            </div>
+                        </li>
+                    </a>
+                    {% endif %}
                     {% if "R-C" in console.perms or "C-C" in console.perms or "U-C" in console.perms or "D-C" in console.perms %}
                     <a href="{% url 'team:session:timetable' pk=console.team.pk %}">
-                        <li class="console-navs {% if '/timetable/' in request.path %}active-tab{% endif %}">
+                        <li class="console-navs {% if '/timetable/' in request.path or '/class/' in request.path %}active-tab{% endif %}">
                             <div class="active-indicator">
                             </div>
                             <div class="console-nav-icon">
@@ -44,7 +58,7 @@
                     {% endif %}
                     {% if "R-E" in console.perms or "C-E" in console.perms or "U-E" in console.perms or "D-E" in console.perms %}
                     <a href="{% url 'team:session:calendar' pk=console.team.pk %}">
-                        <li class="console-navs {% if '/calendar/' in request.path %}active-tab{% endif %}">
+                        <li class="console-navs {% if '/calendar/' in request.path or '/event/' in request.path %}active-tab{% endif %}">
                             <div class="active-indicator">
                             </div>
                             <div class="console-nav-icon">
@@ -58,7 +72,7 @@
                     {% endif %}
                     {% if "R-N" in console.perms or "C-N" in console.perms or "U-N" in console.perms or "D-N" in console.perms %}
                     <a href="{% url 'team:session:notice_board' pk=console.team.pk %}">
-                        <li class="console-navs {% if '/notices/' in request.path %}active-tab{% endif %}">
+                        <li class="console-navs {% if '/notices/' in request.path or '/notice/' in request.path %}active-tab{% endif %}">
                             <div class="active-indicator">
                             </div>
                             <div class="console-nav-icon">
@@ -66,20 +80,6 @@
                             </div>
                             <div class="console-nav-link">
                                 <p>Notice Board</p>
-                            </div>
-                        </li>
-                    </a>
-                    {% endif %}
-                    {% if "R-T" in console.perms %}
-                    <a href="{% url 'team:team_info' pk=console.team.pk %}">
-                        <li class="console-navs {% if '/info/' in request.path %}active-tab{% endif %}">
-                            <div class="active-indicator">
-                            </div>
-                            <div class="console-nav-icon">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </div>
-                            <div class="console-nav-link">
-                                <p>Info</p>
                             </div>
                         </li>
                     </a>

@@ -8,10 +8,16 @@
 <div class="form-wrapper flex mt-[10vh] items-center w-full">
     <div>
         <h2>Class</h2>
-        <form method="POST" action="{% url 'team:session:create_class' pk=console.team.pk %}">
-            {% csrf_token %}
-            {% include 'form.html' with form=form %}
-            <input type="submit" value="Create">
+        <form method="POST" action="
+        {% if '/create/' in request.path %}
+        {% url 'team:session:create_class' pk=console.team.pk %}
+        {% else %}
+        {% url 'team:session:update_class' c_pk=c_pk pk=console.team.pk %}
+        {% endif %}
+        ">
+           {% csrf_token %}
+           {% include 'form.html' with form=form %}
+           <input type="submit" value="{% if '/create/' in request.path %}Create{% else %}Save{% endif %}">
         </form>
     </div>
 </div>

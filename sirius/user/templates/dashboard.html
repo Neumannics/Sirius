@@ -37,7 +37,7 @@
                     {% for team in teams %}
                     <li class="hover:scale-[1.05] flex flex-col items-center h-[250px] justify-between pb-2 bg-white shadow rounded-lg w-[250px] overflow-clip"><a href="{% url 'team:team_info' pk=team.team_id__pk %}">
                             <div class="h-[190px] overflow-clip mb-[6px]">
-                                <img class="w-full" src="{% static 'images/avatar.png' %}"/>
+                                <img class="w-full" src="https://picsum.photos/300/300?random={{ team.team_id__pk }}"/>
                             </div>
                             <p class="text-grey font-400 text-[32px] text-center">{{ team.team_id__name|truncatechars:8 }}<span class="text-[18px]">#{{ team.team_id__pk }}</span></p>
                     </a></li>

@@ -10,6 +10,7 @@ def get_console_data(team_id, user):
         parent = Team.objects.values('name', 'pk', 'parent_id__pk').get(pk=parent_id)
         parents.append(parent)
         parent_id = parent['parent_id__pk']
+    parents.reverse()
     return {
         'team': team, 
         'parents': parents, 

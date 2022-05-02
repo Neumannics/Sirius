@@ -673,6 +673,10 @@ blockquote p {
   font-size: 36px;
 }
 
+input:disabled {
+  color: rgb(67 69 69 / 0.5);
+}
+
 *, ::before, ::after {
   --tw-translate-x: 0;
   --tw-translate-y: 0;
@@ -963,10 +967,29 @@ blockquote p {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.session .session-control {
+.session .session-control, .role-control {
+  margin-left: 10px;
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
   align-items: center;
+  justify-content: center;
+  gap: 24px;
+  font-size: 24px;
+}
+
+.session-control i {
+  display: flex;
+  height: 48px;
+  width: 48px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+}
+
+.session-control i:hover {
+  background-color: rgb(67 69 69 / 0.2);
+  font-size: 26px;
 }
 
 .session .session-desc {
@@ -1157,6 +1180,7 @@ blockquote p {
   right: 0px;
   bottom: 0px;
   left: 0px;
+  z-index: 50;
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -1180,8 +1204,8 @@ blockquote p {
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  padding-top: 36px;
-  padding-bottom: 36px;
+  padding-top: 28px;
+  padding-bottom: 28px;
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
@@ -1199,9 +1223,9 @@ blockquote p {
   justify-content: center;
   border-radius: 0.375rem;
   border-width: 2px;
-  padding-top: 12px;
-  padding-bottom: 12px;
-  font-size: 24px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 18px;
   font-weight: 400;
   --tw-text-opacity: 1;
   color: rgb(67 69 69 / var(--tw-text-opacity));
@@ -1236,6 +1260,14 @@ blockquote p {
   background-color: rgb(255 61 0 / var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.\!visible {
+  visibility: visible !important;
+}
+
+.invisible {
+  visibility: hidden;
 }
 
 .static {
@@ -1305,8 +1337,20 @@ blockquote p {
   margin-top: 10vh;
 }
 
+.mb-\[10vh\] {
+  margin-bottom: 10vh;
+}
+
 .mt-0 {
   margin-top: 0px;
+}
+
+.mt-\[35px\] {
+  margin-top: 35px;
+}
+
+.mt-\[16px\] {
+  margin-top: 16px;
 }
 
 .mr-\[18px\] {
@@ -1329,20 +1373,8 @@ blockquote p {
   margin-bottom: 6px;
 }
 
-.mb-\[10vh\] {
-  margin-bottom: 10vh;
-}
-
 .mb-0 {
   margin-bottom: 0px;
-}
-
-.mt-\[35px\] {
-  margin-top: 35px;
-}
-
-.mt-\[16px\] {
-  margin-top: 16px;
 }
 
 .mr-\[16px\] {
@@ -1351,6 +1383,10 @@ blockquote p {
 
 .ml-\[16px\] {
   margin-left: 16px;
+}
+
+.mt-\[4vh\] {
+  margin-top: 4vh;
 }
 
 .block {
@@ -1407,12 +1443,20 @@ blockquote p {
   height: 50px;
 }
 
+.h-\[300px\] {
+  height: 300px;
+}
+
 .max-h-\[240px\] {
   max-height: 240px;
 }
 
 .w-full {
   width: 100%;
+}
+
+.w-\[280px\] {
+  width: 280px;
 }
 
 .w-\[340px\] {
@@ -1425,6 +1469,10 @@ blockquote p {
 
 .w-\[240px\] {
   width: 240px;
+}
+
+.w-\[120px\] {
+  width: 120px;
 }
 
 .\!w-\[180px\] {
@@ -1459,16 +1507,24 @@ blockquote p {
   width: 24px;
 }
 
+.w-\[560px\] {
+  width: 560px;
+}
+
+.w-\[300px\] {
+  width: 300px;
+}
+
 .min-w-\[320px\] {
   min-width: 320px;
 }
 
-.min-w-\[500px\] {
-  min-width: 500px;
-}
-
 .min-w-\[160px\] {
   min-width: 160px;
+}
+
+.min-w-\[500px\] {
+  min-width: 500px;
 }
 
 .grow {
@@ -1477,6 +1533,10 @@ blockquote p {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.cursor-help {
+  cursor: help;
 }
 
 .flex-row {
@@ -1489,6 +1549,10 @@ blockquote p {
 
 .flex-wrap {
   flex-wrap: wrap;
+}
+
+.flex-wrap-reverse {
+  flex-wrap: wrap-reverse;
 }
 
 .items-start {
@@ -1540,6 +1604,10 @@ blockquote p {
   row-gap: 32px;
 }
 
+.gap-y-\[2vh\] {
+  row-gap: 2vh;
+}
+
 .space-x-5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1.25rem * var(--tw-space-x-reverse));
@@ -1558,6 +1626,12 @@ blockquote p {
   margin-left: calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.space-y-\[10px\] > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(10px * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(10px * var(--tw-space-y-reverse));
+}
+
 .space-x-\[20px\] > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(20px * var(--tw-space-x-reverse));
@@ -1568,12 +1642,6 @@ blockquote p {
   --tw-space-y-reverse: 0;
   margin-top: calc(-12px * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(-12px * var(--tw-space-y-reverse));
-}
-
-.space-y-\[10px\] > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(10px * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(10px * var(--tw-space-y-reverse));
 }
 
 .overflow-clip {
@@ -1594,6 +1662,10 @@ blockquote p {
 
 .rounded-lg {
   border-radius: 0.5rem;
+}
+
+.rounded-\[150px\] {
+  border-radius: 150px;
 }
 
 .border-2 {
@@ -1643,6 +1715,11 @@ blockquote p {
 
 .\!bg-green\/70 {
   background-color: rgb(131 206 0 / 0.7) !important;
+}
+
+.\!bg-green {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(131 206 0 / var(--tw-bg-opacity)) !important;
 }
 
 .bg-yellow {
@@ -1697,6 +1774,11 @@ blockquote p {
 .py-\[16px\] {
   padding-top: 16px;
   padding-bottom: 16px;
+}
+
+.px-\[32px\] {
+  padding-left: 32px;
+  padding-right: 32px;
 }
 
 .py-\[5\%\] {
@@ -1825,6 +1907,10 @@ blockquote p {
   font-weight: 500;
 }
 
+.font-\[500\] {
+  font-weight: 500;
+}
+
 .font-\[400\] {
   font-weight: 400;
 }
@@ -1837,10 +1923,6 @@ blockquote p {
   font-weight: 600;
 }
 
-.font-\[500\] {
-  font-weight: 500;
-}
-
 .uppercase {
   text-transform: uppercase;
 }
@@ -1849,12 +1931,12 @@ blockquote p {
   font-style: italic;
 }
 
-.tracking-\[0\.1rem\] {
-  letter-spacing: 0.1rem;
-}
-
 .tracking-\[0\.06rem\] {
   letter-spacing: 0.06rem;
+}
+
+.tracking-\[0\.1rem\] {
+  letter-spacing: 0.1rem;
 }
 
 .text-grey {
@@ -1880,6 +1962,11 @@ blockquote p {
 .\!text-white {
   --tw-text-opacity: 1 !important;
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
+}
+
+.text-green {
+  --tw-text-opacity: 1;
+  color: rgb(131 206 0 / var(--tw-text-opacity));
 }
 
 .text-grey\/50 {
@@ -1963,6 +2050,16 @@ blockquote p {
 
   .md\:w-1\/2 {
     width: 50%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:flex-row {
+    flex-direction: row;
+  }
+
+  .lg\:flex-nowrap {
+    flex-wrap: nowrap;
   }
 }
 

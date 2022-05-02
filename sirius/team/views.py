@@ -160,4 +160,4 @@ def delete_team(request, pk):
     if not has_perm('D', 'T', request.user, pk):
         return HttpResponseForbidden()
     team.delete()
-    return redirect('user:dashboard', u_pk=pk)
+    return redirect('user:dashboard', u_pk=request.user.pk)

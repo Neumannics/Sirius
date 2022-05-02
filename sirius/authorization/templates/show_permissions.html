@@ -100,22 +100,26 @@
 
 {% block workspace %}
     <div class="mt-[10vh]">
+        <div class="flex flex-row">
         <select onchange="changeCurrRole(this.value)" class="text-[24px] font-medium w-[240px] py-[16px] rounded-md" default="{{ roles.first.pk }}">
             {% for role in roles %}
                 <option value="{{ role.pk }}">{{ role.role_name }}</option>
             {% endfor %}
         </select>
+      
+      </div>
+
         <div>
             {% if "U-R" in console.perms %}
             <p class="italic text-grey my-[8px] hidden" id="remove-hint">Click on tiles to remove privileges</p>
             {% else %}
-            <p class="italic text-grey my-[8px] hidden" id="remove-hint">Current Permissions</p>
+            <p class="italic text-grey my-[8px] hidden" id="remove-hint">Current permissions</p>
             {% endif %}
             <ul id="role-in" class="perm-list"></ul>
             {% if "U-R" in console.perms %}
-            <p class="italic text-grey my-[8px] hidden" id="add-hint">Click on tiles to add privileges</p>
+                <p class="italic text-grey my-[8px] hidden" id="add-hint">Click on tiles to add privileges</p>
             {% else %}
-            <p class="italic text-grey my-[8px] hidden" id="add-hint">Available Permissions</p>
+                <p class="italic text-grey my-[8px] hidden" id="add-hint">Available permissions</p>
             {% endif %}
             <ul id="role-out" class="perm-list"></ul>
             {% if "U-R" in console.perms %}

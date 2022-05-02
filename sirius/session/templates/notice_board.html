@@ -12,23 +12,35 @@
             <li>
                 <article class="session">
                     <div class="session-head">
-                        <div class="session-time">
-                            <p class="start-date">
-                                {{ notice.created_at|date:'d' }}
-                            </p>
+                        <div>
+                            <div class="flex justify-between">
+                                <div class="session-time">
+                                    <p class="start-date">
+                                        {{ notice.created_at|date:'d' }}
+                                    </p>
+                                    <div>
+                                        <p class="start-month">
+                                            {{ notice.created_at|date:'b' }}
+                                        </p>
+                                        <p class="time">
+                                            {{ notice.created_at|date:'H:m' }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="session-control">
+                                    {% if 'U-N' in console.perms %}
+                                        <a href="{% url 'team:session:update_notice' n_pk=notice.pk pk=console.team.pk %}"><i class="fa-solid fa-pen-clip text-green"></i></a>
+                                    {% endif %}
+                                    {% if 'D-N' in console.perms %}
+                                        <a href="{% url 'team:session:delete_notice' n_pk=notice.pk pk=console.team.pk %}"><i class="fa-solid fa-trash-can text-red"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
                             <div>
-                                <p class="start-month">
-                                    {{ notice.created_at|date:'b' }}
-                                </p>
-                                <p class="time">
-                                    {{ notice.created_at|date:'H:m' }}
+                                <p class="session-title">
+                                    {{ notice.title }}
                                 </p>
                             </div>
-                        </div>
-                        <div>
-                            <p class="session-title">
-                                {{ notice.title }}
-                            </p>
                         </div>
                     </div>
                     <div>

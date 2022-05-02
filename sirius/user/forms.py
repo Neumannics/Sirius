@@ -1,5 +1,4 @@
-from distutils.command.build_scripts import first_line_re
-import re
+from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
@@ -50,11 +49,14 @@ class AccountAuthenticationForm(forms.ModelForm):
 #         raise forms.ValidationError('Email "%s" is already in use.' % email)
 
 class ResetPasswordForm(forms.ModelForm):
-    first_name = forms.CharField(label="First name", widget=forms.TextInput, disabled=True, required=False)
-    last_name = forms.CharField(label="Last name", widget=forms.TextInput, disabled=True, required=False)
+    first_name = forms.CharField(label="First name", widget=forms.TextInput)
+    last_name = forms.CharField(label="Last name", widget=forms.TextInput, required=False)
     email = forms.EmailField(label="Email address", widget=forms.TextInput, disabled=True, required=False)
-    new_password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    username = forms.CharField(label="Username", widget=forms.TextInput, disabled=True, required=False)
+    old_password = forms.CharField(label="Old password", widget=forms.PasswordInput)
+    new_password1 = forms.CharField(label="New password", widget=forms.PasswordInput)
     new_password2 = forms.CharField(label="Confirm password", widget=forms.PasswordInput)
+
 
     class Meta:
         model = get_user_model()
@@ -62,11 +64,18 @@ class ResetPasswordForm(forms.ModelForm):
             'first_name',
             'last_name',
             'email',
+            'username',
         ]
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data['old_password']
+        if not self.instance.check_password(old_password):
+            raise forms.ValidationError("Old password is incorrect!")
         
-    def clean(self):
+    def clean_new_password2(self):
         new_password1 = self.cleaned_data['new_password1']
         new_password2 = self.cleaned_data['new_password2']
         if new_password1 != new_password2:
             raise forms.ValidationError("Passwords do not match!")
+        print(validate_password(new_password2))
         return self.cleaned_data

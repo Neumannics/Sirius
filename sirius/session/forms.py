@@ -24,17 +24,13 @@ class ClassCreationForm(forms.ModelForm):
             raise forms.ValidationError('Some fields are missing')
 
 
-
-    
-
-
 class CalendarCreationForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ('start', 'end', 'title', 'description')
         widgets = {
-            'start': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
-            'end': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+            'start': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+            'end': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
         }
 
     def clean(self):
@@ -48,9 +44,25 @@ class CalendarCreationForm(forms.ModelForm):
                 raise forms.ValidationError('Event already exists')
         else:
             raise forms.ValidationError('Some fields are missing')
+
+class CalendarUpdationForm(forms.ModelForm):
+    class Meta:
+        model = Event
+        fields = ('start', 'end', 'title', 'description')
+        widgets = {
+            'start': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+            'end': forms.DateTimeInput(attrs={'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'),
+        }
+
+    def clean(self):
+        start = self.cleaned_data.get('start')
+        end = self.cleaned_data.get('end')
+        title = self.cleaned_data.get('title')
+        description = self.cleaned_data.get('description')
+
+        if start is None or end is None or title is None or description is None:
+            raise forms.ValidationError('Some fields are missing')
         
-
-
 
 class NoticeCreationForm(forms.ModelForm):
     class Meta:
@@ -65,6 +77,18 @@ class NoticeCreationForm(forms.ModelForm):
             if Notice.objects.filter(title=title, description=description).count() != 0:
                 raise forms.ValidationError('Notice already exists')
         else:
+            raise forms.ValidationError('Some fields are missing')
+
+class NoticeUpdationForm(forms.ModelForm):
+    class Meta:
+        model = Notice
+        fields = ('title', 'description')
+        
+    def clean(self):
+        title = self.cleaned_data.get('title')
+        description = self.cleaned_data.get('description')
+
+        if title is None or description is None:
             raise forms.ValidationError('Some fields are missing')
 
 

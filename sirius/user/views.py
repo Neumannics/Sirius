@@ -102,14 +102,14 @@ def accountsettings(request):
         form = ResetPasswordForm(instance=request.user)
         return render(request, 'settings.html', {'form': form})
 
-@login_required(login_url='user:signin')
-def accountchange(request):
-    user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=request.user.pk)
-    if user.check_password(request.POST['password']):
-        user.first_name = request.POST.get('first_name')
-        user.last_name = request.POST.get('last_name')
-        user.set_password(request.POST['new_password'])
-        user.save()
-        return redirect('user:dashboard', u_pk=request.user.pk)
-    else:
-        return render(request, 'settings.html', {'user': user, 'error': 'Incorrect password'})
+# @login_required(login_url='user:signin')
+# def accountchange(request):
+#     user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=request.user.pk)
+#     if user.check_password(request.POST['password']):
+#         user.first_name = request.POST.get('first_name')
+#         user.last_name = request.POST.get('last_name')
+#         user.set_password(request.POST['new_password'])
+#         user.save()
+#         return redirect('user:dashboard', u_pk=request.user.pk)
+#     else:
+#         return render(request, 'settings.html', {'user': user, 'error': 'Incorrect password'})

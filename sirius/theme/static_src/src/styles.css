@@ -73,6 +73,11 @@
         @apply
         text-[36px];
     }
+
+    input:disabled {
+        @apply
+        text-grey/50;
+    }
 }
 
 @layer components {
@@ -284,12 +289,28 @@
         py-[32px]
         px-[48px];
     }
-    .session .session-control {
+    .session .session-control,
+    .role-control {
         @apply
         flex
-        flex-row
+        !flex-row
         items-center
-        ;
+        justify-center
+        ml-[10px]
+        gap-[24px] 
+        text-[24px];
+    }
+    .session-control i {
+        @apply
+        hover:bg-grey/20
+        rounded-full
+        w-[48px]
+        h-[48px]
+        justify-center
+        items-center
+        cursor-pointer
+        flex
+        hover:text-[26px];
     }
     .session .session-desc {
         @apply
@@ -442,7 +463,8 @@
         transition-opacity
         flex
         justify-center
-        pt-[4vh];
+        pt-[4vh]
+        z-50;
     }
     .popup {
         @apply
@@ -450,7 +472,7 @@
         flex
         shadow-md
         w-[460px]
-        py-[36px]
+        py-[28px]
         items-center
         flex-col
         bg-white
@@ -464,13 +486,13 @@
     }
     .popup button {
         @apply
-        border-2
         w-[140px]
         flex
-        py-[12px]
+        border-2
+        py-[6px]
         justify-center
         rounded-md
-        text-[24px]
+        text-[18px]
         font-[400]
         text-grey;
     }

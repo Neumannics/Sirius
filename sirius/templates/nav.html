@@ -38,7 +38,7 @@
                 <p class="text-[24px] font-semibold">{{ request.user.first_name }} {{ request.user.last_name }}</p>
                 <p class="text-[18px] font-thin">{{ request.user.email }}</p>
                 <div class="mt-[10px] flex flex-row w-full space-x-5">
-                  <a href=""><i class="hover:scale-[1.2] fa-solid fa-gear"></i></a>
+                  <a href="{% url 'user:settings' %}"><i class="hover:scale-[1.2] fa-solid fa-gear"></i></a>
                   <a href="{% url 'user:signout' %}" id="logout-btn" class="text-primary"><button class="px-5  hover:bg-primary hover:text-white border-solid border-2 border-primary rounded-full"> Logout</button></a>
                 </div>
               </ul>
