@@ -10,7 +10,7 @@ class Session(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     team_id = models.ForeignKey(Team, on_delete=models.CASCADE)
-    description = models.TextField()
+    description = models.TextField(blank=True, null=True)
     def __str__(self):
         return self.title
 
@@ -43,8 +43,6 @@ class Class(Session):
         date = datetime.date(1,1,1)
         datetime1 = datetime.datetime.combine(date, self.start_time)
         datetime2 = datetime.datetime.combine(date, self.end_time)
-        # 1 = datetime.datetime.strptime(self.start_time, '%H:%M:%S')
-        # t2 = datetime.datetime.strptime(self.end_time, '%H:%M:%S')t
         return (datetime2 - datetime1).seconds // 60
 
     def in_minutes(self):

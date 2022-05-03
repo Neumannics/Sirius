@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import ClassCreationForm, CalendarCreationForm, NoticeCreationForm, CalendarUpdationForm, NoticeUpdationForm
+from .forms import ClassCreationForm, CalendarCreationForm, NoticeCreationForm, CalendarUpdationForm, NoticeUpdationForm, ClassUpdationForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import BadRequest
 from .models import Class, Notice, Event
@@ -14,12 +14,14 @@ from team.models import Team
 @login_required(login_url='user:signin')
 def create_class(request, pk):
     if request.method == 'POST':
-        form = ClassCreationForm(request.POST)
+        data = request.POST.dict()
+        data['team_id'] = pk
+        form = ClassCreationForm(data)
         if form.is_valid() and pk:
             if not has_perm('C', 'C', request.user, pk):
                 return HttpResponseForbidden()
             new_class = form.save(commit=False)
-            new_class.team_id = Team.objects.get(pk=pk)
+            # new_class.team_id = Team.objects.get(pk=pk)
             new_class.save()
             return redirect('team:session:timetable', pk=pk)
     else:
@@ -61,15 +63,15 @@ def create_notice(request, pk):
 def update_class(request, pk, c_pk):
     if request.method == 'POST':
         instance = get_object_or_404(Class, pk=c_pk)
-        form = ClassCreationForm(request.POST, instance=instance)
+        form = ClassUpdationForm(request.POST, instance=instance)
         if form.is_valid() and pk:
             if not has_perm('U', 'C', request.user, pk):
                 return HttpResponseForbidden()
             form.save()
-            return redirect('team:session:timetable', pk=pk)
+            return redirect('team:session:class_detail', pk=pk, c_pk=c_pk)
     else:
         instance = get_object_or_404(Class, pk=c_pk)
-        form = ClassCreationForm(instance=instance)
+        form = ClassUpdationForm(instance=instance)
     return render(request, 'create_class.html', {'form': form, 'console': get_console_data(pk, request.user), 'c_pk': c_pk})
 
 @login_required(login_url='user:signin')
@@ -164,3 +166,22 @@ def notice_board(request, pk):
         return HttpResponseForbidden()
     notices = Notice.objects.filter(team_id=pk).values('pk','title', 'description', 'created_at')
     return render(request, 'notice_board.html', {'notices': notices, 'console': get_console_data(pk, request.user)})
+
+@login_required(login_url='user:signin')
+def class_detail(request, pk, c_pk):
+    if not has_perm('R', 'C', request.user, pk) and not has_perm('U', 'C', request.user, pk) and not has_perm('D', 'C', request.user, pk):
+        return HttpResponseForbidden()
+    class_ = get_object_or_404(Class, pk=c_pk)
+    if int(class_.team_id.pk) != int(pk):
+        return HttpResponseBadRequest('Invalid request')
+    return render(request, 'class_detail.html', {'class': class_, 'console': get_console_data(pk, request.user)})
+
+@login_required(login_url='user:signin')
+def event_detail(request, pk, e_pk):
+    if not has_perm('R', 'E', request.user, pk) and not has_perm('U', 'E', request.user, pk) and not has_perm('D', 'E', request.user, pk):
+        return HttpResponseForbidden()
+    event = get_object_or_404(Event, pk=e_pk)
+    if int(event.team_id.pk) != int(pk):
+        return HttpResponseBadRequest('Invalid request')
+    return render(request, 'event_detail.html', {'event': event, 'console': get_console_data(pk, request.user)})
+

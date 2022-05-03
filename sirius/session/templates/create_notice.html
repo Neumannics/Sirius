@@ -1,10 +1,9 @@
 {% extends 'console.html' %}
     
 {% block workspace %}
-<div class="form-wrapper flex mt-[10vh] items-center w-full">
+<div class="form-wrapper flex items-center w-full">
     <div>
         <h2>Notice</h2>
-        
         <form method="POST" action="
         {% if '/create/' in request.path %}
             {% url 'team:session:create_notice' pk=console.team.pk %}

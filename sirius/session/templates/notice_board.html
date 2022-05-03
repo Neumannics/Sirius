@@ -1,10 +1,11 @@
 {% extends 'console.html' %}
 
 {% block workspace %}
-<div class="flex mt-[10vh] flex-col w-full">
-    <div class="flex justify-start">
-        {% if 'C-E' in console.perms %}
-            <a href="{% url 'team:session:create_notice' pk=console.team.pk %}"><button class="save-btn">Create</button></a>
+<div class="flex flex-col w-full">
+    <div class="module-head">
+        <h2>Notice Board</h2>
+        {% if 'C-N' in console.perms %}
+            <a href="{% url 'team:session:create_notice' pk=console.team.pk %}"><i class="fa-solid fa-circle-plus add-icon"></i></a>
         {% endif %}
     </div>
     <ul>

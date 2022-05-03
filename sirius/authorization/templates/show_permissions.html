@@ -99,7 +99,7 @@
 
 
 {% block workspace %}
-    <div class="mt-[10vh]">
+    <div class="">
         <div class="flex flex-row">
         <select onchange="changeCurrRole(this.value)" class="text-[24px] font-medium w-[240px] py-[16px] rounded-md" default="{{ roles.first.pk }}">
             {% for role in roles %}

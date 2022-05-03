@@ -6,7 +6,7 @@ class Role(models.Model):
     role_name = models.CharField(max_length=100)
     team_id = models.ForeignKey(Team, on_delete=models.CASCADE)
     role_description = models.CharField(max_length=100)
-    permissions = models.TextField(default="1,")
+    permissions = models.TextField(default="")
 
     class Meta:
         constraints = [

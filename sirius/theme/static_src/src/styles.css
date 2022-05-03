@@ -283,7 +283,7 @@
     .session {
         @apply
         shadow-lg
-        min-w-[420px]
+        min-w-[460px]
         rounded-lg
         mb-[32px]
         py-[32px]
@@ -297,20 +297,19 @@
         items-center
         justify-center
         ml-[10px]
-        gap-[24px] 
-        text-[24px];
+        text-[20px];
     }
     .session-control i {
         @apply
         hover:bg-grey/20
         rounded-full
-        w-[48px]
-        h-[48px]
+        w-[40px]
+        h-[40px]
         justify-center
         items-center
         cursor-pointer
         flex
-        hover:text-[26px];
+        hover:text-[22px];
     }
     .session .session-desc {
         @apply
@@ -361,8 +360,7 @@
         text-[36px]
         text-grey
         font-[600]
-        font-poppins
-        my-[12px];
+        font-poppins;
     }
     .session-head {
         @apply
@@ -433,17 +431,20 @@
         flex-col
         items-center
         text-white
-        bg-brown
+        !bg-brown/80
         tracking-[0.1rem]
         font-poppins
         overflow-y-hidden
         justify-center
-        h-full
-        box-border;
+        box-border
+        !border-0
+        !h-[58px]
+        !text-[24px]
+        !cursor-help
+        hover:!bg-brown;
     }
     .class-tile .class-title {
         @apply
-        text-[24px]
         font-[500];
     }
     .class-tile .class-time {
@@ -513,5 +514,118 @@
         border-red
         hover:text-white
         hover:bg-red;
+    }
+
+    .timetable {
+        @apply
+        w-full
+        min-w-[420px];
+    }
+    .timetable aside {
+        @apply
+        min-w-[120px];
+    }
+    .timetable aside li {
+        @apply
+        bg-white
+        !border-b-2
+        !border-grey
+        flex
+        items-end
+        pl-0
+        !h-[64px];
+    }
+    .timetable .row-heading {
+        @apply
+        font-poppins
+        font-[400]
+        text-[20px]
+        uppercase
+        tracking-[0.1rem];
+    }
+    .timetable ul.room-timeline li {
+        @apply
+        !h-[64px]
+        flex
+        items-center;
+    }
+    .timetable .time-label {
+        @apply
+        font-poppins
+        text-grey;
+    }
+
+    .add-icon {
+        @apply
+        text-[32px]
+        text-green
+        hover:scale-[1.2];
+    }
+
+    .module-head {
+        @apply
+        flex
+        items-center
+        gap-x-[24px];
+    }
+
+    .back-btn {
+        @apply
+        text-grey
+        text-[24px]
+        hover:bg-grey/20
+        h-[48px]
+        w-[48px]
+        rounded-full
+        flex
+        justify-center
+        items-center
+        mb-[2vh]
+        hover:scale-[1.2]
+        cursor-pointer;
+    }
+
+    #fc-dom-1 {
+        @apply
+        !text-grey;
+    }
+    .fc .fc-button-primary:disabled {
+        @apply
+        !bg-grey;
+    }
+    .fc .fc-button-primary {
+        @apply
+        !bg-grey;
+    }
+    .fc-h-event {
+        @apply
+        !bg-brown/80
+        border-0
+        hover:!bg-brown;
+    }
+    .fc-daygrid-event-dot {
+        @apply
+        !bg-brown
+        !border-brown;
+    }
+    .fc .fc-daygrid-event {
+        @apply
+        !text-grey;
+    }
+
+    .tooltip {
+        @apply
+        flex
+        z-50
+        bg-white/90
+        text-grey
+        font-poppins
+        mb-[8px]
+        !w-[100px]
+        !text-[12px]
+        px-[10px]
+        py-[10px]
+        text-center
+        rounded-lg;
     }
 }

@@ -1,54 +1,55 @@
 {% extends 'console.html' %}
 
+{% block links %}
+<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script><script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
+<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.css">
+{% endblock %}
+
+{% block script %}
+document.addEventListener('DOMContentLoaded', function() {
+    const events = [];
+    {% for event in events %}
+        events.push({
+            title: '{{ event.title }}',
+            start: '{{ event.start|date:'c' }}',
+            end: '{{ event.end|date:'c' }}',
+            description: '{{ event.title }} ({{ event.start|date:'d M H:i' }} - {{ event.end|date:'d M H:i' }})',
+            url: '{% url 'team:session:event_detail' pk=console.team.pk e_pk=event.pk %}'
+        });
+    {% endfor %}
+    console.log(events);
+    const calendarEl = document.getElementById('calendar');
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        eventDidMount: function(info) {
+            var tooltip = new Tooltip(info.el, {
+                title: info.event.extendedProps.description,
+                placement: 'top',
+                trigger: 'hover',
+                container: 'body'
+            });
+        },
+        events: events
+    });
+    calendar.render();
+});
+{% endblock %}
+
+{% block style %}
+.fc .fc-button-primary {}
+{% endblock %}
+
 {% block workspace %}
-<div class="flex mt-[10vh] flex-col w-full">
-    <div class="flex justify-start">
+<div class="flex flex-col w-full">
+    <div class="module-head">
+        <h2>Calendar</h2>
         {% if 'C-E' in console.perms %}
-            <a href="{% url 'team:session:create_event' pk=console.team.pk %}"><button class="save-btn">Create</button></a>
+            <a href="{% url 'team:session:create_event' pk=console.team.pk %}"><i class="fa-solid fa-calendar-plus add-icon"></i></a>
         {% endif %}
     </div>
-    <ul>
-        {% for event in events %}
-            <li>
-                <article class="session">
-                    <div class="session-head">
-                        <div>
-                            <div class="flex justify-between">
-                                <div class="session-time">
-                                    <p class="start-date">
-                                        {{ event.start|date:'d' }}
-                                    </p>
-                                    <div>
-                                        <p class="start-month">
-                                            {{ event.start|date:'b' }}
-                                        </p>
-                                        <p class="time">
-                                            {{ event.start|date:'dS' }} - {{ event.end|date:'dS' }} | {{ event.start|date:'H:m' }} - {{ event.end|date:'H:m' }}
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="session-control">
-                                    {% if 'U-E' in console.perms %}
-                                        <a href="{% url 'team:session:update_event' e_pk=event.pk pk=console.team.pk %}"><i class="fa-solid fa-pen-clip text-green"></i></a>
-                                    {% endif %}
-                                    {% if 'D-E' in console.perms %}
-                                        <a href="{% url 'team:session:delete_event' e_pk=event.pk pk=console.team.pk %}"><i class="fa-solid fa-trash-can text-red"></i></a>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div>
-                                <p class="session-title">
-                                    {{ event.title }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <p class="session-desc">{{ event.description }}</p>
-                    </div>
-                </article>
-            </li>
-        {% endfor %}
-    </ul>
+    <p class="italic text-grey my-[8px]" id="remove-hint">Click on event tiles for additional details</p>
+    <div id="calendar"></div>
 </div>
 {% endblock %}

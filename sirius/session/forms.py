@@ -5,7 +5,34 @@ from .models import Class, Notice, Event
 class ClassCreationForm(forms.ModelForm):
     class Meta:
         model = Class
-        fields = ('start_time', 'end_time', 'day', 'title')
+        fields = ('start_time', 'end_time', 'day', 'title', 'team_id', 'description')
+        widgets = {
+            'start_time': forms.TimeInput(attrs={'type': 'time'}),
+            'end_time': forms.TimeInput(attrs={'type': 'time'}),
+            'team_id': forms.HiddenInput(),
+        }
+
+    def clean(self):
+        team_id = self.cleaned_data.get('team_id')
+        start_time = self.cleaned_data.get('start_time')
+        end_time = self.cleaned_data.get('end_time')
+        day = self.cleaned_data.get('day')
+        title = self.cleaned_data.get('title')
+
+        if start_time and end_time and day and title:
+            if start_time >= end_time:
+                raise forms.ValidationError('Invalid time range')
+            
+            for _class in Class.objects.filter(day=day, team_id=team_id):
+                if not (start_time >= _class.end_time or end_time <= _class.end_time):
+                    raise forms.ValidationError('Class overlaps with another class')
+        else:
+            raise forms.ValidationError('Some fields are missing')
+
+class ClassUpdationForm(forms.ModelForm):
+    class Meta:
+        model = Class
+        fields = ('start_time', 'end_time', 'day', 'title', 'description')
         widgets = {
             'start_time': forms.TimeInput(attrs={'type': 'time'}),
             'end_time': forms.TimeInput(attrs={'type': 'time'}),
@@ -16,15 +43,21 @@ class ClassCreationForm(forms.ModelForm):
         end_time = self.cleaned_data.get('end_time')
         day = self.cleaned_data.get('day')
         title = self.cleaned_data.get('title')
+        team_id = self.instance.team_id
 
-        if start_time is not None and end_time is not None and day is not None and title is not None:
-            if Class.objects.filter(start_time__gte=start_time, start_time__lte=end_time).count() != 0 or Class.objects.filter(end_time__gte=start_time, end_time__lte=end_time).count() != 0:
-                raise forms.ValidationError('Some classes overlap')
+        if start_time and end_time and day and title:
+            if start_time >= end_time:
+                raise forms.ValidationError('Invalid time range')
+            
+            for _class in Class.objects.filter(day=day, team_id=team_id):
+                if not (start_time >= _class.end_time or end_time <= _class.end_time):
+                    raise forms.ValidationError('Class overlaps with another class')
         else:
             raise forms.ValidationError('Some fields are missing')
 
 
 class CalendarCreationForm(forms.ModelForm):
+
     class Meta:
         model = Event
         fields = ('start', 'end', 'title', 'description')
@@ -37,11 +70,12 @@ class CalendarCreationForm(forms.ModelForm):
         start = self.cleaned_data.get('start')
         end = self.cleaned_data.get('end')
         title = self.cleaned_data.get('title')
-        description = self.cleaned_data.get('description')
 
-        if start is not None and end is not None and title is not None and description is not None:
-            if Event.objects.filter(start=start, end=end, title=title, description=description).count() != 0:
+        if start and end and title:
+            if Event.objects.filter(start=start, end=end, title=title).count() != 0:
                 raise forms.ValidationError('Event already exists')
+            if start >= end:
+                raise forms.ValidationError('Invalid time range')
         else:
             raise forms.ValidationError('Some fields are missing')
 
@@ -58,10 +92,11 @@ class CalendarUpdationForm(forms.ModelForm):
         start = self.cleaned_data.get('start')
         end = self.cleaned_data.get('end')
         title = self.cleaned_data.get('title')
-        description = self.cleaned_data.get('description')
 
-        if start is None or end is None or title is None or description is None:
+        if not start and not end and not title:
             raise forms.ValidationError('Some fields are missing')
+        if start >= end:
+            raise forms.ValidationError('Invalid time range')
         
 
 class NoticeCreationForm(forms.ModelForm):
@@ -69,27 +104,20 @@ class NoticeCreationForm(forms.ModelForm):
         model = Notice
         fields = ('title', 'description')
         
-    def clean(self):
+    def clean_title(self):
         title = self.cleaned_data.get('title')
-        description = self.cleaned_data.get('description')
-
-        if title is not None and description is not None:
-            if Notice.objects.filter(title=title, description=description).count() != 0:
-                raise forms.ValidationError('Notice already exists')
-        else:
-            raise forms.ValidationError('Some fields are missing')
+        if not title:
+            raise forms.ValidationError('Title of the notice is required')
 
 class NoticeUpdationForm(forms.ModelForm):
     class Meta:
         model = Notice
         fields = ('title', 'description')
-        
-    def clean(self):
-        title = self.cleaned_data.get('title')
-        description = self.cleaned_data.get('description')
 
-        if title is None or description is None:
-            raise forms.ValidationError('Some fields are missing')
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if not title:
+            raise forms.ValidationError('Title of the notice is required')
 
 
 

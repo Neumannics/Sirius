@@ -1,7 +1,7 @@
 {% extends 'console.html' %} 
 
 {% block workspace %}
-<div class="flex mt-[10vh] lf:flex-row flex-col w-full items-center lf:justify-between lf:items-start lf:pl-[10%] gap-y-[10vh]">
+<div class="flex lf:flex-row flex-col w-full items-center lf:justify-between lf:items-start lf:pl-[10%] gap-y-[10vh]">
   <section>
     <ul>
       <form method="POST" action="{% url 'authorization:update_roles' team_pk=console.team.pk %}">
