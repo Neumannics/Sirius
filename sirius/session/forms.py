@@ -108,6 +108,7 @@ class NoticeCreationForm(forms.ModelForm):
         title = self.cleaned_data.get('title')
         if not title:
             raise forms.ValidationError('Title of the notice is required')
+        return title
 
 class NoticeUpdationForm(forms.ModelForm):
     class Meta:
@@ -118,6 +119,7 @@ class NoticeUpdationForm(forms.ModelForm):
         title = self.cleaned_data.get('title')
         if not title:
             raise forms.ValidationError('Title of the notice is required')
+        return title
 
 
 
