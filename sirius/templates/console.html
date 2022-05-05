@@ -25,7 +25,7 @@
                     {% for parent in console.parents %}
                         <a href="{% url 'team:team_info' pk=parent.id %}" class="hover:underline">{{ parent.name|upper }} / </a>
                     {% endfor %}
-                    <span class="text-[36px] font-bold">{{ console.team.name|upper }}</span><span>#{{ console.team.id }}</span>
+                    <span class="text-[36px] font-bold">{{ console.team.name|upper }}</span><span title="{{ console.team.id }}" class="cursor-help">#{{ console.team.id|truncatechars:5 }}</span>
                 </p>
                 <ul>
                     {% if "R-T" in console.perms %}

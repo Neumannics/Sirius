@@ -1599,6 +1599,14 @@ select option {
   margin-top: 4vh;
 }
 
+.ml-\[10px\] {
+  margin-left: 10px;
+}
+
+.ml-\[12px\] {
+  margin-left: 12px;
+}
+
 .block {
   display: block;
 }
@@ -1609,6 +1617,10 @@ select option {
 
 .flex {
   display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
 }
 
 .table {
@@ -1667,6 +1679,10 @@ select option {
 
 .h-screen {
   height: 100vh;
+}
+
+.h-\[40px\] {
+  height: 40px;
 }
 
 .max-h-\[240px\] {
@@ -1731,6 +1747,10 @@ select option {
 
 .w-\[300px\] {
   width: 300px;
+}
+
+.w-\[40px\] {
+  width: 40px;
 }
 
 .min-w-\[320px\] {
@@ -1960,6 +1980,15 @@ select option {
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.bg-grey {
+  --tw-bg-opacity: 1;
+  background-color: rgb(67 69 69 / var(--tw-bg-opacity));
+}
+
+.bg-grey\/20 {
+  background-color: rgb(67 69 69 / 0.2);
 }
 
 .bg-opacity-40 {
@@ -2228,6 +2257,16 @@ select option {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.after\:relative::after {
+  content: var(--tw-content);
+  position: relative;
+}
+
+.after\:content-\[\'Hello\'\]::after {
+  --tw-content: 'Hello';
+  content: var(--tw-content);
+}
+
 .hover\:scale-\[1\.2\]:hover {
   --tw-scale-x: 1.2;
   --tw-scale-y: 1.2;
@@ -2259,6 +2298,10 @@ select option {
 .hover\:underline:hover {
   -webkit-text-decoration-line: underline;
           text-decoration-line: underline;
+}
+
+.active\:bg-grey\/30:active {
+  background-color: rgb(67 69 69 / 0.3);
 }
 
 @media (min-width: 768px) {

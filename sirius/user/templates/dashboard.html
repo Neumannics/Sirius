@@ -39,7 +39,7 @@
                             <div class="h-[190px] overflow-clip mb-[6px]">
                                 <img class="w-full" src="https://picsum.photos/300/300?random={{ team.team_id__id }}"/>
                             </div>
-                            <p class="text-grey font-400 text-[32px] text-center">{{ team.team_id__name|truncatechars:8 }}<span class="text-[18px]">#{{ team.team_id__id }}</span></p>
+                            <p class="text-grey font-400 text-[32px] text-center">{{ team.team_id__name|truncatechars:8 }}<span class="text-[18px]">#{{ team.team_id__id|truncatechars:5 }}</span></p>
                     </a></li>
                     {% endfor %}
                 </div>
