@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
             start: '{{ event.start|date:'c' }}',
             end: '{{ event.end|date:'c' }}',
             description: '{{ event.title }} ({{ event.start|date:'d M H:i' }} - {{ event.end|date:'d M H:i' }})',
-            url: '{% url 'team:session:event_detail' pk=console.team.pk e_pk=event.pk %}'
+            url: '{% url 'team:session:event_detail' pk=console.team.id e_pk=event.pk %}'
         });
     {% endfor %}
     console.log(events);
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="module-head">
         <h2>Calendar</h2>
         {% if 'C-E' in console.perms %}
-            <a href="{% url 'team:session:create_event' pk=console.team.pk %}"><i class="fa-solid fa-calendar-plus add-icon"></i></a>
+            <a href="{% url 'team:session:create_event' pk=console.team.id %}"><i class="fa-solid fa-calendar-plus add-icon"></i></a>
         {% endif %}
     </div>
     <p class="italic text-grey my-[8px]" id="remove-hint">Click on event tiles for additional details</p>

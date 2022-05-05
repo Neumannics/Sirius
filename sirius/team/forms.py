@@ -24,7 +24,7 @@ class MembershipCreationForm(forms.ModelForm):
             raise forms.ValidationError('User is already a member of this team')
 
 class JoinRequestForm(forms.ModelForm):
-    team_id = forms.IntegerField()
+    team_id = forms.CharField()
     class Meta:
         widgets = {
             'user_id': forms.HiddenInput(),
@@ -34,9 +34,9 @@ class JoinRequestForm(forms.ModelForm):
 
     def clean_team_id(self):
         team_id = self.cleaned_data.get('team_id')
-        if not Team.objects.filter(pk=team_id).exists():
+        if not Team.objects.filter(id=team_id).exists():
             raise forms.ValidationError('Invalid id')
-        team = Team.objects.get(pk=team_id)
+        team = Team.objects.get(id=team_id)
         return team
     
     def clean(self):

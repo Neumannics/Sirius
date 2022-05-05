@@ -58,7 +58,7 @@ def update_roles(request, team_pk):
 def show_permissions(request, team_pk):
     if not has_perm('R', 'R', request.user, team_pk):
         return HttpResponseForbidden()
-    roles = Role.objects.filter(team_id__pk=team_pk).values('pk', 'role_name', 'role_description', 'permissions')
+    roles = Role.objects.filter(team_id__id=team_pk).values('pk', 'role_name', 'role_description', 'permissions')
     all_permissions = Permission.objects.all()
     return render(request, 'show_permissions.html', {
         'console': get_console_data(team_pk, request.user),
@@ -79,7 +79,7 @@ def update_permissions(request, team_pk):
         role = Role.objects.get(pk=role_pk)
         if not role:
             return HttpResponseBadRequest('Invalid request')
-        if int(role.team_id.pk) != int(team_pk):
+        if str(role.team_id.id) != str(team_pk):
             return HttpResponseBadRequest('Invalid request')
         role.permissions = perm_string
         role.save()
@@ -91,14 +91,14 @@ def delete_role(request, team_pk, r_pk):
     if not has_perm('D', 'R', request.user, team_pk):
         return HttpResponseForbidden()
     role = Role.objects.get(pk=r_pk)
-    if int(role.team_id.pk) != int(team_pk):
+    if str(role.team_id.id) != str(team_pk):
         return HttpResponseBadRequest('Invalid request')
     if not role:
         return HttpResponseBadRequest('Invalid request')
     if role.role_name == "Admin" or role.role_name == "Member":
         return HttpResponseBadRequest(f'Cannot delete {role.role_name} role')
-    curr_members = Membership.objects.filter(team_id__pk=team_pk).filter(role_id__pk=r_pk)
-    member_role = Role.objects.get(team_id__pk=team_pk, role_name = "Member")
+    curr_members = Membership.objects.filter(team_id__id=team_pk).filter(role_id__pk=r_pk)
+    member_role = Role.objects.get(team_id__id=team_pk, role_name = "Member")
     for member in curr_members:
         member.role_id = member_role
         member.save()
@@ -111,7 +111,7 @@ def update_role(request, team_pk, r_pk):
         if not has_perm('U', 'R', request.user, team_pk):
             return HttpResponseForbidden()
         role = Role.objects.get(pk=r_pk)
-        if int(role.team_id.pk) != int(team_pk):
+        if str(role.team_id.id) != str(team_pk):
             return HttpResponseBadRequest('Invalid request')
         if not role:
             return HttpResponseBadRequest('Invalid request')

@@ -12,9 +12,9 @@ class RoleCreationForm(forms.ModelForm):
 
     # def clean_team_id(self):
     #     team_id = self.cleaned_data.get('team_id')
-    #     if not Team.objects.filter(pk=team_id).exists():
+    #     if not Team.objects.filter(id=team_id).exists():
     #         raise forms.ValidationError('Invalid Team id')
-    #     team = Team.objects.get(pk=team_id)
+    #     team = Team.objects.get(id=team_id)
     #     return team
 
 class MembershipUpdationForm(forms.ModelForm):

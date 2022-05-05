@@ -36,7 +36,7 @@ def create_event(request, pk):
             if not has_perm('C', 'E', request.user, pk):
                 return HttpResponseForbidden()
             new_event = form.save(commit=False)
-            new_event.team_id = Team.objects.get(pk=pk)
+            new_event.team_id = Team.objects.get(id=pk)
             new_event.save()
             return redirect('team:session:calendar', pk=pk)
     else:
@@ -51,7 +51,7 @@ def create_notice(request, pk):
             if not has_perm('C', 'N', request.user, pk):
                 return HttpResponseForbidden()
             new_notice = form.save(commit=False)
-            new_notice.team_id = Team.objects.get(pk=pk)
+            new_notice.team_id = Team.objects.get(id=pk)
             new_notice.user_id = request.user
             new_notice.save()
             return redirect('team:session:notice_board', pk=pk)
@@ -112,7 +112,7 @@ def delete_class(request, pk, c_pk):
         return HttpResponseForbidden()
     class_ = Class.objects.get(pk=c_pk)
     if class_:
-        if int(class_.team_id.pk) != int(pk):
+        if str(class_.team_id.id) != str(pk):
             return HttpResponseBadRequest('Invalid request')
         class_.delete()
         return redirect('team:session:timetable', pk=pk)
@@ -124,7 +124,7 @@ def delete_event(request, pk, e_pk):
         return HttpResponseForbidden()
     event = Event.objects.get(pk=e_pk)
     if event:
-        if int(event.team_id.pk) != int(pk):
+        if str(event.team_id.id) != str(pk):
             return HttpResponseBadRequest('Invalid request')
         event.delete()
         return redirect('team:session:calendar', pk=pk)
@@ -136,7 +136,7 @@ def delete_notice(request, pk, n_pk):
         return HttpResponseForbidden()
     notice = Notice.objects.get(pk=n_pk)
     if notice:
-        if int(notice.team_id.pk) != int(pk):
+        if str(notice.team_id.id) != str(pk):
             return HttpResponseBadRequest('Invalid request')
         notice.delete()
         return redirect('team:session:notice_board', pk=pk)
@@ -172,7 +172,7 @@ def class_detail(request, pk, c_pk):
     if not has_perm('R', 'C', request.user, pk) and not has_perm('U', 'C', request.user, pk) and not has_perm('D', 'C', request.user, pk):
         return HttpResponseForbidden()
     class_ = get_object_or_404(Class, pk=c_pk)
-    if int(class_.team_id.pk) != int(pk):
+    if str(class_.team_id.id) != str(pk):
         return HttpResponseBadRequest('Invalid request')
     return render(request, 'class_detail.html', {'class': class_, 'console': get_console_data(pk, request.user)})
 
@@ -181,7 +181,7 @@ def event_detail(request, pk, e_pk):
     if not has_perm('R', 'E', request.user, pk) and not has_perm('U', 'E', request.user, pk) and not has_perm('D', 'E', request.user, pk):
         return HttpResponseForbidden()
     event = get_object_or_404(Event, pk=e_pk)
-    if int(event.team_id.pk) != int(pk):
+    if str(event.team_id.id) != str(pk):
         return HttpResponseBadRequest('Invalid request')
     return render(request, 'event_detail.html', {'event': event, 'console': get_console_data(pk, request.user)})
 

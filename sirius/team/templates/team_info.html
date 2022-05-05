@@ -9,7 +9,7 @@
     </div>
     <div class="font-poppins font-[300] tracking-[0.06rem] text-grey w-[400px]">
         <p class="text-[18px]">
-            {% for parent in console.parents %}<a href="{% url 'team:team_info' pk=parent.pk %}"><span class="hover:underline">{{parent.name}}</span> / </a>{% endfor %}<span class="font-[600] text-[40px]">{{console.team.name}}</span><span class="font-medium">#{{console.team.pk}}</span>
+            {% for parent in console.parents %}<a href="{% url 'team:team_info' pk=parent.id %}"><span class="hover:underline">{{parent.name}}</span> / </a>{% endfor %}<span class="font-[600] text-[40px]">{{console.team.name}}</span><span class="font-medium">#{{console.team.id}}</span>
         </p>
         <p>Since {{ console.team.created_at|date:"d/m/Y" }}</p>
     </div>
@@ -32,7 +32,7 @@
             <h2 class="my-[16px]">Teams</h2>
             <ul class="ml-[40px]">
                 {% for child in children %}
-                    <li class="text-poppins text-[24px] font-[500] my-[16px] hover:scale-[1.02]"><a href="{% url 'team:team_info' pk=child.pk %}">{{ child.name }}</a></li>
+                    <li class="text-poppins text-[24px] font-[500] my-[16px] hover:scale-[1.02]"><a href="{% url 'team:team_info' pk=child.id %}">{{ child.name }}</a></li>
                 {% endfor %}
             </ul>
         </section>

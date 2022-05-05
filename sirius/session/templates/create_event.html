@@ -6,9 +6,9 @@
         <h2>Event</h2>
         <form method="POST" action="
         {% if '/create/' in request.path %}
-        {% url 'team:session:create_event' pk=console.team.pk %}
+        {% url 'team:session:create_event' pk=console.team.id %}
         {% else %}
-        {% url 'team:session:update_event' e_pk=e_pk pk=console.team.pk %}
+        {% url 'team:session:update_event' e_pk=e_pk pk=console.team.id %}
         {% endif %}
         ">
             {% csrf_token %}
