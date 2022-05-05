@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from . import views
+from session.views import user_calendar
 
 app_name = 'user'
 
@@ -11,5 +12,6 @@ urlpatterns = [
     path('signin/', views.signin, name='signin'),
     path('signout/', views.signout, name='signout'),
     path('<u_pk>/dashboard/', views.dashboard, name='dashboard'),
+    path('<u_pk>/calendar/', user_calendar, name='calendar'),
     # path('<u_pk>/settings/', views.settings, name='settings'),
 ]

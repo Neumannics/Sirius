@@ -157,7 +157,7 @@ def timetable(request, pk):
 def calendar(request, pk):
     if not has_perm('R', 'E', request.user, pk):
         return HttpResponseForbidden()
-    events = Event.objects.filter(team_id=pk).values('pk','start', 'end', 'title', 'description')
+    events = Event.objects.filter(team_id=pk).values('pk','start', 'end', 'title', 'description', 'team_id__id')
     return render(request, 'calendar.html', {'events': events, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
@@ -185,3 +185,11 @@ def event_detail(request, pk, e_pk):
         return HttpResponseBadRequest('Invalid request')
     return render(request, 'event_detail.html', {'event': event, 'console': get_console_data(pk, request.user)})
 
+@login_required(login_url='user:signin')
+def user_calendar(request, u_pk):
+    memberships = Membership.objects.filter(user_id=request.user.id)
+    teams = Team.objects.filter(membership__in=memberships)
+    events = Event.objects.filter(team_id__in=teams).values('pk','start', 'end', 'title', 'description', 'team_id__id')
+    return render(request, 'user_calendar.html', {
+        'events': events
+    })
