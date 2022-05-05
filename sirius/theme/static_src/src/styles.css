@@ -78,6 +78,11 @@
         @apply
         text-grey/50;
     }
+
+    select option {
+        @apply
+        text-[18px];
+    }
 }
 
 @layer components {
@@ -258,7 +263,6 @@
         border-solid
         border-2
         py-6
-        rounded-[10px]
         flex
         flex-col
         items-center
@@ -314,11 +318,11 @@
     .session .session-desc {
         @apply
         text-grey/70
-        text-[24px]
-        italic
+        text-[22px]
         leading-[110%]
         pt-[10px]
-        text-justify;
+        text-justify
+        font-poppins;
     }
     .session-time {
         @apply

@@ -677,6 +677,10 @@ input:disabled {
   color: rgb(67 69 69 / 0.5);
 }
 
+select option {
+  font-size: 18px;
+}
+
 *, ::before, ::after {
   --tw-translate-x: 0;
   --tw-translate-y: 0;
@@ -983,7 +987,6 @@ input:disabled {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
   border-width: 2px;
   border-style: solid;
   padding-top: 1.5rem;
@@ -1046,8 +1049,8 @@ input:disabled {
 .session .session-desc {
   padding-top: 10px;
   text-align: justify;
-  font-size: 24px;
-  font-style: italic;
+  font-family: Poppins;
+  font-size: 22px;
   line-height: 110%;
   color: rgb(67 69 69 / 0.7);
 }
