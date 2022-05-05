@@ -27,6 +27,8 @@
         <a href="{% url 'team:create_team' %}">
           <li class="cursor-pointer">Start a Team</li>
         </a>
+        <a href="{% url 'user:calendar' u_pk=request.user.pk %}">
+          <li class="cursor-pointer">Calendar</li>
         <a href="{% url 'user:bulletin' %}">
           <li class="cursor-pointer">Bulletin</li>
         </a>

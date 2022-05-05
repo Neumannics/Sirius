@@ -157,7 +157,7 @@ def timetable(request, pk):
 def calendar(request, pk):
     if not has_perm('R', 'E', request.user, pk):
         return HttpResponseForbidden()
-    events = Event.objects.filter(team_id=pk).values('pk','start', 'end', 'title', 'description')
+    events = Event.objects.filter(team_id=pk).values('pk','start', 'end', 'title', 'description', 'team_id__id')
     return render(request, 'calendar.html', {'events': events, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
@@ -186,6 +186,14 @@ def event_detail(request, pk, e_pk):
     return render(request, 'event_detail.html', {'event': event, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
+def user_calendar(request, u_pk):
+    memberships = Membership.objects.filter(user_id=request.user.id)
+    teams = Team.objects.filter(membership__in=memberships)
+    events = Event.objects.filter(team_id__in=teams).values('pk','start', 'end', 'title', 'description', 'team_id__id')
+    return render(request, 'user_calendar.html', {
+        'events': events
+    })
+
 def user_bulletin(request):
     mems = Membership.objects.filter(user_id=request.user).values_list('team_id', flat=True)
     teams = Team.objects.filter(id__in=mems)
@@ -194,4 +202,3 @@ def user_bulletin(request):
             teams = teams.exclude(id=team.id)
     notices = Notice.objects.filter(team_id__in=teams).values('pk','title', 'description', 'created_at', 'team_id__name', 'team_id__id').order_by('-created_at')
     return render(request, 'notice_feed.html', {'notices': notices})
-

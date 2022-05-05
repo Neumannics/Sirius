@@ -1,15 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 
 from .forms import AccountAuthenticationForm, AccountSignupForm, ResetPasswordForm
-from team.models import Team
 from authorization.models import Membership
 from team.models import JoinRequest
 from team.forms import JoinRequestForm
-from django.forms.utils import ErrorList
 
 def signup(request):
     if request.user.is_authenticated:
