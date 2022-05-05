@@ -293,6 +293,14 @@
         py-[32px]
         px-[48px];
     }
+    .user-session {
+        @apply
+        shadow-lg
+        rounded-lg
+        mb-[32px]
+        py-[32px]
+        px-[48px];
+    }
     .session .session-control,
     .role-control {
         @apply
@@ -315,7 +323,8 @@
         flex
         hover:text-[22px];
     }
-    .session .session-desc {
+    .session .session-desc,
+    .user-session .session-desc {
         @apply
         text-grey/70
         text-[22px]
@@ -365,6 +374,23 @@
         text-grey
         font-[600]
         font-poppins;
+    }
+    .session-team {
+        @apply
+        bg-orange/60
+        hover:scale-[1.05]
+        rounded-full
+        w-fit
+        px-[32px]
+        py-[4px]
+        cursor-pointer;
+    }
+    .session-team p {
+        @apply
+        text-[20px]
+        font-poppins
+        font-[500]
+        text-white;
     }
     .session-head {
         @apply

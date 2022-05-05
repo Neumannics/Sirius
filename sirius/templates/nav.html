@@ -29,6 +29,8 @@
         </a>
         <a href="{% url 'user:calendar' u_pk=request.user.pk %}">
           <li class="cursor-pointer">Calendar</li>
+        <a href="{% url 'user:bulletin' %}">
+          <li class="cursor-pointer">Bulletin</li>
         </a>
       </ul>
       <ul class="py-4 space-x-10 flex items-center text-[22px]">

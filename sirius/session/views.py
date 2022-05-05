@@ -193,3 +193,12 @@ def user_calendar(request, u_pk):
     return render(request, 'user_calendar.html', {
         'events': events
     })
+
+def user_bulletin(request):
+    mems = Membership.objects.filter(user_id=request.user).values_list('team_id', flat=True)
+    teams = Team.objects.filter(id__in=mems)
+    for team in teams:
+        if not has_perm('R', 'N', request.user, team.id):
+            teams = teams.exclude(id=team.id)
+    notices = Notice.objects.filter(team_id__in=teams).values('pk','title', 'description', 'created_at', 'team_id__name', 'team_id__id').order_by('-created_at')
+    return render(request, 'notice_feed.html', {'notices': notices})
