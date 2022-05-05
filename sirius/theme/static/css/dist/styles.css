@@ -1417,7 +1417,7 @@ select option {
 }
 
 .fc-h-event {
-  border-width: 0px;
+  border-width: 0px !important;
   background-color: rgb(78 69 69 / 0.8) !important;
 }
 
@@ -1710,14 +1710,6 @@ select option {
 
 .w-\[300px\] {
   width: 300px;
-}
-
-.w-80 {
-  width: 20rem;
-}
-
-.w-4\/5 {
-  width: 80%;
 }
 
 .min-w-\[320px\] {
