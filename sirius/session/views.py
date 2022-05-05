@@ -185,3 +185,13 @@ def event_detail(request, pk, e_pk):
         return HttpResponseBadRequest('Invalid request')
     return render(request, 'event_detail.html', {'event': event, 'console': get_console_data(pk, request.user)})
 
+@login_required(login_url='user:signin')
+def user_bulletin(request):
+    mems = Membership.objects.filter(user_id=request.user).values_list('team_id', flat=True)
+    teams = Team.objects.filter(id__in=mems)
+    for team in teams:
+        if not has_perm('R', 'N', request.user, team.id):
+            teams = teams.exclude(id=team.id)
+    notices = Notice.objects.filter(team_id__in=teams).values('pk','title', 'description', 'created_at', 'team_id__name', 'team_id__id').order_by('-created_at')
+    return render(request, 'notice_feed.html', {'notices': notices})
+
