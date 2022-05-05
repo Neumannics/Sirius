@@ -18,7 +18,7 @@ def create_team(request):
             team = form.save(commit=False)
             team.save()
             init_roles(team, request.user)
-            return redirect('team:team_info', pk=form.instance.pk)
+            return redirect('team:team_info', pk=form.instance.id)
     else:
         form = TeamCreationForm()
     return render(request, 'new_team.html', {'form': form})
@@ -32,12 +32,12 @@ def create_sub_team(request, pk):
                 if not has_perm('C', 'T', request.user, form.cleaned_data.get('parent_id')):
                     return HttpResponseForbidden()
             team = form.save(commit=False)
-            if Team.objects.filter(pk=pk).count() == 0:
+            if Team.objects.filter(id=pk).count() == 0:
                 raise form.ValidationError("Parent team does not exist")
             if not has_perm('C', 'T', request.user, pk):
                 return HttpResponseForbidden()
             else:
-                parent = Team.objects.get(pk=pk)
+                parent = Team.objects.get(id=pk)
                 team.parent_id = parent
             team.save()
             init_roles(team, request.user)
@@ -49,7 +49,7 @@ def create_sub_team(request, pk):
 @login_required(login_url='user:signin')
 def team_info(request, pk):
     members = Membership.objects.filter(team_id=pk).values('created_at', 'alumni', 'user_id__pk', 'user_id__first_name', 'user_id__last_name', 'user_id__username', 'role_id__pk', 'role_id__role_name')
-    children = Team.objects.filter(parent_id=pk).values('name', 'pk')
+    children = Team.objects.filter(parent_id=pk).values('name', 'id')
     return render(request, 'team_info.html', {
         'members': members,
         'children': children,
@@ -63,7 +63,7 @@ def send_invite(request, pk, user):
             return HttpResponseForbidden()
         if Invite.objects.filter(status = 'P', team_id=pk, invited=user).exists():
             return redirect('team:team_info', pk=pk)
-        invite = Invite(team_id=Team.objects.get(pk=pk), created_by=request.user, invited=get_user_model().objects.get(pk=user))
+        invite = Invite(team_id=Team.objects.get(id=pk), created_by=request.user, invited=get_user_model().objects.get(pk=user))
         invite.save()
         return redirect('team:team_info', pk=pk)
     return redirect('team:team_info', pk=pk)
@@ -96,50 +96,49 @@ def join_requests(request, pk):
 def accept_invite(request, pk):
     if request.method == 'POST':
         invite = Invite.objects.get(pk=pk)
-        if not has_perm('U', 'I', request.user, invite.team_id.pk):
+        if not has_perm('U', 'I', request.user, invite.team_id.id):
             return HttpResponseForbidden()
         invite.status = 'A'
         invite.save()
         membership = Membership(team_id=invite.team_id, user_id=invite.invited)
         membership.save()
-        return redirect('team:team_info', pk=invite.team_id.pk)
+        return redirect('team:team_info', pk=invite.team_id.id)
 
 @login_required(login_url='user:signin')
 def accept_join_request(request, pk):
     if request.method == 'POST':
         join_request = JoinRequest.objects.get(pk=pk)
-        if not has_perm('U', 'JR', request.user, join_request.team_id.pk):
+        if not has_perm('U', 'JR', request.user, join_request.team_id.id):
             return HttpResponseForbidden()
         join_request.status = 'A'
         join_request.save()
-        print(join_request.user_id, join_request.team_id)
         membership = Membership.objects.filter(team_id=join_request.team_id, user_id=join_request.user_id).first()
         if not membership:
             membership = Membership(team_id=join_request.team_id, user_id=join_request.user_id, )
             role = Role.objects.filter(team_id=join_request.team_id, role_name='Member').first()
             membership.role_id = role
             membership.save()
-        return redirect('team:team_info', pk=join_request.team_id.pk)
+        return redirect('team:team_info', pk=join_request.team_id.id)
 
 @login_required(login_url='user:signin')
 def decline_invite(request, pk):
     if request.method == 'POST':
         invite = Invite.objects.get(pk=pk)
-        if not has_perm('U', 'I', request.user, invite.team_id.pk):
+        if not has_perm('U', 'I', request.user, invite.team_id.id):
             return HttpResponseForbidden()
         invite.status = 'R'
         invite.save()
-        return redirect('user:dashboard', u_pk=invite.team_id.pk)
+        return redirect('user:dashboard', u_pk=invite.team_id.id)
 
 @login_required(login_url='user:signin')
 def decline_join_request(request, pk):
     if request.method == 'POST':
         join_request = JoinRequest.objects.get(pk=pk)
-        if not has_perm('U', 'JR', request.user, join_request.team_id.pk):
+        if not has_perm('U', 'JR', request.user, join_request.team_id.id):
             return HttpResponseForbidden()
         join_request.status = 'R'
         join_request.save()
-        return redirect('user:dashboard', u_pk=join_request.team_id.pk)
+        return redirect('user:dashboard', u_pk=join_request.team_id.id)
 
 @login_required(login_url='user:signin')
 def leave_team(request, pk):
@@ -151,12 +150,12 @@ def leave_team(request, pk):
 def permissions(request, pk):
     if not has_perm('R', 'P', request.user, pk):
         return HttpResponseForbidden()
-    perms = Permission.objects.filter(team_id=pk).values('user_id__first_name', 'user_id__last_name', 'user_id__pk', 'team_id__name', 'team_id__pk', 'permission_name', 'pk')
+    perms = Permission.objects.filter(team_id=pk).values('user_id__first_name', 'user_id__last_name', 'user_id__pk', 'team_id__name', 'team_id__id', 'permission_name', 'pk')
     return render(request, 'permissions.html', {'perms': perms, 'console': get_console_data(pk, request.user)})
 
 @login_required(login_url='user:signin')
 def delete_team(request, pk):
-    team = Team.objects.get(pk=pk)
+    team = Team.objects.get(id=pk)
     if not has_perm('D', 'T', request.user, pk):
         return HttpResponseForbidden()
     team.delete()

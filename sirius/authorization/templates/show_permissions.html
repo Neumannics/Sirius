@@ -127,7 +127,7 @@
             {% endif %}
         </div>
         {% if "U-R" in console.perms %}
-        <form class="hidden" method="POST" action="{% url 'authorization:update_permissions' team_pk=console.team.pk %}">
+        <form class="hidden" method="POST" action="{% url 'authorization:update_permissions' team_pk=console.team.id %}">
             {% csrf_token %}
             <input name="role-pk" id="role-pk-in" />
             <input name="perm-string" id="perm-string-in" />

@@ -20,7 +20,6 @@ def signup(request):
             form.save()
             email = form.cleaned_data.get('email')
             password = form.cleaned_data.get('password1')
-            print(email, password)
             user = authenticate(email=email, password=password)
             if user:
                 login(request, user)
@@ -72,7 +71,7 @@ def signout(request):
 @login_required(login_url='user:signin')
 def dashboard(request, u_pk):
     user = get_user_model().objects.values('email', 'first_name', 'last_name').get(pk=u_pk)
-    teams = Membership.objects.filter(user_id=u_pk).values('created_at', 'alumni', 'team_id__pk', 'team_id__name', 'role_id__pk', 'role_id__role_name')
+    teams = Membership.objects.filter(user_id=u_pk).values('created_at', 'alumni', 'team_id__id', 'team_id__name', 'role_id__pk', 'role_id__role_name')
     join_requests = JoinRequest.objects.filter(user_id=u_pk)
     join_form = JoinRequestForm()
     join_form_errors = request.session.get('join_form_errors')

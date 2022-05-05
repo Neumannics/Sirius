@@ -6,9 +6,9 @@
         <h2>Class</h2>
         <form method="POST" action="
             {% if '/create/' in request.path %}
-            {% url 'team:session:create_class' pk=console.team.pk %}
+            {% url 'team:session:create_class' pk=console.team.id %}
             {% else %}
-            {% url 'team:session:update_class' c_pk=c_pk pk=console.team.pk %}
+            {% url 'team:session:update_class' c_pk=c_pk pk=console.team.id %}
             {% endif %}
         ">
             {% csrf_token %}

@@ -17,7 +17,7 @@
         timetable.addLocations(days);
         {% for class in classes %}
             options = {
-                url: '{% url 'team:session:class_detail' pk=console.team.pk c_pk=class.pk %}',
+                url: '{% url 'team:session:class_detail' pk=console.team.id c_pk=class.pk %}',
                 class: 'class-tile class-{{class.pk}}',
             };
             timetable.addEvent(
@@ -49,7 +49,7 @@
     <div class="module-head">
         <h2>Timetable</h2>
         {% if 'C-C' in console.perms %}
-            <a href="{% url 'team:session:create_class' pk=console.team.pk %}"><i class="fa-solid fa-calendar-plus add-icon"></i></a>
+            <a href="{% url 'team:session:create_class' pk=console.team.id %}"><i class="fa-solid fa-calendar-plus add-icon"></i></a>
         {% endif %}
     </div>
     <p class="italic text-grey my-[8px]" id="remove-hint">Click on class tiles for additional details</p>
