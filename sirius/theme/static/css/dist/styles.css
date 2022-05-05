@@ -1506,6 +1506,10 @@ select option {
   margin-bottom: 16px;
 }
 
+.mt-\[10px\] {
+  margin-top: 10px;
+}
+
 .mr-8 {
   margin-right: 2rem;
 }
@@ -1516,10 +1520,6 @@ select option {
 
 .ml-8 {
   margin-left: 2rem;
-}
-
-.mt-\[10px\] {
-  margin-top: 10px;
 }
 
 .mt-\[10vh\] {
@@ -1728,12 +1728,12 @@ select option {
   flex-grow: 1;
 }
 
-.cursor-help {
-  cursor: help;
-}
-
 .cursor-pointer {
   cursor: pointer;
+}
+
+.cursor-help {
+  cursor: help;
 }
 
 .flex-row {
@@ -1805,6 +1805,12 @@ select option {
   row-gap: 2vh;
 }
 
+.space-x-10 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(2.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .space-x-5 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1.25rem * var(--tw-space-x-reverse));
@@ -1815,12 +1821,6 @@ select option {
   --tw-space-y-reverse: 0;
   margin-top: calc(96px * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(96px * var(--tw-space-y-reverse));
-}
-
-.space-x-10 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(2.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(2.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-y-\[10px\] > :not([hidden]) ~ :not([hidden]) {
@@ -1872,14 +1872,14 @@ select option {
   border-color: rgb(243 188 110 / var(--tw-border-opacity));
 }
 
-.bg-\[\#ff9100\] {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 145 0 / var(--tw-bg-opacity));
-}
-
 .bg-primary {
   --tw-bg-opacity: 1;
   background-color: rgb(243 188 110 / var(--tw-bg-opacity));
+}
+
+.bg-\[\#ff9100\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 145 0 / var(--tw-bg-opacity));
 }
 
 .bg-light-blue {
@@ -1928,16 +1928,6 @@ select option {
   --tw-bg-opacity: 0.4;
 }
 
-.px-\[8\%\] {
-  padding-left: 8%;
-  padding-right: 8%;
-}
-
-.py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
 .px-\[15\%\] {
   padding-left: 15%;
   padding-right: 15%;
@@ -1951,6 +1941,16 @@ select option {
 .px-5 {
   padding-left: 1.25rem;
   padding-right: 1.25rem;
+}
+
+.px-\[8\%\] {
+  padding-left: 8%;
+  padding-right: 8%;
+}
+
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
 }
 
 .py-\[16px\] {
@@ -1988,6 +1988,14 @@ select option {
   padding-right: 5%;
 }
 
+.pb-3 {
+  padding-bottom: 0.75rem;
+}
+
+.pt-\[2\%\] {
+  padding-top: 2%;
+}
+
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -1998,14 +2006,6 @@ select option {
 
 .pb-12 {
   padding-bottom: 3rem;
-}
-
-.pb-3 {
-  padding-bottom: 0.75rem;
-}
-
-.pt-\[2\%\] {
-  padding-top: 2%;
 }
 
 .pl-\[10\%\] {
@@ -2028,18 +2028,6 @@ select option {
   font-family: Poppins;
 }
 
-.text-\[24px\] {
-  font-size: 24px;
-}
-
-.text-\[36px\] {
-  font-size: 36px;
-}
-
-.text-\[32px\] {
-  font-size: 32px;
-}
-
 .text-\[22px\] {
   font-size: 22px;
 }
@@ -2048,8 +2036,20 @@ select option {
   font-size: 30px;
 }
 
+.text-\[24px\] {
+  font-size: 24px;
+}
+
 .text-\[18px\] {
   font-size: 18px;
+}
+
+.text-\[36px\] {
+  font-size: 36px;
+}
+
+.text-\[32px\] {
+  font-size: 32px;
 }
 
 .\!text-\[24px\] {
@@ -2068,16 +2068,16 @@ select option {
   font-size: 45px;
 }
 
-.font-bold {
-  font-weight: 700;
-}
-
 .font-semibold {
   font-weight: 600;
 }
 
 .font-thin {
   font-weight: 100;
+}
+
+.font-bold {
+  font-weight: 700;
 }
 
 .font-medium {
@@ -2104,16 +2104,6 @@ select option {
   letter-spacing: 0.06rem;
 }
 
-.text-grey {
-  --tw-text-opacity: 1;
-  color: rgb(67 69 69 / var(--tw-text-opacity));
-}
-
-.text-red {
-  --tw-text-opacity: 1;
-  color: rgb(255 61 0 / var(--tw-text-opacity));
-}
-
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -2122,6 +2112,16 @@ select option {
 .text-primary {
   --tw-text-opacity: 1;
   color: rgb(243 188 110 / var(--tw-text-opacity));
+}
+
+.text-grey {
+  --tw-text-opacity: 1;
+  color: rgb(67 69 69 / var(--tw-text-opacity));
+}
+
+.text-red {
+  --tw-text-opacity: 1;
+  color: rgb(255 61 0 / var(--tw-text-opacity));
 }
 
 .\!text-white {
