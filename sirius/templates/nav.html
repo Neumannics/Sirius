@@ -3,36 +3,83 @@
 {% load static %}
 
 {% block body %}
+<html lang="en">
+  <head>
+    <script>
+      document.addEventListener('click', function(event) {
+        const userConsoleToggler = document.getElementById('user-console-toggler');
+        const userConsole = document.getElementById('user-console');
+        if (userConsoleToggler.contains(event.target)) {
+          userConsole.classList.toggle('hidden');
+        } 
+        else if (!userConsole.contains(event.target)) {
+          userConsole.classList.add('hidden');
+        }
+      });
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.1/iconfont/material-icons.min.css"
+      integrity="sha256-x8PYmLKD83R9T/sYmJn1j3is/chhJdySyhet/JuHnfY="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.0/tailwind.min.css"
+      integrity="sha256-CAI/7ThhltsmP2L2zKBYa7FknB3ZwFbD0nqL8FCdxdc="
+      crossorigin="anonymous"
+    />
+    
+  </head>
 
-<body>
-  <script>
-    document.addEventListener('click', function(event) {
-      const userConsoleToggler = document.getElementById('user-console-toggler');
-      const userConsole = document.getElementById('user-console');
-      if (userConsoleToggler.contains(event.target)) {
-        userConsole.classList.toggle('hidden');
-      } 
-      else if (!userConsole.contains(event.target)) {
-        userConsole.classList.add('hidden');
-      }
-    });
-  </script>
-  <header>
-    <nav class="bg-primary text-white flex flex-row justify-between items-center px-[15%]">
-      <ul class="py-4 space-x-10 flex items-center text-[22px]">
-        <a href="{% url 'user:dashboard' u_pk=request.user.pk %}">
-          <h5 class="cursor-pointer pb-3">Sirius</h5>
-        </a>
-        <li class="cursor-pointer">About us</li>
-        <a href="{% url 'team:create_team' %}">
-          <li class="cursor-pointer">Start a Team</li>
-        </a>
-        <a href="{% url 'user:calendar' u_pk=request.user.pk %}">
-          <li class="cursor-pointer">Calendar</li>
-        <a href="{% url 'user:bulletin' %}">
-          <li class="cursor-pointer">Bulletin</li>
-        </a>
-      </ul>
+  <body>
+    <nav class="bg-orange-400 text-white flex items-center  p-3 flex-wrap ">
+      <a href="{% url 'user:dashboard' u_pk=request.user.pk %}" class="p-2 mr-4 inline-flex items-center">
+        
+        <span class="text-xl text-white font-bold uppercase tracking-wide"
+          >Sirius</span
+        >
+      </a>
+      <button
+        class="text-white inline-flex p-3 hover:bg-gray-900 rounded lg:hidden ml-auto hover:text-white outline-none nav-toggler"
+        data-target="#navigation"
+      >
+        <i class="material-icons">menu</i>
+      </button>
+      <div
+        class="hidden top-navbar w-full lg:inline-flex lg:flex-grow lg:w-auto"
+        id="navigation"
+      >
+        <div
+          class="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto"
+        >
+          <a
+            href="#"
+            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+          >
+            <span>About us</span>
+          </a>
+          <a
+            href="{% url 'team:create_team' %}"
+            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+          >
+            <span>Start a Team</span>
+          </a>
+          <a
+            href="{% url 'user:calendar' u_pk=request.user.pk %}"
+            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+          >
+            <span>Calendar</span>
+          </a>
+          <a
+            href="{% url 'user:bulletin' %}"
+            class="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white-400 items-center justify-center hover:bg-gray-900 hover:text-white"
+          >
+            <span>Bulletin</span>
+          </a>
+          
+        </div>
+      </div>
       <ul class="py-4 space-x-10 flex items-center text-[22px]">
         <li class="cursor-pointer text-[30px]"><i class="fa-solid fa-bell"></i></li>
         <li class="relative">
@@ -51,10 +98,26 @@
         </li>
       </ul>
     </nav>
-  </header>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+      integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+      crossorigin="anonymous"
+    ></script>
+    <script src="./js/script.js"></script>
+    <script>$(document).ready(function () {
+      $(".nav-toggler").each(function (_, navToggler) {
+        var target = $(navToggler).data("target");
+        $(navToggler).on("click", function () {
+          $(target).animate({
+            height: "toggle",
+          });
+        });
+      });
+    });
+  </script>
   <main class="flex px-[15%] pt-[2%] justify-center mf:justify-start">
     {% block main %}
     {% endblock %}
   </main>
-</body>
-{% endblock %}
+  </body>
+  {% endblock %}
